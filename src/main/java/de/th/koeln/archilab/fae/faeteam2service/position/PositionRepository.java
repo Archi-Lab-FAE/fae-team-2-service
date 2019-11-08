@@ -1,0 +1,8 @@
+package de.th.koeln.archilab.fae.faeteam2service.position;
+
+import org.springframework.data.repository.CrudRepository;
+
+import java.util.UUID;
+
+public interface PositionRepository extends CrudRepository<Position, UUID> {
+}
