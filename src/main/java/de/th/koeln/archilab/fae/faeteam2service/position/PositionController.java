@@ -6,11 +6,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
+@RequestMapping("/positionen")
 public class PositionController {
 
     private PositionRepository positionRepository;
@@ -20,12 +22,12 @@ public class PositionController {
         this.positionRepository = positionRepository;
     }
 
-    @PostMapping ("/positions")
+    @PostMapping
     public ResponseEntity<Position> newPosition(@RequestBody Position newPosition) {
         return new ResponseEntity<>(positionRepository.save(newPosition), HttpStatus.CREATED);
     }
 
-    @GetMapping("/positions")
+    @GetMapping
     public ResponseEntity<List<Position>> positions() {
         return new ResponseEntity<>((List<Position>) positionRepository.findAll(), HttpStatus.OK);
     }

@@ -6,11 +6,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
+@RequestMapping("/heimbewohner")
 public class HeimbewohnerController {
 
     private HeimbewohnerRepository heimbewohnerRepository;
@@ -20,12 +22,12 @@ public class HeimbewohnerController {
         this.heimbewohnerRepository = heimbewohnerRepository;
     }
 
-    @GetMapping("/heimbewohner")
+    @GetMapping
     public ResponseEntity<List<Heimbewohner>> heimbewohner() {
         return new ResponseEntity<>((List<Heimbewohner>) heimbewohnerRepository.findAll(), HttpStatus.OK);
     }
 
-    @PostMapping("/heimbewohner")
+    @PostMapping
     public ResponseEntity<Heimbewohner> newHeimbewohner(@RequestBody Heimbewohner heimbewohner) {
         return new ResponseEntity<>(heimbewohnerRepository.save(heimbewohner), HttpStatus.CREATED);
     }

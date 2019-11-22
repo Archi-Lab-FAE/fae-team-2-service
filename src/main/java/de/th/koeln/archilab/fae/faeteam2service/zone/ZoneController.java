@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.List;
 import de.th.koeln.archilab.fae.faeteam2service.position.Position;
 
 @RestController
+@RequestMapping("/zonen")
 public class ZoneController {
 
     private ZoneRepository zoneRepository;
@@ -23,17 +25,17 @@ public class ZoneController {
         this.zoneRepository = zoneRepository;
     }
 
-    @GetMapping("/zonen")
+    @GetMapping
     public ResponseEntity<List<Zone>> zonen() {
         return new ResponseEntity<>((List<Zone>) zoneRepository.findAll(), HttpStatus.OK);
     }
 
-    @PostMapping("/zonen")
+    @PostMapping
     public ResponseEntity<Zone> newZone(@RequestBody Zone newZone) {
         return new ResponseEntity<>(zoneRepository.save(newZone), HttpStatus.CREATED);
     }
 
-    @GetMapping("/zonen/{id}/positionen")
+    @GetMapping("/{id}/positionen")
     public ResponseEntity<Iterable<Position>> zonenPositionen(@PathVariable long id) {
         var zone = zoneRepository.findById(id);
         if (zone.isEmpty()) {
