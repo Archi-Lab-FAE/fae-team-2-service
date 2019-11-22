@@ -1,15 +1,10 @@
 package de.th.koeln.archilab.fae.faeteam2service.gpssender;
 
+import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -50,7 +45,7 @@ public class GPSSenderApiController {
     @GetMapping("/{id}")
     public ResponseEntity<GPSSender> getSenderById(@PathVariable long id) {
         var sender = senderRepository.findById(id);
-        if (sender.isEmpty()) {
+        if (!sender.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else {
             return new ResponseEntity<>(sender.get(), HttpStatus.OK);

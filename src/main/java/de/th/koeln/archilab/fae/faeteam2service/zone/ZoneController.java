@@ -1,18 +1,13 @@
 package de.th.koeln.archilab.fae.faeteam2service.zone;
 
+import de.th.koeln.archilab.fae.faeteam2service.position.Position;
+import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
-import de.th.koeln.archilab.fae.faeteam2service.position.Position;
 
 @RestController
 @RequestMapping("/zonen")
@@ -38,7 +33,7 @@ public class ZoneController {
     @GetMapping("/{id}/positionen")
     public ResponseEntity<Iterable<Position>> zonenPositionen(@PathVariable long id) {
         var zone = zoneRepository.findById(id);
-        if (zone.isEmpty()) {
+        if (!zone.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else {
             return new ResponseEntity<>(zone.get().getPositionen(), HttpStatus.OK);

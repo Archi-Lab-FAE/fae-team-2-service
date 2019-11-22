@@ -6,4 +6,4 @@ COPY ${DEPENDENCY}/META-INF /app/META-INF
 COPY ${DEPENDENCY}/BOOT-INF/classes /app
 
 ENTRYPOINT ["java","-Xms128m","-Xmx256m","-cp","app:app/lib/*",\
-  "de.th.koeln.archilab.fae.faeteam2service.ServiceDiscoveryApplication"]
+  "de.th.koeln.archilab.fae.faeteam2service.FaeTeam2ServiceApplication"]

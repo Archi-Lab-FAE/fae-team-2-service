@@ -1,17 +1,10 @@
 package de.th.koeln.archilab.fae.faeteam2service.zone;
 
-import java.util.Set;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-
 import de.th.koeln.archilab.fae.faeteam2service.position.Position;
 import lombok.Data;
+
+import javax.persistence.*;
+import java.util.Set;
 
 
 @Entity
