@@ -8,8 +8,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class PositionController {
-    @Autowired
+
     private PositionRepository positionRepository;
+
+    @Autowired
+    public PositionController(PositionRepository positionRepository) {
+        this.positionRepository = positionRepository;
+    }
 
     @PostMapping ("/positions")
     public Position newPosition(@RequestBody Position newPosition){

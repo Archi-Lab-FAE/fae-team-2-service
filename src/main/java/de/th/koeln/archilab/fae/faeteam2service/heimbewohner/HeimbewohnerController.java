@@ -8,8 +8,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class HeimbewohnerController {
-    @Autowired
+
     private HeimbewohnerRepository heimbewohnerRepository;
+
+    @Autowired
+    public HeimbewohnerController(HeimbewohnerRepository heimbewohnerRepository) {
+        this.heimbewohnerRepository = heimbewohnerRepository;
+    }
 
     @GetMapping("/heimbewohner")
     public Iterable<Heimbewohner> heimbewohner() {
