@@ -27,8 +27,8 @@ public class GPSSenderApiController {
 
     @PostMapping
     public ResponseEntity<GPSSender> createSender(@RequestBody GPSSender sender) {
-        senderRepository.save(sender);
-        return new ResponseEntity<>(sender, HttpStatus.CREATED);
+        var neuerSender = senderRepository.save(sender);
+        return new ResponseEntity<>(neuerSender, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
