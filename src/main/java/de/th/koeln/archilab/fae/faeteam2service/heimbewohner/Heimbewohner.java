@@ -1,10 +1,11 @@
 package de.th.koeln.archilab.fae.faeteam2service.heimbewohner;
 
-import de.th.koeln.archilab.fae.faeteam2service.verantwortlicher.Verantwortlicher;
-import lombok.Data;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
-import javax.persistence.*;
-import java.util.Set;
+import lombok.Data;
 
 @Entity
 @Data
@@ -12,19 +13,8 @@ public class Heimbewohner {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer bewohnerId;
+    private long bewohnerId;
 
     private String name;
 
-    @OneToMany
-    private Set<Verantwortlicher> verantwortliche;
-
-    public Heimbewohner() {}
-    public Heimbewohner(String name) {
-        this.name = name;
-    }
-
-    public Set<Verantwortlicher> getVerantwortliche() {
-        return verantwortliche;
-    }
 }
