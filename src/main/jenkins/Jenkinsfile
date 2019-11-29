@@ -22,6 +22,8 @@ node {
             junit 'target/surefire-reports/*.xml'
         }
 
+        /*
+        // TODO erstmal auskommentieren
         stage('Quality Check') {
             sh 'mvn -B -s settings.xml checkstyle:checkstyle'
             jacoco()
@@ -31,6 +33,7 @@ node {
             }
         }
 
+        // TODO erstmal auskommentieren
         stage("Quality Gate") {
             timeout(time: 1, unit: "MINUTES") {
                 def qg = waitForQualityGate()
@@ -43,7 +46,7 @@ node {
                     }
                 }
             }
-        }
+        }*/
 
         stage('Build Production') {
             withCredentials([usernamePassword(credentialsId: 'archilab-nexus-jenkins',
@@ -57,7 +60,7 @@ node {
     }
 
     // TODO Students: add docker compose files
-    /* stage('Deploy') {
+    stage('Deploy') {
         docker.withServer('tcp://10.10.10.61:2376', 'fae-ws2019-certs') {
             docker.withRegistry('https://docker.nexus.archi-lab.io', 'archilab-nexus-jenkins') {
                 sh "env IMAGE=${image} TAG=${changelist} docker stack deploy --with-registry-auth \
@@ -65,5 +68,5 @@ node {
                     -c src/main/docker/docker-compose-prod.yml ${image}"
             }
         }
-    } */
+    }
 }
