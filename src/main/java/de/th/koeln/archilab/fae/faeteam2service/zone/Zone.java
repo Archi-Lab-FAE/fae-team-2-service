@@ -12,8 +12,8 @@ import java.util.Set;
 public class Zone  {
 
     public enum ZonenTyp {
-        GEFAHR,
-        SICHER
+        UNGEWOHNTE,
+        GEWOHNTE
     }
 
     @Id
