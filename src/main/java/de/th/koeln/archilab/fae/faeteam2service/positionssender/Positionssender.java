@@ -1,4 +1,4 @@
-package de.th.koeln.archilab.fae.faeteam2service.gpssender;
+package de.th.koeln.archilab.fae.faeteam2service.positionssender;
 
 
 import de.th.koeln.archilab.fae.faeteam2service.position.Position;
@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Entity
 @Data
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class GPSSender {
+public class Positionssender {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

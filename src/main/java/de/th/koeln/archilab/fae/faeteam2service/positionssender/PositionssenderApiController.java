@@ -1,4 +1,4 @@
-package de.th.koeln.archilab.fae.faeteam2service.gpssender;
+package de.th.koeln.archilab.fae.faeteam2service.positionssender;
 
 import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,19 +9,19 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/sender")
-public class GPSSenderApiController {
+@RequestMapping("/positionssender")
+public class PositionssenderApiController {
 
-    private GPSSenderRepository senderRepository;
+    private PositionssenderRepository senderRepository;
 
     @Autowired
-    public GPSSenderApiController(GPSSenderRepository senderRepository) {
+    public PositionssenderApiController(PositionssenderRepository senderRepository) {
         this.senderRepository = senderRepository;
     }
 
 
     @PostMapping
-    public ResponseEntity<GPSSender> createSender(@RequestBody GPSSender sender) {
+    public ResponseEntity<Positionssender> createSender(@RequestBody Positionssender sender) {
         var neuerSender = senderRepository.save(sender);
         return new ResponseEntity<>(neuerSender, HttpStatus.CREATED);
     }
@@ -38,12 +38,12 @@ public class GPSSenderApiController {
     }
 
     @GetMapping
-    public ResponseEntity<List<GPSSender>> getAllZones() {
-        return new ResponseEntity<>((List<GPSSender>) senderRepository.findAll(), HttpStatus.OK);
+    public ResponseEntity<List<Positionssender>> getAllZones() {
+        return new ResponseEntity<>((List<Positionssender>) senderRepository.findAll(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<GPSSender> getSenderById(@PathVariable long id) {
+    public ResponseEntity<Positionssender> getSenderById(@PathVariable long id) {
         var sender = senderRepository.findById(id);
         if (!sender.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
