@@ -1,0 +1,210 @@
+{
+	"info": {
+		"_postman_id": "98b4c5ba-b03e-4ba6-a34b-91a45285e583",
+		"name": "FAE - Team2",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "/positionssender",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"positionssenderId\": \"f33c6cd8-1697-11ea-8d71-362b9e155667\",\r\n  \"letztesSignal\": \"2019-11-29T12:03:46.164\",\r\n  \"batterieStatus\": 0.8,\r\n  \"genauigkeit\": 1.0,\r\n  \"position\": {\r\n    \"laengengrad\": 1.9852,\r\n    \"breitengrad\": 1.3254\r\n  }\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8081/positionssender",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"positionssender"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/positionssender",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8081/positionssender",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"positionssender"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/positionen",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"laengengrad\": 1.2334,\r\n    \"breitengrad\": 1.2334\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8081/positionen/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"positionen",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/positionen",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8081/positionen/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"positionen",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/zonen",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"toleranz\": 1.5,\n    \"typ\": \"UNGEWOHNTE\",\n    \"positionen\": [\n        {\n            \"laengengrad\": 1.2334,\n            \"breitengrad\": 1.2334\n        },\n        {\n            \"laengengrad\": 1.2334,\n            \"breitengrad\": 1.2334\n        }\n    ]\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8081/zonen/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"zonen",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/zonen",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8081/zonen/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"zonen",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/demenziellerkrankter",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"demenziellErkrankterId\": \"f33c6fa8-1697-11ea-8d71-362b9e155667\",\n\t\"name\": \"K. Löhler\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8081/demenziellerkrankter",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"demenziellerkrankter"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/demenziellerkrankter",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8081/demenziellerkrankter",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"demenziellerkrankter"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
