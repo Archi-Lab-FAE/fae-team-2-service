@@ -5,6 +5,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.util.Set;
+import java.util.UUID;
 
 
 @Entity
@@ -17,8 +18,7 @@ public class Zone  {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long zoneId;
+    private String zoneId;
 
     private Float toleranz;
 
@@ -27,4 +27,14 @@ public class Zone  {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Position> positionen;
 
+    public Zone() {
+        this.zoneId = UUID.randomUUID().toString();
+    }
+
+    public Zone(Float toleranz, ZonenTyp typ, Set<Position> positionen) {
+        this.zoneId = UUID.randomUUID().toString();
+        this.toleranz = toleranz;
+        this.typ = typ;
+        this.positionen = positionen;
+    }
 }
