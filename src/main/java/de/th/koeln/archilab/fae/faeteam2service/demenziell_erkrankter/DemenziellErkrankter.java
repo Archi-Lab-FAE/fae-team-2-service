@@ -1,4 +1,4 @@
-package de.th.koeln.archilab.fae.faeteam2service.heimbewohner;
+package de.th.koeln.archilab.fae.faeteam2service.demenziell_erkrankter;
 
 import lombok.Data;
 
@@ -9,11 +9,11 @@ import javax.persistence.Id;
 
 @Entity
 @Data
-public class Heimbewohner {
+public class DemenziellErkrankter {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long bewohnerId;
+    private long demenziellErkrankterId;
 
     private String name;
 
