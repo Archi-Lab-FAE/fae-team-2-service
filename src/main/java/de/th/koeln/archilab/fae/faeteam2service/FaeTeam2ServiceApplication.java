@@ -1,15 +1,40 @@
 package de.th.koeln.archilab.fae.faeteam2service;
 
 
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.ExitCodeGenerator;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
+
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
-public class FaeTeam2ServiceApplication {
+@EnableSwagger2
+@ComponentScan(basePackages = {
+		"de.th.koeln.archilab.fae.faeteam2service",
+		"de.th.koeln.archilab.fae.faeteam2service.api",
+		"de.th.koeln.archilab.fae.faeteam2service.configuration"})
+public class FaeTeam2ServiceApplication implements CommandLineRunner {
+
+	@Override
+	public void run(String... arg0) throws Exception {
+		if (arg0.length > 0 && arg0[0].equals("exitcode")) {
+			throw new ExitException();
+		}
+	}
 
 	public static void main(String[] args) {
+		new SpringApplication(FaeTeam2ServiceApplication.class).run(args);
+	}
 
-		SpringApplication.run(FaeTeam2ServiceApplication.class, args);
+	static class ExitException extends RuntimeException implements ExitCodeGenerator {
+		private static final long serialVersionUID = 1L;
+
+		@Override
+		public int getExitCode() {
+			return 10;
+		}
 
 	}
 
