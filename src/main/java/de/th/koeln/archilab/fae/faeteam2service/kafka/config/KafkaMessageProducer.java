@@ -1,7 +1,8 @@
-package de.th.koeln.archilab.fae.faeteam2service.kafka;
+package de.th.koeln.archilab.fae.faeteam2service.kafka.config;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import de.th.koeln.archilab.fae.faeteam2service.kafka.events.DomainEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

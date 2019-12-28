@@ -19,12 +19,12 @@ public class DemenziellErkrankterController {
     }
 
     @GetMapping
-    public ResponseEntity<List<DemenziellErkrankter>> heimbewohner() {
+    public ResponseEntity<List<DemenziellErkrankter>> demenziellErkrankter() {
         return new ResponseEntity<>((List<DemenziellErkrankter>) demenziellErkrankterRepository.findAll(), HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<DemenziellErkrankter> newHeimbewohner(@RequestBody DemenziellErkrankter demenziellErkrankter) {
+    public ResponseEntity<DemenziellErkrankter> newDemenziellErkrankter(@RequestBody DemenziellErkrankter demenziellErkrankter) {
         return new ResponseEntity<>(demenziellErkrankterRepository.save(demenziellErkrankter), HttpStatus.CREATED);
     }
 

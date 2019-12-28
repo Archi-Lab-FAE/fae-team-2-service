@@ -1,4 +1,4 @@
-package de.th.koeln.archilab.fae.faeteam2service.kafka;
+package de.th.koeln.archilab.fae.faeteam2service.kafka.config;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;

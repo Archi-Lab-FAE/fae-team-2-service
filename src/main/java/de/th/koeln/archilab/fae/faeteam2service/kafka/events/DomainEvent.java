@@ -1,4 +1,4 @@
-package de.th.koeln.archilab.fae.faeteam2service.kafka;
+package de.th.koeln.archilab.fae.faeteam2service.kafka.events;
 
 import java.util.UUID;
 
