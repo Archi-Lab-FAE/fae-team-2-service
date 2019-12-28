@@ -1,17 +1,19 @@
 package de.th.koeln.archilab.fae.faeteam2service.demenziell_erkrankter.events;
 
+import de.th.koeln.archilab.fae.faeteam2service.demenziell_erkrankter.DemenziellErkrankter;
+import de.th.koeln.archilab.fae.faeteam2service.kafka.CrudEventType;
 import de.th.koeln.archilab.fae.faeteam2service.kafka.DomainEvent;
 
 public class DemenziellErkrankterDomainEvent extends DomainEvent {
 
-    private final String demenziellErkrankterIdentifier;
-    private final DemenziellErkrankterEventType eventType;
+    private final DemenziellErkrankter demenziellErkrankter;
+    private final CrudEventType eventType;
 
     public DemenziellErkrankterDomainEvent(
-            String demenziellErkrankterIdentifier,
-            DemenziellErkrankterEventType eventType
+            DemenziellErkrankter demenziellErkrankter,
+            CrudEventType eventType
     ) {
-        this.demenziellErkrankterIdentifier = demenziellErkrankterIdentifier;
+        this.demenziellErkrankter = demenziellErkrankter;
         this.eventType = eventType;
     }
 
@@ -20,7 +22,7 @@ public class DemenziellErkrankterDomainEvent extends DomainEvent {
         return eventType.name();
     }
 
-    public String getDemenziellErkrankterIdentifier() {
-        return demenziellErkrankterIdentifier;
+    public DemenziellErkrankter getDemenziellErkrankter() {
+        return demenziellErkrankter;
     }
 }

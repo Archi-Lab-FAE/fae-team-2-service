@@ -31,10 +31,7 @@ public class DemenziellErkrankterEventConsumer {
         DemenziellErkrankterDomainEvent demenziellErkrankterDomainEvent = this.objectMapper
                 .readValue(message, DemenziellErkrankterDomainEvent.class);
 
-//        DemenziellErkrankter demenziellErkrankter = this.objectMapper.readValue(message, DemenziellErkrankter.class);
-//        System.out.println("MSG: "+ message);
-//        System.out.println(demenziellErkrankter);
-//        demenziellErkrankterRepository.save(demenziellErkrankter);
+        demenziellErkrankterRepository.save(demenziellErkrankterDomainEvent.getDemenziellErkrankter());
 
         demenziellErkrankterEventInformationRepository.save(
                 new DemenziellErkrankterEventInformation(demenziellErkrankterDomainEvent.getEventType(), new Date())
