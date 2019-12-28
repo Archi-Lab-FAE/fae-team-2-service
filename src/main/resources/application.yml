@@ -37,4 +37,5 @@ server:
   compression.mime-types: application/json,application/xml,text/html,text/xml,text/plain
 # Kafka-topic
 demenziellerkrankter.topic: demenziellerkrankter
+zone.topic: zone
 

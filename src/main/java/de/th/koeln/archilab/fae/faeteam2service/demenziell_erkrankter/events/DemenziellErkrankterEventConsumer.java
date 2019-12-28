@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import de.th.koeln.archilab.fae.faeteam2service.demenziell_erkrankter.DemenziellErkrankter;
 import de.th.koeln.archilab.fae.faeteam2service.demenziell_erkrankter.DemenziellErkrankterRepository;
 import de.th.koeln.archilab.fae.faeteam2service.kafka.events.CrudDomainEvent;
+import de.th.koeln.archilab.fae.faeteam2service.kafka.events.CrudDomainEventParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
@@ -33,14 +34,9 @@ public class DemenziellErkrankterEventConsumer {
         CrudDomainEvent crudDomainEvent = this.objectMapper
                 .readValue(message, CrudDomainEvent.class);
 
-        // read and save data --> needed because you can't get the class of a generic typed class
-        // alternative would be new DomainEvent classes for every entity
-        String json = objectMapper.readTree(message).get("eventData").toString();
-        DemenziellErkrankter demenziellErkrankter = new ObjectMapper()
-                .readerFor(DemenziellErkrankter.class)
-                .readValue(json);
-
-        demenziellErkrankterRepository.save(demenziellErkrankter);
+        demenziellErkrankterRepository.save(
+                new CrudDomainEventParser<DemenziellErkrankter>().parse(message, DemenziellErkrankter.class)
+        );
         demenziellErkrankterEventInformationRepository.save(
                 new DemenziellErkrankterEventInformation(crudDomainEvent.getEventType(), new Date())
         );

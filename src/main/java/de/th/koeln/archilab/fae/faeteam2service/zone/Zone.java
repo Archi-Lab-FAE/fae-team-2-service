@@ -1,6 +1,7 @@
 package de.th.koeln.archilab.fae.faeteam2service.zone;
 
 import de.th.koeln.archilab.fae.faeteam2service.position.Position;
+import de.th.koeln.archilab.fae.faeteam2service.zone.events.ZoneEventHandler;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -10,6 +11,7 @@ import java.util.UUID;
 
 @Entity
 @Data
+@EntityListeners(ZoneEventHandler.class)
 public class Zone  {
 
     public enum ZonenTyp {
