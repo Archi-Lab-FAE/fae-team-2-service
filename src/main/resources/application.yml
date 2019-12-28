@@ -17,7 +17,7 @@ spring:
   # Spring Data Rest
   data:
     rest:
-      basePath: / # TODO change to ... fae-team-2-service
+      basePath: /team-2
       return-body-on-create: true
       return-body-on-update: true
       default-media-type: application/hal+json
@@ -27,8 +27,8 @@ spring:
       indent-output: true
     deserialization:
       accept-empty-array-as-null-object: true
-  #kafka: # TODO insert when using kafka
-    # group-id: "fae-team-2-service"
+  kafka:
+    group-id: "fae-team-2-service"
 
 # Server
 server:
@@ -36,4 +36,5 @@ server:
   compression.enabled: true
   compression.mime-types: application/json,application/xml,text/html,text/xml,text/plain
 # Kafka-topic
-# product.topic: product
+demenziellerkrankter.topic: demenziellerkrankter
+
