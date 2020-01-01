@@ -39,4 +39,5 @@ server:
 demenziellerkrankter.topic: demenziellerkrankter
 zone.topic: zone
 positionssender.topic: positionssender
+tracker.topic: tracker
 

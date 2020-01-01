@@ -5,6 +5,10 @@ import de.th.koeln.archilab.fae.faeteam2service.kafka.events.CrudDomainEvent;
 import de.th.koeln.archilab.fae.faeteam2service.kafka.events.CrudDomainEventParser;
 import de.th.koeln.archilab.fae.faeteam2service.positionssender.Positionssender;
 import de.th.koeln.archilab.fae.faeteam2service.positionssender.PositionssenderRepository;
+import de.th.koeln.archilab.fae.faeteam2service.positionssender.events.tracking.TrackingEventDto;
+import lombok.val;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
@@ -15,24 +19,23 @@ import java.util.Date;
 @Component
 public class PositionssenderEventConsumer {
 
+    private static final Logger log = LoggerFactory.getLogger(PositionssenderEventConsumer.class);
+
     private final ObjectMapper objectMapper;
-
-    @Autowired
-    private PositionssenderEventInformationRepository positionssenderEventInformationRepository;
-
-    @Autowired
-    private PositionssenderRepository positionssenderRepository;
+    private final PositionssenderRepository positionssenderRepository;
+    private final PositionssenderEventInformationRepository positionssenderEventInformationRepository;
 
 
     @Autowired
-    public PositionssenderEventConsumer(final ObjectMapper objectMapper) {
+    public PositionssenderEventConsumer(final ObjectMapper objectMapper, PositionssenderEventInformationRepository positionssenderEventInformationRepository, PositionssenderRepository positionssenderRepository) {
         this.objectMapper = objectMapper;
+        this.positionssenderEventInformationRepository = positionssenderEventInformationRepository;
+        this.positionssenderRepository = positionssenderRepository;
     }
 
     @KafkaListener(topics = "${positionssender.topic}", groupId = "${spring.kafka.group-id}")
     public void listen(String message) throws IOException {
-        CrudDomainEvent crudDomainEvent = this.objectMapper
-                .readValue(message, CrudDomainEvent.class);
+        val crudDomainEvent = this.objectMapper.readValue(message, CrudDomainEvent.class);
 
         positionssenderRepository.save(
                 new CrudDomainEventParser<Positionssender>().parse(message, Positionssender.class)
@@ -41,8 +44,29 @@ public class PositionssenderEventConsumer {
                 new PositionssenderEventInformation(crudDomainEvent.getEventType(), new Date())
         );
 
-        System.out.println("*****************************");
-        System.out.println("Positionssender " + crudDomainEvent.getEventType());
-        System.out.println("*****************************");
+        log.info("**\n Positionssender {} \n**", crudDomainEvent.getEventType());
+    }
+
+    @KafkaListener(topics = "${tracker.topic}", groupId = "${spring.kafka.group-id}")
+    public void listenToTracking(String message) throws IOException {
+        val trackingEventDto = objectMapper.readValue(message, TrackingEventDto.class);
+        val tracker = trackingEventDto.getTrackerDto();
+        val positionssenderOpt = positionssenderRepository.findById(tracker.getTrackerId());
+
+        if (positionssenderOpt.isPresent()) {
+            val positionssender = positionssenderOpt.get();
+            positionssender.setPosition(tracker.getPositionDto().convertToEntity());
+            positionssender.setLetztesSignal(trackingEventDto.getTime());
+
+            positionssenderRepository.save(positionssender);
+
+
+            // TODO implement business logic --> out of zone?
+        } else {
+            log.warn("Could not find Tracker with id {}", tracker.getTrackerId());
+            return;
+        }
+
+        log.info("Updated Tracker: {}", tracker.getTrackerId());
     }
 }
