@@ -31,7 +31,7 @@ public class ZoneController {
     }
 
     @GetMapping("/{id}/positionen")
-    public ResponseEntity<Iterable<Position>> zonenPositionen(@PathVariable long id) {
+    public ResponseEntity<Iterable<Position>> zonenPositionen(@PathVariable String id) {
         var zone = zoneRepository.findById(id);
         if (!zone.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

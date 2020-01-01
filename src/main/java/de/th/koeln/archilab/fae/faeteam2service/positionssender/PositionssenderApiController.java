@@ -27,7 +27,7 @@ public class PositionssenderApiController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteSenderById(@PathVariable long id) {
+    public ResponseEntity<Void> deleteSenderById(@PathVariable String id) {
         if (senderRepository.existsById(id)) {
             senderRepository.deleteById(id);
             return new ResponseEntity<>(HttpStatus.OK);
@@ -43,7 +43,7 @@ public class PositionssenderApiController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Positionssender> getSenderById(@PathVariable long id) {
+    public ResponseEntity<Positionssender> getSenderById(@PathVariable String id) {
         var sender = senderRepository.findById(id);
         if (!sender.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
