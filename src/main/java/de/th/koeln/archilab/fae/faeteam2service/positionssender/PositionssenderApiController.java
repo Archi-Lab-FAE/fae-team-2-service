@@ -102,9 +102,10 @@ public class PositionssenderApiController implements PositionssenderApi {
     }
 
     public ResponseEntity<PositionssenderDTO> updatePositionssender(@ApiParam(value = "Objekt eines Positionssenders, welches aktualisiert werden soll.", required = true) @Valid @RequestBody PositionssenderDTO body, @ApiParam(value = "ID des Positionssender der aktualisiert werden soll.", required = true) @PathVariable("id") String id) {
-        Optional<Positionssender> result = repository.findById(id);
-        if (result.isPresent()) {
-            Positionssender saved = repository.save(Positionssender.convert(body));
+        Positionssender result = repository.findById(id).orElse(null);
+        if (result != null) {
+            result.update(Positionssender.convert(body));
+            Positionssender saved = repository.save(result);
             return new ResponseEntity<>(Positionssender.convert(saved), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

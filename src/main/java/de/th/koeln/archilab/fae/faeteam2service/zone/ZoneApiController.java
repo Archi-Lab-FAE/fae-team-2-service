@@ -51,9 +51,10 @@ public class ZoneApiController implements ZoneApi {
     }
 
     public ResponseEntity<ZoneDTO> updateZone(@ApiParam(value = "Objekt einer Zone, welches aktualisiert werden soll.", required = true) @Valid @RequestBody ZoneDTO body, @ApiParam(value = "ID der Zone die aktualisiert werden soll.", required = true) @PathVariable("id") String id) {
-        Optional<Zone> result = repository.findById(id);
-        if (result.isPresent()) {
-            Zone saved = repository.save(Zone.convert(body));
+        Zone result = repository.findById(id).orElse(null);
+        if (result != null) {
+            result.update(Zone.convert(body));
+            Zone saved = repository.save(result);
             return new ResponseEntity<>(Zone.convert(saved), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

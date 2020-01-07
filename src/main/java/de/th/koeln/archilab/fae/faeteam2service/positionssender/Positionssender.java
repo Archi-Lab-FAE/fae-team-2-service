@@ -1,6 +1,7 @@
 package de.th.koeln.archilab.fae.faeteam2service.positionssender;
 
 
+import org.apache.commons.lang.StringUtils;
 import org.threeten.bp.OffsetDateTime;
 
 import javax.persistence.CascadeType;
@@ -31,6 +32,15 @@ public class Positionssender {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Position position;
 
+
+    public void update(Positionssender update) {
+        if (StringUtils.isNotBlank(update.positionssenderId))
+            positionssenderId = update.getPositionssenderId();
+        if (update.letztesSignal != null) letztesSignal = update.getLetztesSignal();
+        if (update.batterieStatus != null) batterieStatus = update.getBatterieStatus();
+        if (update.genauigkeit != null) genauigkeit = update.getGenauigkeit();
+        if (update.position != null) position = update.getPosition();
+    }
 
     public static Positionssender convert(PositionssenderDTO dto) {
         Positionssender entity = new Positionssender();

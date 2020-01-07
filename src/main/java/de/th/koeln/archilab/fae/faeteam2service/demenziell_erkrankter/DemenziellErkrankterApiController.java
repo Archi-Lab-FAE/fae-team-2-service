@@ -51,9 +51,10 @@ public class DemenziellErkrankterApiController implements DemenziellErkrankterAp
     }
 
     public ResponseEntity<DemenziellErkrankterDTO> updateDemenziellerkankten(@ApiParam(value = "Objekt eines demenziell Erkranten, welches aktualisiert werden soll.", required = true) @Valid @RequestBody DemenziellErkrankterDTO body, @ApiParam(value = "ID des demenziell Erkranten, welcher aktualisiert werden soll.", required = true) @PathVariable("id") String id) {
-        Optional<DemenziellErkrankter> result = repository.findById(id);
-        if (result.isPresent()) {
-            DemenziellErkrankter saved = repository.save(DemenziellErkrankter.convert(body));
+        DemenziellErkrankter result = repository.findById(id).orElse(null);
+        if (result != null) {
+            result.update(DemenziellErkrankter.convert(body));
+            DemenziellErkrankter saved = repository.save(result);
             return new ResponseEntity<>(DemenziellErkrankter.convert(saved), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

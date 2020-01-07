@@ -1,5 +1,7 @@
 package de.th.koeln.archilab.fae.faeteam2service.zone;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -43,6 +45,13 @@ public class Zone  {
         this.positionen = positionen;
     }
 
+
+    public void update(Zone update) {
+        if (StringUtils.isNotBlank(update.zoneId)) zoneId = update.getZoneId();
+        if (update.toleranz != null) toleranz = update.getToleranz();
+        if (update.typ != null) typ = update.getTyp();
+        if (update.positionen != null) positionen = update.getPositionen();
+    }
 
     public static Zone convert(ZoneDTO dto) {
         Zone entity = new Zone();

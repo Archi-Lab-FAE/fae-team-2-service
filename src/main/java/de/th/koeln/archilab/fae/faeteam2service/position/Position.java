@@ -1,5 +1,7 @@
 package de.th.koeln.archilab.fae.faeteam2service.position;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.util.UUID;
 
 import javax.persistence.Entity;
@@ -28,6 +30,11 @@ public class Position {
         this.breitengrad = breitengrad;
     }
 
+    public void update(Position update) {
+        if (StringUtils.isNotBlank(update.positionsId)) positionsId = update.getPositionsId();
+        laengengrad = update.getLaengengrad();
+        breitengrad = update.getBreitengrad();
+    }
 
     public static Position convert(PositionDTO dto) {
         Position entity = new Position();
