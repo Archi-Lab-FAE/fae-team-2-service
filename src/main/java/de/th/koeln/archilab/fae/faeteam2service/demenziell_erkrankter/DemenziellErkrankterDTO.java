@@ -4,21 +4,30 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import org.springframework.validation.annotation.Validated;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
+import javax.validation.Valid;
+
+import de.th.koeln.archilab.fae.faeteam2service.zone.ZoneDTO;
 import io.swagger.annotations.ApiModelProperty;
 
 /**
  * DemenziellErkrankterDTO
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-12-19T10:48:55.616846300+01:00[Europe/Berlin]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-01-07T14:10:32.528Z[GMT]")
 public class DemenziellErkrankterDTO {
     @JsonProperty("demenziellErkrankterId")
     private String demenziellErkrankterId = null;
 
     @JsonProperty("name")
     private String name = null;
+
+    @JsonProperty("zonen")
+    @Valid
+    private List<ZoneDTO> zonen = null;
 
     public DemenziellErkrankterDTO demenziellErkrankterId(String demenziellErkrankterId) {
         this.demenziellErkrankterId = demenziellErkrankterId;
@@ -47,7 +56,6 @@ public class DemenziellErkrankterDTO {
 
     /**
      * Get name
-     *
      * @return name
      **/
     @ApiModelProperty(example = "K. Löhler", value = "")
@@ -60,9 +68,37 @@ public class DemenziellErkrankterDTO {
         this.name = name;
     }
 
+    public DemenziellErkrankterDTO zonen(List<ZoneDTO> zonen) {
+        this.zonen = zonen;
+        return this;
+    }
+
+    public DemenziellErkrankterDTO addZonenItem(ZoneDTO zonenItem) {
+        if (this.zonen == null) {
+            this.zonen = new ArrayList<ZoneDTO>();
+        }
+        this.zonen.add(zonenItem);
+        return this;
+    }
+
+    /**
+     * Get zonen
+     *
+     * @return zonen
+     **/
+    @ApiModelProperty(value = "")
+    @Valid
+    public List<ZoneDTO> getZonen() {
+        return zonen;
+    }
+
+    public void setZonen(List<ZoneDTO> zonen) {
+        this.zonen = zonen;
+    }
+
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(java.lang.Object o) {
         if (this == o) {
             return true;
         }
@@ -71,12 +107,13 @@ public class DemenziellErkrankterDTO {
         }
         DemenziellErkrankterDTO demenziellErkrankter = (DemenziellErkrankterDTO) o;
         return Objects.equals(this.demenziellErkrankterId, demenziellErkrankter.demenziellErkrankterId) &&
-                Objects.equals(this.name, demenziellErkrankter.name);
+                Objects.equals(this.name, demenziellErkrankter.name) &&
+                Objects.equals(this.zonen, demenziellErkrankter.zonen);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(demenziellErkrankterId, name);
+        return Objects.hash(demenziellErkrankterId, name, zonen);
     }
 
     @Override
@@ -86,6 +123,7 @@ public class DemenziellErkrankterDTO {
 
         sb.append("    demenziellErkrankterId: ").append(toIndentedString(demenziellErkrankterId)).append("\n");
         sb.append("    name: ").append(toIndentedString(name)).append("\n");
+        sb.append("    zonen: ").append(toIndentedString(zonen)).append("\n");
         sb.append("}");
         return sb.toString();
     }
@@ -94,7 +132,7 @@ public class DemenziellErkrankterDTO {
      * Convert the given object to string with each line indented by 4 spaces
      * (except the first line).
      */
-    private String toIndentedString(Object o) {
+    private String toIndentedString(java.lang.Object o) {
         if (o == null) {
             return "null";
         }

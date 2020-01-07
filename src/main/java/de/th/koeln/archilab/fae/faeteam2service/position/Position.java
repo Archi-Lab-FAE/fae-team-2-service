@@ -1,10 +1,11 @@
 package de.th.koeln.archilab.fae.faeteam2service.position;
 
-import lombok.Data;
+import java.util.UUID;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import java.util.UUID;
+
+import lombok.Data;
 
 @Entity
 @Data
@@ -13,17 +14,36 @@ public class Position {
     @Id
     private String positionsId;
 
-    private float laengengrad;
+    private double laengengrad;
 
-    private float breitengrad;
+    private double breitengrad;
 
     public Position() {
         this.positionsId = UUID.randomUUID().toString();
     }
 
-    public Position(float laengengrad, float breitengrad) {
+    public Position(double laengengrad, double breitengrad) {
         this.positionsId = UUID.randomUUID().toString();
         this.laengengrad = laengengrad;
         this.breitengrad = breitengrad;
+    }
+
+
+    public static Position convert(PositionDTO dto) {
+        Position entity = new Position();
+        entity.positionsId = dto.getPositionsId();
+        entity.laengengrad = dto.getLaengengrad();
+        entity.breitengrad = dto.getBreitengrad();
+
+        return entity;
+    }
+
+    public static PositionDTO convert(Position entity) {
+        PositionDTO dto = new PositionDTO();
+        dto.setPositionsId(entity.positionsId);
+        dto.setLaengengrad(entity.laengengrad);
+        dto.setBreitengrad(entity.breitengrad);
+
+        return dto;
     }
 }
