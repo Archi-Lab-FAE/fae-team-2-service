@@ -3,6 +3,7 @@ package de.th.koeln.archilab.fae.faeteam2service.positionssender;
 
 import org.apache.commons.lang.StringUtils;
 import org.threeten.bp.OffsetDateTime;
+import org.threeten.bp.format.DateTimeFormatter;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -20,10 +21,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Positionssender {
 
+    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ISO_DATE_TIME;
+
     @Id
     private String positionssenderId;
 
-    private OffsetDateTime letztesSignal;
+    private String letztesSignal;
 
     private Float batterieStatus;
 
@@ -45,7 +48,7 @@ public class Positionssender {
     public static Positionssender convert(PositionssenderDTO dto) {
         Positionssender entity = new Positionssender();
         entity.positionssenderId = dto.getPositionssenderId();
-        entity.letztesSignal = dto.getLetztesSignal();
+        entity.letztesSignal = dto.getLetztesSignal().format(DATE_FORMAT);
         entity.batterieStatus = dto.getBatterieStatus();
         entity.genauigkeit = dto.getGenauigkeit();
         entity.position = Position.convert(dto.getPosition());
@@ -56,7 +59,7 @@ public class Positionssender {
     public static PositionssenderDTO convert(Positionssender entity) {
         PositionssenderDTO dto = new PositionssenderDTO();
         dto.setPositionssenderId(entity.positionssenderId);
-        dto.setLetztesSignal(entity.letztesSignal);
+        dto.setLetztesSignal(OffsetDateTime.parse(entity.letztesSignal, DATE_FORMAT));
         dto.setBatterieStatus(entity.batterieStatus);
         dto.setGenauigkeit(entity.genauigkeit);
         dto.setPosition(Position.convert(entity.position));
