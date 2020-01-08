@@ -9,20 +9,20 @@ import java.util.UUID;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 import de.th.koeln.archilab.fae.faeteam2service.position.Position;
-import de.th.koeln.archilab.fae.faeteam2service.zone.events.ZoneEventHandler;
 import lombok.Data;
+
+//import de.th.koeln.archilab.fae.faeteam2service.zone.events.ZoneEventHandler;
 
 
 @Entity
 @Data
-@EntityListeners(ZoneEventHandler.class)
-public class Zone  {
+//@EntityListeners(ZoneEventHandler.class)
+public class Zone {
 
     @Id
     private String zoneId;
@@ -35,7 +35,7 @@ public class Zone  {
     private Set<Position> positionen;
 
     public Zone() {
-        this.zoneId = UUID.randomUUID().toString();
+        this(null, null, null);
     }
 
     public Zone(Float toleranz, ZonenTyp typ, Set<Position> positionen) {

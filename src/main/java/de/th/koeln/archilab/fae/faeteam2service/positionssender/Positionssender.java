@@ -5,6 +5,8 @@ import org.apache.commons.lang.StringUtils;
 import org.threeten.bp.OffsetDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
 
+import java.util.UUID;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,13 +14,10 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
 import de.th.koeln.archilab.fae.faeteam2service.position.Position;
-import lombok.AccessLevel;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Positionssender {
 
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ISO_DATE_TIME;
@@ -35,6 +34,21 @@ public class Positionssender {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Position position;
 
+
+    public Positionssender() {
+        this(null, null, null, null);
+    }
+
+    public Positionssender(OffsetDateTime letztesSignal, Float batterieStatus, Float genauigkeit, Position position) {
+        positionssenderId = UUID.randomUUID().toString();
+
+        if (letztesSignal == null) this.letztesSignal = null;
+        else this.letztesSignal = letztesSignal.format(DATE_FORMAT);
+
+        this.batterieStatus = batterieStatus;
+        this.genauigkeit = genauigkeit;
+        this.position = position;
+    }
 
     public void update(Positionssender update) {
         if (StringUtils.isNotBlank(update.positionssenderId))
