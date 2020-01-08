@@ -96,8 +96,8 @@ public class SampleDataLoader implements ApplicationListener<ContextRefreshedEve
                 rng.nextInt(12) + 1,
                 rng.nextInt(31) + 1,
                 rng.nextInt(23) + 1,
-                rng.nextInt(60) + 1,
-                rng.nextInt(60) + 1,
+                rng.nextInt(59) + 1,
+                rng.nextInt(59) + 1,
                 0,
                 ZoneOffset.UTC
         );
