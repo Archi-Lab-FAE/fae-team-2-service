@@ -4,6 +4,4 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface DemenziellErkrankterRepository extends CrudRepository<DemenziellErkrankter, String> {
 
-    DemenziellErkrankter findByZonen_zoneId(String positionssenderId);
-
 }
