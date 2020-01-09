@@ -5,6 +5,8 @@ import de.th.koeln.archilab.fae.faeteam2service.demenziell_erkrankter.Demenziell
 import de.th.koeln.archilab.fae.faeteam2service.demenziell_erkrankter.DemenziellErkrankterRepository;
 import de.th.koeln.archilab.fae.faeteam2service.kafka.events.CrudDomainEvent;
 import de.th.koeln.archilab.fae.faeteam2service.kafka.events.CrudDomainEventParser;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
@@ -15,18 +17,22 @@ import java.util.Date;
 @Component
 public class DemenziellErkrankterEventConsumer {
 
+    private static final Logger log = LoggerFactory.getLogger(DemenziellErkrankterEventConsumer.class);
     private final ObjectMapper objectMapper;
 
-    @Autowired
-    private DemenziellErkrankterEventInformationRepository demenziellErkrankterEventInformationRepository;
+    private final DemenziellErkrankterEventInformationRepository demenziellErkrankterEventInformationRepository;
 
-    @Autowired
-    private DemenziellErkrankterRepository demenziellErkrankterRepository;
+    private final DemenziellErkrankterRepository demenziellErkrankterRepository;
 
 
     @Autowired
-    public DemenziellErkrankterEventConsumer(final ObjectMapper objectMapper) {
+    public DemenziellErkrankterEventConsumer(
+            final ObjectMapper objectMapper,
+            DemenziellErkrankterEventInformationRepository demenziellErkrankterEventInformationRepository,
+            DemenziellErkrankterRepository demenziellErkrankterRepository) {
         this.objectMapper = objectMapper;
+        this.demenziellErkrankterEventInformationRepository = demenziellErkrankterEventInformationRepository;
+        this.demenziellErkrankterRepository = demenziellErkrankterRepository;
     }
 
     @KafkaListener(topics = "${demenziellerkrankter.topic}", groupId = "${spring.kafka.group-id}")
@@ -41,8 +47,8 @@ public class DemenziellErkrankterEventConsumer {
                 new DemenziellErkrankterEventInformation(crudDomainEvent.getEventType(), new Date())
         );
 
-        System.out.println("*****************************");
-        System.out.println("DemenziellErkrankter " + crudDomainEvent.getEventType());
-        System.out.println("*****************************");
+        log.info("*****************************");
+        log.info("DemenziellErkrankter {}", crudDomainEvent.getEventType());
+        log.info("*****************************");
     }
 }
