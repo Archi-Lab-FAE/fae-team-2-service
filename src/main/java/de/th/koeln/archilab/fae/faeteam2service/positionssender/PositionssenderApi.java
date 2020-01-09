@@ -60,11 +60,11 @@ public interface PositionssenderApi {
     ResponseEntity<PositionssenderDTO> findPositionssender(@ApiParam(value = "ID des Positionssender der zurückgeliefert werden soll.", required = true) @PathVariable("id") String id);
 
 
-    @ApiOperation(value = "Liefer alle Zonen des Positionssenders", nickname = "getZonenByPositionssenderId", notes = "Liefert alle Zonene des Positionssenders", response = ZoneDTO.class, responseContainer = "List", tags = {"Positionssender",})
+    @ApiOperation(value = "Liefer alle Zonen des Positionssenders", nickname = "getZonenByPositionssenderId", notes = "Liefert alle Zonen des Positionssenders", response = ZoneDTO.class, responseContainer = "List", tags = {"Positionssender",})
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "successful operation", response = ZoneDTO.class, responseContainer = "List"),
             @ApiResponse(code = 400, message = "Invalid ID supplied"),
-            @ApiResponse(code = 404, message = "Pet not found")})
+            @ApiResponse(code = 404, message = "Zone not found")})
     @RequestMapping(value = "/positionssender/{id}/zone",
             produces = {"application/json"},
             method = RequestMethod.GET)
