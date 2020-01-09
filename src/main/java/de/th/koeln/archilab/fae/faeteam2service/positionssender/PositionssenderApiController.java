@@ -20,7 +20,6 @@ import java.util.stream.StreamSupport;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import de.th.koeln.archilab.fae.faeteam2service.demenziell_erkrankter.DemenziellErkrankter;
 import de.th.koeln.archilab.fae.faeteam2service.demenziell_erkrankter.DemenziellErkrankterRepository;
 import de.th.koeln.archilab.fae.faeteam2service.zone.Zone;
 import de.th.koeln.archilab.fae.faeteam2service.zone.ZoneDTO;
@@ -90,8 +89,7 @@ public class PositionssenderApiController implements PositionssenderApi {
     public ResponseEntity<List<ZoneDTO>> getZonenByPositionssenderId(@ApiParam(value = "ID des Positionssenders", required = true) @PathVariable("id") String id) {
         Positionssender sender = repository.findById(id).orElse(null);
         if (sender != null) {
-            DemenziellErkrankter demenziellErkrankter = demenziellErkrankterRepository.findByZonen_zoneId(id);
-            List<ZoneDTO> results = StreamSupport.stream(demenziellErkrankter.getZonen().spliterator(), false)
+            List<ZoneDTO> results = StreamSupport.stream(sender.getDemenziellErkrankter().getZonen().spliterator(), false)
                     .map(x -> Zone.convert(x))
                     .collect(Collectors.toList());
 
