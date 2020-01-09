@@ -19,9 +19,8 @@ public class TrackerDto {
         private double latitude;
         private double altitude;
 
-        static public Position convert(TrackerPositionsDTO dto) {
+        public static Position convert(TrackerPositionsDTO dto) {
             return new Position(dto.longitude, dto.latitude);
         }
     }
 }
-
