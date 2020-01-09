@@ -2,9 +2,11 @@ package de.th.koeln.archilab.fae.faeteam2service.demenziell_erkrankter.events;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.th.koeln.archilab.fae.faeteam2service.demenziell_erkrankter.DemenziellErkrankter;
+import de.th.koeln.archilab.fae.faeteam2service.demenziell_erkrankter.DemenziellErkrankterDTO;
 import de.th.koeln.archilab.fae.faeteam2service.demenziell_erkrankter.DemenziellErkrankterRepository;
 import de.th.koeln.archilab.fae.faeteam2service.kafka.events.CrudDomainEvent;
 import de.th.koeln.archilab.fae.faeteam2service.kafka.events.CrudDomainEventParser;
+import lombok.val;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,11 +42,11 @@ public class DemenziellErkrankterEventConsumer {
         CrudDomainEvent crudDomainEvent = this.objectMapper
                 .readValue(message, CrudDomainEvent.class);
 
+        val demenziellErkrankterDTO = new CrudDomainEventParser<DemenziellErkrankterDTO>()
+                .parse(message, DemenziellErkrankterDTO.class);
+        val demenziellErkrankterEntity = DemenziellErkrankter.convert(demenziellErkrankterDTO);
+        demenziellErkrankterRepository.save(demenziellErkrankterEntity);
 
-        // TODO use DTO for parsing and then convert to entity to safe the data (todo in all consumers)
-        demenziellErkrankterRepository.save(
-                new CrudDomainEventParser<DemenziellErkrankter>().parse(message, DemenziellErkrankter.class)
-        );
         demenziellErkrankterEventInformationRepository.save(
                 new DemenziellErkrankterEventInformation(crudDomainEvent.getEventType(), new Date())
         );

@@ -5,6 +5,7 @@ import de.th.koeln.archilab.fae.faeteam2service.kafka.config.KafkaMessageProduce
 import de.th.koeln.archilab.fae.faeteam2service.kafka.events.CrudDomainEvent;
 import de.th.koeln.archilab.fae.faeteam2service.kafka.events.CrudEventType;
 import de.th.koeln.archilab.fae.faeteam2service.zone.Zone;
+import de.th.koeln.archilab.fae.faeteam2service.zone.ZoneDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -34,7 +35,7 @@ public class ZoneEventHandler {
             throws JsonProcessingException {
         this.kafkaMessageProducer.send(
                 this.topic,
-                buildZoneDomainEvent(zone, CrudEventType.CREATED)
+                buildZoneDomainEvent(Zone.convert(zone), CrudEventType.CREATED)
         );
     }
 
@@ -43,7 +44,7 @@ public class ZoneEventHandler {
             throws JsonProcessingException {
         this.kafkaMessageProducer.send(
                 this.topic,
-                buildZoneDomainEvent(zone, CrudEventType.UPDATED)
+                buildZoneDomainEvent(Zone.convert(zone), CrudEventType.UPDATED)
         );
     }
 
@@ -52,14 +53,14 @@ public class ZoneEventHandler {
             throws JsonProcessingException {
         this.kafkaMessageProducer.send(
                 this.topic,
-                buildZoneDomainEvent(zone, CrudEventType.DELETED)
+                buildZoneDomainEvent(Zone.convert(zone), CrudEventType.DELETED)
         );
     }
 
     private CrudDomainEvent buildZoneDomainEvent(
-            Zone zone,
+            ZoneDTO zoneDTO,
             CrudEventType eventType
     ) {
-        return new CrudDomainEvent<>(zone, eventType);
+        return new CrudDomainEvent<>(zoneDTO, eventType);
     }
 }

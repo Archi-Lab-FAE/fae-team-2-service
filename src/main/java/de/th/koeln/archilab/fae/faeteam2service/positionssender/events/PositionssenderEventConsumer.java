@@ -5,6 +5,7 @@ import de.th.koeln.archilab.fae.faeteam2service.kafka.events.CrudDomainEvent;
 import de.th.koeln.archilab.fae.faeteam2service.kafka.events.CrudDomainEventParser;
 import de.th.koeln.archilab.fae.faeteam2service.kafka.events.CrudEventType;
 import de.th.koeln.archilab.fae.faeteam2service.positionssender.Positionssender;
+import de.th.koeln.archilab.fae.faeteam2service.positionssender.PositionssenderDTO;
 import de.th.koeln.archilab.fae.faeteam2service.positionssender.PositionssenderRepository;
 import de.th.koeln.archilab.fae.faeteam2service.positionssender.events.tracking.TrackerDto;
 import de.th.koeln.archilab.fae.faeteam2service.positionssender.events.tracking.TrackingEventDto;
@@ -38,10 +39,11 @@ public class PositionssenderEventConsumer {
     @KafkaListener(topics = "${positionssender.topic}", groupId = "${spring.kafka.group-id}")
     public void listen(String message) throws IOException {
         val crudDomainEvent = this.objectMapper.readValue(message, CrudDomainEvent.class);
+        val positionssenderDTO = new CrudDomainEventParser<PositionssenderDTO>()
+                .parse(message, PositionssenderDTO.class);
+        val positionssenderEntity = Positionssender.convert(positionssenderDTO);
 
-        positionssenderRepository.save(
-                new CrudDomainEventParser<Positionssender>().parse(message, Positionssender.class)
-        );
+        positionssenderRepository.save(positionssenderEntity);
         positionssenderEventInformationRepository.save(
                 new PositionssenderEventInformation(crudDomainEvent.getEventType(), new Date())
         );
