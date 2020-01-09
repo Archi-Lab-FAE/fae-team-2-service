@@ -40,6 +40,8 @@ public class DemenziellErkrankterEventConsumer {
         CrudDomainEvent crudDomainEvent = this.objectMapper
                 .readValue(message, CrudDomainEvent.class);
 
+
+        // TODO use DTO for parsing and then convert to entity to safe the data (todo in all consumers)
         demenziellErkrankterRepository.save(
                 new CrudDomainEventParser<DemenziellErkrankter>().parse(message, DemenziellErkrankter.class)
         );
