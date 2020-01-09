@@ -94,7 +94,7 @@ public class SampleDataLoader implements ApplicationListener<ContextRefreshedEve
         return OffsetDateTime.of(
                 2019,
                 rng.nextInt(12) + 1,
-                rng.nextInt(31) + 1,
+                rng.nextInt(29) + 1,
                 rng.nextInt(23) + 1,
                 rng.nextInt(59) + 1,
                 rng.nextInt(59) + 1,
