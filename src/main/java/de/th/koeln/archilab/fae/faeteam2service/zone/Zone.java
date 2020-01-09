@@ -52,8 +52,10 @@ public class Zone {
         entity.toleranz = dto.getToleranz();
         entity.typ = dto.getTyp();
 
-        entity.positionen = new HashSet<>();
-        dto.getPositionen().forEach(positionDto -> entity.positionen.add(Position.convert(positionDto)));
+        if (dto.getPositionen() != null) {
+            entity.positionen = new HashSet<>();
+            dto.getPositionen().forEach(positionDto -> entity.positionen.add(Position.convert(positionDto)));
+        }
 
         return entity;
     }
@@ -64,8 +66,10 @@ public class Zone {
         dto.setToleranz(entity.toleranz);
         dto.setTyp(entity.typ);
 
-        dto.setPositionen(new ArrayList<>());
-        entity.positionen.forEach(positionEntity -> dto.addPositionenItem(Position.convert(positionEntity)));
+        if (entity.getPositionen() != null) {
+            dto.setPositionen(new ArrayList<>());
+            entity.positionen.forEach(positionEntity -> dto.addPositionenItem(Position.convert(positionEntity)));
+        }
 
         return dto;
     }

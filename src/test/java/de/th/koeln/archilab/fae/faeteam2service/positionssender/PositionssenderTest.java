@@ -9,11 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.threeten.bp.OffsetDateTime;
 import java.util.Set;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.threeten.bp.format.DateTimeFormatter;
 
 import static de.th.koeln.archilab.fae.faeteam2service.zone.ZonenTyp.GEWOHNT;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -40,14 +38,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
             positionssender = new Positionssender();
             positionssender.setPositionssenderId("f33c6cd8-1697-11ea-8d71-362b9e155667");
             positionssender.setBatterieStatus((float)0.8);
-            OffsetDateTime time = OffsetDateTime.parse("2019-11-29T12:03:46.164", DateTimeFormatter.ofPattern("yyyyMMdd"));
-            positionssender.setLetztesSignal(time);
+            positionssender.setLetztesSignal("2019-11-29T12:03:46.164");
             positionssender.setGenauigkeit((float)1.0);
 
             position = new Position();
             position.setPositionsId("5d17f942-2394-40b5-8065-a7fe12937659");
-            position.setBreitengrad((float)1.9852);
-            position.setLaengengrad((float)1.3254);
+            position.setBreitengrad(1.9852);
+            position.setLaengengrad(1.3254);
             positionssender.setPosition(position);
 
             zone = new Zone();
