@@ -16,15 +16,15 @@ public class Position {
     @Id
     private String positionsId;
 
-    private double laengengrad;
+    private Double laengengrad;
 
-    private double breitengrad;
+    private Double breitengrad;
 
     public Position() {
-        this.positionsId = UUID.randomUUID().toString();
+        this(null, null);
     }
 
-    public Position(double laengengrad, double breitengrad) {
+    public Position(Double laengengrad, Double breitengrad) {
         this.positionsId = UUID.randomUUID().toString();
         this.laengengrad = laengengrad;
         this.breitengrad = breitengrad;

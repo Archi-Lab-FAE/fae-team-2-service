@@ -5,6 +5,7 @@ import org.apache.commons.lang.StringUtils;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -27,6 +28,16 @@ public class DemenziellErkrankter {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Zone> zonen;
 
+
+    public DemenziellErkrankter() {
+        this(null, null);
+    }
+
+    public DemenziellErkrankter(String name, Set<Zone> zonen) {
+        demenziellErkrankterId = UUID.randomUUID().toString();
+        this.name = name;
+        this.zonen = zonen;
+    }
 
     public void update(DemenziellErkrankter update) {
         if (StringUtils.isNotBlank(update.demenziellErkrankterId))

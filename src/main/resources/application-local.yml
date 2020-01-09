@@ -1,6 +1,16 @@
 server:
   port: 8081
 spring:
+  datasource:
+    driverClassName: org.h2.Driver
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password:
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+  h2:
+    console:
+      enabled: true
   # Kafka
   kafka:
     bootstrap-servers: localhost:9090
