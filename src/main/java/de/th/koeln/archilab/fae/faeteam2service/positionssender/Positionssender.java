@@ -1,20 +1,15 @@
 package de.th.koeln.archilab.fae.faeteam2service.positionssender;
 
 
+import de.th.koeln.archilab.fae.faeteam2service.demenziell_erkrankter.DemenziellErkrankter;
+import de.th.koeln.archilab.fae.faeteam2service.position.Position;
+import lombok.Data;
 import org.apache.commons.lang.StringUtils;
 import org.threeten.bp.OffsetDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
 
+import javax.persistence.*;
 import java.util.UUID;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-
-import de.th.koeln.archilab.fae.faeteam2service.position.Position;
-import lombok.Data;
 
 @Entity
 @Data
@@ -33,6 +28,9 @@ public class Positionssender {
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Position position;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    private DemenziellErkrankter demenziellErkrankter;
 
 
     public Positionssender() {

@@ -3,8 +3,10 @@ package de.th.koeln.archilab.fae.faeteam2service.positionssender.events;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.th.koeln.archilab.fae.faeteam2service.kafka.events.CrudDomainEvent;
 import de.th.koeln.archilab.fae.faeteam2service.kafka.events.CrudDomainEventParser;
+import de.th.koeln.archilab.fae.faeteam2service.kafka.events.CrudEventType;
 import de.th.koeln.archilab.fae.faeteam2service.positionssender.Positionssender;
 import de.th.koeln.archilab.fae.faeteam2service.positionssender.PositionssenderRepository;
+import de.th.koeln.archilab.fae.faeteam2service.positionssender.events.tracking.TrackerDto;
 import de.th.koeln.archilab.fae.faeteam2service.positionssender.events.tracking.TrackingEventDto;
 import lombok.val;
 import org.slf4j.Logger;
@@ -55,8 +57,13 @@ public class PositionssenderEventConsumer {
 
         if (positionssenderOpt.isPresent()) {
             val positionssender = positionssenderOpt.get();
-            positionssender.setPosition(tracker.getPositionDto().convertToEntity());
+
+            positionssender.setPosition(TrackerDto.TrackerPositionsDTO.convert(tracker.getPositionDTO()));
             positionssender.setLetztesSignal(trackingEventDto.getTime());
+
+            positionssenderEventInformationRepository.save(
+                    new PositionssenderEventInformation(CrudEventType.UPDATED.name(), new Date())
+            );
 
             positionssenderRepository.save(positionssender);
 
