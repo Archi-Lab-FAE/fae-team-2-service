@@ -1,5 +1,8 @@
 package de.th.koeln.archilab.fae.faeteam2service.positionssender;
 
+import de.th.koeln.archilab.fae.faeteam2service.position.Position;
+import de.th.koeln.archilab.fae.faeteam2service.zone.Zone;
+import lombok.val;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,15 +13,10 @@ import org.springframework.kafka.test.context.EmbeddedKafka;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.Set;
-
-import de.th.koeln.archilab.fae.faeteam2service.position.Position;
-import de.th.koeln.archilab.fae.faeteam2service.zone.Zone;
+import java.util.HashSet;
 
 import static de.th.koeln.archilab.fae.faeteam2service.zone.ZonenTyp.GEWOHNT;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -58,7 +56,9 @@ public class PositionssenderTest {
         zone.setZoneId("3c17f942-2394-40b5-8065-a7fe12937659");
         zone.setTyp(GEWOHNT);
         zone.setToleranz((float) 1.5);
-        zone.setPositionen((Set<Position>) position);
+        val positionen = new HashSet<Position>();
+        positionen.add(position);
+        zone.setPositionen(positionen);
     }
 
     @Test
@@ -88,20 +88,21 @@ public class PositionssenderTest {
         positionssenderRepository.findAll();
 
         mockMvc.perform(get("/positionssender"))
-                .andExpect(jsonPath("$[0].positionssenderId").value(positionssender.getPositionssenderId()))
-                .andExpect(jsonPath("$[0].letztesSignal").value(positionssender.getLetztesSignal()))
-                .andExpect(jsonPath("$[0].batterieStatus").value(positionssender.getBatterieStatus()))
-                .andExpect(jsonPath("$[0].genauigkeit").value(positionssender.getGenauigkeit()));
+                .andExpect(jsonPath("positionssenderId").value(positionssender.getPositionssenderId()))
+                .andExpect(jsonPath("letztesSignal").value(positionssender.getLetztesSignal()))
+                .andExpect(jsonPath("batterieStatus").value(positionssender.getBatterieStatus()))
+                .andExpect(jsonPath("genauigkeit").value(positionssender.getGenauigkeit()));
     }
 
     @Test
     //Liefert alle Positionssender in einer Zone. Bei einer zonen Id werden alle Positionssender innerhalb der Zone ausgegeben
     public void testFindAllPositionssenderByZoneId() throws Exception {
+        positionssenderRepository.save(positionssender);
         mockMvc.perform(get("/positionssender?zoneId=3c17f942-2394-40b5-8065-a7fe12937659r"))
-                .andExpect(jsonPath("$[0].positionssenderId").value(positionssender.getPositionssenderId()))
-                .andExpect(jsonPath("$[0].letztesSignal").value(positionssender.getLetztesSignal()))
-                .andExpect(jsonPath("$[0].batterieStatus").value(positionssender.getBatterieStatus()))
-                .andExpect(jsonPath("$[0].genauigkeit").value(positionssender.getGenauigkeit()));
+                .andExpect(jsonPath("positionssenderId").value(positionssender.getPositionssenderId()))
+                .andExpect(jsonPath("letztesSignal").value(positionssender.getLetztesSignal()))
+                .andExpect(jsonPath("batterieStatus").value(positionssender.getBatterieStatus()))
+                .andExpect(jsonPath("genauigkeit").value(positionssender.getGenauigkeit()));
     }
 
     @Test
@@ -110,19 +111,21 @@ public class PositionssenderTest {
 
         mockMvc.perform(post("/positionssender", positionssender))
                 .andExpect(status().is2xxSuccessful())
-                .andExpect(jsonPath("$[0].positionssenderId").value(positionssender.getPositionssenderId()))
-                .andExpect(jsonPath("$[0].letztesSignal").value(positionssender.getLetztesSignal()))
-                .andExpect(jsonPath("$[0].batterieStatus").value(positionssender.getBatterieStatus()))
-                .andExpect(jsonPath("$[0].genauigkeit").value(positionssender.getGenauigkeit()));
+                .andExpect(jsonPath("positionssenderId").value(positionssender.getPositionssenderId()))
+                .andExpect(jsonPath("letztesSignal").value(positionssender.getLetztesSignal()))
+                .andExpect(jsonPath("batterieStatus").value(positionssender.getBatterieStatus()))
+                .andExpect(jsonPath("genauigkeit").value(positionssender.getGenauigkeit()));
     }
 
     @Test
     public void testUpdatePositionssender() throws Exception {
+        positionssenderRepository.save(positionssender);
+
         String id = "g33c6cd8-1697-11ea-8d71-362b9e155667";
 
         mockMvc.perform(put("/positionssender/" + positionssender.getPositionssenderId(), id))
                 .andExpect(status().is2xxSuccessful())
-                .andExpect(jsonPath("$[0].positionssenderId").value(id));
+                .andExpect(jsonPath("positionssenderId").value(id));
 
     }
 }

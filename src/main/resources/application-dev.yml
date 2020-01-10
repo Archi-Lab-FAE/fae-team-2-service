@@ -7,7 +7,7 @@ spring:
   # kafka servers
   kafka:
     bootstrap-servers: kafka:9092
-
+    enabled: false
 # Eureka
 eureka:
   client:

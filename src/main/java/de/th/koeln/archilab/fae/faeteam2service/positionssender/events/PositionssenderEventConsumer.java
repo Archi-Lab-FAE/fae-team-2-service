@@ -36,7 +36,7 @@ public class PositionssenderEventConsumer {
         this.positionssenderRepository = positionssenderRepository;
     }
 
-    @KafkaListener(topics = "${positionssender.topic}", groupId = "${spring.kafka.group-id}")
+    @KafkaListener(topics = "${positionssender.topic}", groupId = "${spring.kafka.group-id}", autoStartup = "${spring.kafka.enabled}")
     public void listen(String message) throws IOException {
         val crudDomainEvent = this.objectMapper.readValue(message, CrudDomainEvent.class);
         val positionssenderDTO = new CrudDomainEventParser<PositionssenderDTO>()

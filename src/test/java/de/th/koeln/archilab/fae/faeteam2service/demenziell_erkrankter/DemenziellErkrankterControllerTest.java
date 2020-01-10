@@ -133,12 +133,14 @@ public class DemenziellErkrankterControllerTest {
     @Test
     public void testUpdateDemenziellerkrankterWithIdNotInDatabase() throws Exception {
         val newName = "Hans";
+        val newUuid = "not-an-id";
         val dto = DemenziellErkrankter.convert(demenziellErkrankter);
         dto.setName(newName);
+        dto.setDemenziellErkrankterId(newUuid);
 
         val payload = objectMapper.writeValueAsString(dto);
 
-        mockMvc.perform(put(PATH + "/{id}", uuid)
+        mockMvc.perform(put(PATH + "/{id}", newUuid)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(payload))
                 .andExpect(status().isNotFound());

@@ -29,6 +29,7 @@ spring:
       accept-empty-array-as-null-object: true
   kafka:
     group-id: "fae-team-2-service"
+    enabled: true
 
 # Server
 server:

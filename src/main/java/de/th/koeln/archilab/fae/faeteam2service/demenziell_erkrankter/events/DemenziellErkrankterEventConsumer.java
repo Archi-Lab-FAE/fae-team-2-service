@@ -37,7 +37,7 @@ public class DemenziellErkrankterEventConsumer {
         this.demenziellErkrankterRepository = demenziellErkrankterRepository;
     }
 
-    @KafkaListener(topics = "${demenziellerkrankter.topic}", groupId = "${spring.kafka.group-id}")
+    @KafkaListener(topics = "${demenziellerkrankter.topic}", groupId = "${spring.kafka.group-id}", autoStartup = "${spring.kafka.enabled}")
     public void listen(String message) throws IOException {
         CrudDomainEvent crudDomainEvent = this.objectMapper
                 .readValue(message, CrudDomainEvent.class);
