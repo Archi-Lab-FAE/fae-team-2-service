@@ -11,11 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import java.util.List;
-
 import javax.validation.Valid;
-
 import de.th.koeln.archilab.fae.faeteam2service.zone.ZoneDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -46,7 +43,7 @@ public interface PositionssenderApi {
     @RequestMapping(value = "/positionssender",
             produces = {"application/json"},
             method = RequestMethod.GET)
-    ResponseEntity<List<PositionssenderDTO>> findAllPositionssender(@ApiParam(value = "Ergebnis nach Zone filtern") @Valid @RequestParam(value = "zoneId", required = false) String zoneId);
+    ResponseEntity<List<PositionssenderDTO>> findAllPositionssender(@ApiParam(value = "Ergebnis nach Zone filtern") @Valid @RequestParam(value = "zoneId", required = false) String zoneId) throws Exception;
 
 
     @ApiOperation(value = "Liefert den Positionssendermit der ID", nickname = "findPositionssender", notes = "", response = PositionssenderDTO.class, tags = {"Positionssender",})

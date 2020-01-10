@@ -55,7 +55,7 @@ public class PositionssenderApiController implements PositionssenderApi {
         return new ResponseEntity<>(Positionssender.convert(saved), HttpStatus.CREATED);
     }
 
-    public ResponseEntity<List<PositionssenderDTO>> findAllPositionssender(@ApiParam(value = "Ergebnis nach Zone filtern") @Valid @RequestParam(value = "zoneId", required = false) String zoneId) {
+    public ResponseEntity<List<PositionssenderDTO>> findAllPositionssender(@ApiParam(value = "Ergebnis nach Zone filtern") @Valid @RequestParam(value = "zoneId", required = false) String zoneId) throws Exception {
         List<PositionssenderDTO> results;
 
         if (StringUtils.isBlank(zoneId)) {
@@ -67,11 +67,11 @@ public class PositionssenderApiController implements PositionssenderApi {
             Zone zone = zoneRepository.findById(zoneId).orElse(null);
             if (zone == null) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
-            //TODO Implement logic
             results = StreamSupport.stream(repository.findAll().spliterator(), false)
                     //.filter(x -> x.getPosition() is in zone.getPositionen())
                     .map(x -> Positionssender.convert(x))
                     .collect(Collectors.toList());
+            results = Positionssender.positionssenderInZone(results, zone);
         }
 
         return new ResponseEntity<>(results, HttpStatus.OK);
@@ -109,5 +109,4 @@ public class PositionssenderApiController implements PositionssenderApi {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-
 }

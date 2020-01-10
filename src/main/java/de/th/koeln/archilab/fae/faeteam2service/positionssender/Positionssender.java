@@ -1,15 +1,19 @@
 package de.th.koeln.archilab.fae.faeteam2service.positionssender;
 
 
+import com.grum.geocalc.BoundingArea;
+import com.grum.geocalc.Coordinate;
+import com.grum.geocalc.Point;
 import de.th.koeln.archilab.fae.faeteam2service.demenziell_erkrankter.DemenziellErkrankter;
 import de.th.koeln.archilab.fae.faeteam2service.position.Position;
+import de.th.koeln.archilab.fae.faeteam2service.zone.Zone;
 import lombok.Data;
 import org.apache.commons.lang.StringUtils;
 import org.threeten.bp.OffsetDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
 
 import javax.persistence.*;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Data
@@ -55,6 +59,35 @@ public class Positionssender {
         if (update.batterieStatus != null) batterieStatus = update.getBatterieStatus();
         if (update.genauigkeit != null) genauigkeit = update.getGenauigkeit();
         if (update.position != null) position = update.getPosition();
+    }
+    public static List<PositionssenderDTO> positionssenderInZone(List<PositionssenderDTO> posSender, Zone zone) throws Exception {
+        Positionssender positionssender;
+        List<PositionssenderDTO>  result = new ArrayList<PositionssenderDTO>();
+        for(PositionssenderDTO sender:posSender){
+            positionssender = convert(sender);
+            Point positionPoint = Point.at(Coordinate.fromDegrees(positionssender.getPosition().getBreitengrad()),
+                    Coordinate.fromDegrees(positionssender.getPosition().getLaengengrad()));
+
+            List<Position> positionsliste = new ArrayList<>();
+            zone.getPositionen().forEach(position-> positionsliste.add(position));
+
+            //TODO: Vielleicht Decision wie die Punkte definiert werden. NorthWest an Position 0 oder als Attribute?
+            if(positionsliste.size()>=2){
+                Point northWest = Point.at(Coordinate.fromDegrees(positionsliste.get(0).getBreitengrad()),
+                        Coordinate.fromDegrees(positionsliste.get(0).getLaengengrad()));
+                Point southEast = Point.at(Coordinate.fromDegrees(positionsliste.get(1).getBreitengrad()),
+                        Coordinate.fromDegrees(positionsliste.get(1).getLaengengrad()));
+
+                BoundingArea area = BoundingArea.at(northWest,southEast);
+
+                if(area.contains(positionPoint)){
+                    result.add(convert(positionssender));
+                }
+            }else{
+                throw new Exception("Zone wurde nicht korrekt initialisiert");
+            }
+        }
+        return result;
     }
 
     public static Positionssender convert(PositionssenderDTO dto) {
