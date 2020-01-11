@@ -112,7 +112,7 @@ public abstract class PositionssenderApiController implements PositionssenderApi
         }
     }
 
-    public ResponseEntity<List<PositionssenderDTO>> getPositionssenderByRadius(@ApiParam(value = "Objekt einer Position von dem aus innerhalb eines Radius alle Positionssender gesucht werden.", required = true)@Valid @RequestBody PositionDTO body, @Valid @RequestParam(value = "radius", required = false) double radius){
+   /* public ResponseEntity<List<PositionssenderDTO>> getPositionssenderByRadius(@ApiParam(value = "Objekt einer Position von dem aus innerhalb eines Radius alle Positionssender gesucht werden.", required = true)@Valid @RequestBody PositionDTO body, @Valid @RequestParam(value = "radius", required = false) double radius){
         List<PositionssenderDTO> results;
 
         if (StringUtils.isBlank(String.valueOf(radius))) {
@@ -128,5 +128,5 @@ public abstract class PositionssenderApiController implements PositionssenderApi
         }
 
         return new ResponseEntity<>(results, HttpStatus.OK);
-    }
+    }*/
 }
