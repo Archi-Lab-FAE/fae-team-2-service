@@ -2,6 +2,8 @@ package de.th.koeln.archilab.fae.faeteam2service.positionssender;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import de.th.koeln.archilab.fae.faeteam2service.position.Position;
+import de.th.koeln.archilab.fae.faeteam2service.position.PositionDTO;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +30,7 @@ import io.swagger.annotations.ApiParam;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-12-19T10:48:55.616846300+01:00[Europe/Berlin]")
 @Controller
-public class PositionssenderApiController implements PositionssenderApi {
+public abstract class PositionssenderApiController implements PositionssenderApi {
 
     private static final Logger log = LoggerFactory.getLogger(PositionssenderApiController.class);
 
@@ -108,5 +110,23 @@ public class PositionssenderApiController implements PositionssenderApi {
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    public ResponseEntity<List<PositionssenderDTO>> getPositionssenderByRadius(@ApiParam(value = "Objekt einer Position von dem aus innerhalb eines Radius alle Positionssender gesucht werden.", required = true)@Valid @RequestBody PositionDTO body, @Valid @RequestParam(value = "radius", required = false) double radius){
+        List<PositionssenderDTO> results;
+
+        if (StringUtils.isBlank(String.valueOf(radius))) {
+            results = StreamSupport.stream(repository.findAll().spliterator(), false)
+                    .map(x -> Positionssender.convert(x))
+                    .collect(Collectors.toList());
+
+        } else {
+            results = StreamSupport.stream(repository.findAll().spliterator(), false)
+                    .map(x -> Positionssender.convert(x))
+                    .collect(Collectors.toList());
+            results = Positionssender.positionssenderInnerhalbRadius(results, radius, Position.convert(body));
+        }
+
+        return new ResponseEntity<>(results, HttpStatus.OK);
     }
 }

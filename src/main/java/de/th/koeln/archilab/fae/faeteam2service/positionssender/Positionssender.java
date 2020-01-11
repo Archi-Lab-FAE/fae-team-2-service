@@ -3,6 +3,7 @@ package de.th.koeln.archilab.fae.faeteam2service.positionssender;
 
 import com.grum.geocalc.BoundingArea;
 import com.grum.geocalc.Coordinate;
+import com.grum.geocalc.EarthCalc;
 import com.grum.geocalc.Point;
 import de.th.koeln.archilab.fae.faeteam2service.demenziell_erkrankter.DemenziellErkrankter;
 import de.th.koeln.archilab.fae.faeteam2service.position.Position;
@@ -59,6 +60,7 @@ public class Positionssender {
         if (update.batterieStatus != null) batterieStatus = update.getBatterieStatus();
         if (update.genauigkeit != null) genauigkeit = update.getGenauigkeit();
         if (update.position != null) position = update.getPosition();
+        if(update.demenziellErkrankter != null) demenziellErkrankter = update.getDemenziellErkrankter();
     }
     public static List<PositionssenderDTO> positionssenderInZone(List<PositionssenderDTO> posSender, Zone zone) throws Exception {
         Positionssender positionssender;
@@ -85,6 +87,22 @@ public class Positionssender {
                 }
             }else{
                 throw new Exception("Zone wurde nicht korrekt initialisiert");
+            }
+        }
+        return result;
+    }
+
+    public static List<PositionssenderDTO> positionssenderInnerhalbRadius(List<PositionssenderDTO> posSender, double radius, Position position){
+        Positionssender positionssender;
+        List<PositionssenderDTO>  result = new ArrayList<PositionssenderDTO>();
+        Point ursprung = Point.at(Coordinate.fromDegrees(position.getBreitengrad()),Coordinate.fromDegrees(position.getLaengengrad()));
+        BoundingArea kreisArea = EarthCalc.around(ursprung, radius);
+
+        for(PositionssenderDTO sender:posSender) {
+            positionssender = convert(sender);
+            Point positionssenderPunkt = Point.at(Coordinate.fromDegrees(positionssender.getPosition().getBreitengrad()),Coordinate.fromDegrees(positionssender.getPosition().getLaengengrad()));
+            if(kreisArea.contains(positionssenderPunkt)){
+                result.add(convert(positionssender));
             }
         }
         return result;

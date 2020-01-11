@@ -5,6 +5,7 @@
  */
 package de.th.koeln.archilab.fae.faeteam2service.positionssender;
 
+import de.th.koeln.archilab.fae.faeteam2service.position.PositionDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -79,5 +80,15 @@ public interface PositionssenderApi {
             consumes = {"application/json"},
             method = RequestMethod.PUT)
     ResponseEntity<PositionssenderDTO> updatePositionssender(@ApiParam(value = "Objekt eines Positionssenders, welches aktualisiert werden soll.", required = true) @Valid @RequestBody PositionssenderDTO body, @ApiParam(value = "ID des Positionssender der aktualisiert werden soll.", required = true) @PathVariable("id") String id);
+
+    @ApiOperation(value = "Liefere alle Positionssender in einem Radius", nickname = "getPositionssenderByRadius", notes = "", response = PositionssenderDTO.class, tags = {"Positionssender",})
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "successful operation.", response = PositionssenderDTO.class),
+            @ApiResponse(code = 405, message = "Invalide Daten.")})
+    @RequestMapping(value = "/positionssender",
+            produces = {"application/json"},
+            consumes = {"application/json"},
+            method = RequestMethod.GET)
+    ResponseEntity<PositionssenderDTO> getPositionssenderByRadius(@ApiParam(value = "Objekt einer Position in dessen Radius gesucht werden soll.", required = true) @Valid @RequestParam(value = "radius", required = false) double radius);
 
 }
