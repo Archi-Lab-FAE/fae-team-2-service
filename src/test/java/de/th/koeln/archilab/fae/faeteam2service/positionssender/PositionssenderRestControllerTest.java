@@ -66,7 +66,7 @@ public class PositionssenderRestControllerTest {
         );
     }
 
-   /* @Test
+    @Test
     public void createPositionssenderReturnCreated()throws Exception{
         PositionDTO posDTO = new PositionDTO();
         posDTO.setPositionsId("42");
@@ -88,45 +88,52 @@ public class PositionssenderRestControllerTest {
                 .andExpect(status().isCreated())
                 .andExpect(header().string("content-type", "application/json;charset=UTF-8"))
                 .andExpect(content().json(objectMapper.writeValueAsString(body)));
-    }*/
-   /* @Test
+    }
+    @Test
     public void findeAllePositionssenderOhneZoneId() throws Exception {
         Positionssender positionssender = new Positionssender(getRandomDate(),2f,2f, new Position());
         positionssenderRepository.save(positionssender);
 
-        mvc.perform(get("/positionssender?")
+        mvc.perform(get("/positionssender")
                 .accept(MediaType.APPLICATION_JSON))
 
                 .andExpect(status().isOk())
                 .andExpect(header().string("content-type", "application/json;charset=UTF-8"))
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$[0].positionssenderId").isNotEmpty());
-    }*/
-  /*  @Test
+    }
+    @Test
     //TODO: Fehlt da noch etwas? Es müssen keine Positionssender übergeben werden, da diese Funktion speziell woanders getestet wird?
     public void findeAllePositionssenderMitZoneIdWennSieExistiert() throws Exception {
-        Zone zone = new Zone(2f, ZonenTyp.GEWOHNT, new HashSet<>());
+        Position position = new Position(2.0,3.6);
+        Position position2 =   new Position(2.4,3.3);
+        Set<Position> positionsset = new HashSet<>();
+        positionsset.add(position);
+        positionsset.add(position2);
+        Zone zone = new Zone(2f, ZonenTyp.GEWOHNT, positionsset);
         zoneRepository.save(zone);
 
         String zoneId = zone.getZoneId();
-        mvc.perform(get("/positionssender?"+zoneId)
+        mvc.perform(get("/positionssender")
+                .param("zoneId", zoneId)
                 .accept(MediaType.APPLICATION_JSON))
 
                 .andExpect(status().isOk())
                 .andExpect(header().string("content-type", "application/json;charset=UTF-8"));
                 //.andExpect(content.isEmpty())?
-    }*/
+    }
 
     @Test
     public void findeAllePositionssenderMitZoneIdWennSieNichtExistiert() throws Exception {
         String zoneId = "13464337368383837575";
-        mvc.perform(get("/positionssender?zoneId="+zoneId)
+        mvc.perform(get("/positionssender")
+                .param("zoneId", zoneId)
                 .accept(MediaType.APPLICATION_JSON))
 
                 .andExpect(status().isNotFound());
     }
 
-   /* @Test
+    @Test
     public void findePositionssenderByIdWennSenderExistiert() throws Exception {
         Positionssender positionssender = new Positionssender(getRandomDate(),2f,2f, new Position());
         positionssenderRepository.save(positionssender);
@@ -139,7 +146,7 @@ public class PositionssenderRestControllerTest {
                 .andExpect(header().string("content-type", "application/json;charset=UTF-8"))
                 .andExpect(content().json(objectMapper.writeValueAsString(Positionssender.convert(positionssender))));
 
-    }*/
+    }
     @Test
     public void findePositionssenderByIdWennSenderNichtExistiert() throws Exception {
         String positionssenderId = "42";
@@ -150,7 +157,7 @@ public class PositionssenderRestControllerTest {
                 .andExpect(status().isNotFound());
     }
 
-   /* @Test
+    @Test
     public void findeZoneByPositionssenderIdWennSenderExistiert() throws Exception {
         Set<Zone> zoneSet = new HashSet<>();
         Zone zone = new Zone(2f, ZonenTyp.GEWOHNT, new HashSet<>());
@@ -171,7 +178,7 @@ public class PositionssenderRestControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(header().string("content-type", "application/json;charset=UTF-8"))
                 .andExpect(jsonPath("$[0].zoneId").value(zone.getZoneId()));
-    }*/
+    }
 
     @Test
     public void findeKeineZoneByPositionssenderIdWennSenderNichtExistiert() throws Exception {
@@ -183,7 +190,7 @@ public class PositionssenderRestControllerTest {
                 .andExpect(status().isNotFound());
     }
 
-  /*  @Test
+   @Test
     //TODO Without letztesSignal, Position the test failed
     public void updatePositionssenderDerExistiert() throws Exception {
         Positionssender positionssender = new Positionssender(getRandomDate(),2f,2f, new Position());
@@ -212,7 +219,7 @@ public class PositionssenderRestControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(header().string("content-type", "application/json;charset=UTF-8"))
                 .andExpect(content().json(objectMapper.writeValueAsString(Positionssender.convert(positionssender))));
-    }*/
+    }
 
     @Test
     public void updatePositionssenderDerNichtExistiert() throws Exception {
@@ -230,14 +237,14 @@ public class PositionssenderRestControllerTest {
 
     }
 
-   /* @Test
+   @Test
     public void getAllPositionssenderInnerhalbRadiusMitPositionUndRadius() throws Exception {
         PositionDTO positionDTO = new PositionDTO();
         positionDTO.setPositionsId("ursprungspos");
         positionDTO.setLaengengrad(1.5);
         positionDTO.setBreitengrad(1.5);
 
-        double radius = 200; //meter
+        Double radius = 200.9; //meter
 
         mvc.perform(get("/positionssender?radius="+radius)
                 .accept(MediaType.APPLICATION_JSON)
@@ -247,8 +254,8 @@ public class PositionssenderRestControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(header().string("content-type", "application/json;charset=UTF-8"))
                 .andExpect(jsonPath("$").isArray());
-    }*/
-   /* @Test
+    }
+    @Test
     public void getAllPositionssenderInnerhalbRadiusMitPositionOhneRadius() throws Exception{
         PositionDTO positionDTO = new PositionDTO();
         positionDTO.setPositionsId("ursprungspos");
@@ -256,26 +263,25 @@ public class PositionssenderRestControllerTest {
         positionDTO.setBreitengrad(1.5);
 
 
-        mvc.perform(get("/positionssender?radius=")
+        mvc.perform(get("/positionssender")
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(positionDTO)))
 
                 .andExpect(status().isOk())
-                .andExpect(header().string("content-type", "application/json;charset=UTF-8"))
-                .andExpect(jsonPath("$").isArray())
-                .andExpect(jsonPath("$[0].positionId").isNotEmpty());
-    }*/
+                .andExpect(header().string("content-type", "application/json;charset=UTF-8"));
+    }
 
     @Test
     public void getNoPositionssenderInnerhalbeinesRadiusOhnePosition() throws Exception{
-        double radius = 500; //meter
+        Double radius = 500.9; //meter
 
-        mvc.perform(get("/positionssender?radius="+radius)
+        mvc.perform(get("/positionssender")
                 .accept(MediaType.APPLICATION_JSON)
+                .param("radius", String.valueOf(radius))
                 .contentType(MediaType.APPLICATION_JSON))
 
-                .andExpect(status().isNotFound());
+                .andExpect(status().isBadRequest());
     }
 }
 

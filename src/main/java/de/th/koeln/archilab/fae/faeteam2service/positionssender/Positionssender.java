@@ -64,35 +64,37 @@ public class Positionssender {
     }
     public static List<PositionssenderDTO> positionssenderInZone(List<PositionssenderDTO> posSender, Zone zone) throws Exception {
         Positionssender positionssender;
-        List<PositionssenderDTO>  result = new ArrayList<PositionssenderDTO>();
+        List<PositionssenderDTO>  result = new ArrayList<>();
         for(PositionssenderDTO sender:posSender){
             positionssender = convert(sender);
-            Point positionPoint = Point.at(Coordinate.fromDegrees(positionssender.getPosition().getBreitengrad()),
-                    Coordinate.fromDegrees(positionssender.getPosition().getLaengengrad()));
+            if(positionssender.getPosition().getLaengengrad()!=null & positionssender.getPosition().getBreitengrad()!=null) {
+                Point positionPoint = Point.at(Coordinate.fromDegrees(positionssender.getPosition().getBreitengrad()),
+                        Coordinate.fromDegrees(positionssender.getPosition().getLaengengrad()));
 
-            List<Position> positionsliste = new ArrayList<>();
-            zone.getPositionen().forEach(position-> positionsliste.add(position));
+                List<Position> positionsliste = new ArrayList<>();
+                positionsliste.addAll(zone.getPositionen());
 
-            //TODO: Vielleicht Decision wie die Punkte definiert werden. NorthWest an Position 0 oder als Attribute?
-            if(positionsliste.size()>=2){
-                Point northWest = Point.at(Coordinate.fromDegrees(positionsliste.get(0).getBreitengrad()),
-                        Coordinate.fromDegrees(positionsliste.get(0).getLaengengrad()));
-                Point southEast = Point.at(Coordinate.fromDegrees(positionsliste.get(1).getBreitengrad()),
-                        Coordinate.fromDegrees(positionsliste.get(1).getLaengengrad()));
+                //TODO: Vielleicht Decision wie die Punkte definiert werden. NorthWest an Position 0 oder als Attribute?
+                if (positionsliste.size() >= 2) {
+                    Point northWest = Point.at(Coordinate.fromDegrees(positionsliste.get(0).getBreitengrad()),
+                            Coordinate.fromDegrees(positionsliste.get(0).getLaengengrad()));
+                    Point southEast = Point.at(Coordinate.fromDegrees(positionsliste.get(1).getBreitengrad()),
+                            Coordinate.fromDegrees(positionsliste.get(1).getLaengengrad()));
 
-                BoundingArea area = BoundingArea.at(northWest,southEast);
+                    BoundingArea area = BoundingArea.at(northWest, southEast);
 
-                if(area.contains(positionPoint)){
-                    result.add(convert(positionssender));
+                    if (area.contains(positionPoint)) {
+                        result.add(convert(positionssender));
+                    }
+                } else {
+                    throw new Exception("Zone wurde nicht korrekt initialisiert");
                 }
-            }else{
-                throw new Exception("Zone wurde nicht korrekt initialisiert");
             }
         }
         return result;
     }
 
-    public static List<PositionssenderDTO> positionssenderInnerhalbRadius(List<PositionssenderDTO> posSender, double radius, Position position){
+    public static List<PositionssenderDTO> positionssenderInnerhalbRadius(List<PositionssenderDTO> posSender, Double radius, Position position){
         Positionssender positionssender;
         List<PositionssenderDTO>  result = new ArrayList<PositionssenderDTO>();
         Point ursprung = Point.at(Coordinate.fromDegrees(position.getBreitengrad()),Coordinate.fromDegrees(position.getLaengengrad()));
@@ -100,9 +102,14 @@ public class Positionssender {
 
         for(PositionssenderDTO sender:posSender) {
             positionssender = convert(sender);
-            Point positionssenderPunkt = Point.at(Coordinate.fromDegrees(positionssender.getPosition().getBreitengrad()),Coordinate.fromDegrees(positionssender.getPosition().getLaengengrad()));
-            if(kreisArea.contains(positionssenderPunkt)){
-                result.add(convert(positionssender));
+            if(positionssender.getPosition().getBreitengrad() != null &&positionssender.getPosition().getLaengengrad()!=null) {
+                System.out.println(positionssender.getPosition().getBreitengrad());
+                System.out.println(positionssender.getPosition().getLaengengrad());
+
+                Point positionssenderPunkt = Point.at(Coordinate.fromDegrees(positionssender.getPosition().getBreitengrad()), Coordinate.fromDegrees(positionssender.getPosition().getLaengengrad()));
+                if (kreisArea.contains(positionssenderPunkt)) {
+                    result.add(convert(positionssender));
+                }
             }
         }
         return result;

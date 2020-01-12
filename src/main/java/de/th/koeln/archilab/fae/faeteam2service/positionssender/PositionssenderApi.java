@@ -89,6 +89,6 @@ public interface PositionssenderApi {
             produces = {"application/json"},
             consumes = {"application/json"},
             method = RequestMethod.GET)
-    ResponseEntity<PositionssenderDTO> getPositionssenderByRadius(@ApiParam(value = "Objekt einer Position in dessen Radius gesucht werden soll.", required = true) @Valid @RequestParam(value = "radius", required = false) double radius);
+    ResponseEntity<List<PositionssenderDTO>> getPositionssenderByRadius(@ApiParam(value = "Objekt einer Position von dem aus innerhalb eines Radius alle Positionssender gesucht werden.", required = true)@Valid @RequestBody PositionDTO body, @Valid @RequestParam(value = "radius", required = false) Double radius);
 
 }

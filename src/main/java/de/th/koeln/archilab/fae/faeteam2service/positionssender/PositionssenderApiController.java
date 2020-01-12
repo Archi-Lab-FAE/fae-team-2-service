@@ -30,7 +30,7 @@ import io.swagger.annotations.ApiParam;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-12-19T10:48:55.616846300+01:00[Europe/Berlin]")
 @Controller
-public abstract class PositionssenderApiController implements PositionssenderApi {
+public class PositionssenderApiController implements PositionssenderApi {
 
     private static final Logger log = LoggerFactory.getLogger(PositionssenderApiController.class);
 
@@ -112,7 +112,7 @@ public abstract class PositionssenderApiController implements PositionssenderApi
         }
     }
 
-   /* public ResponseEntity<List<PositionssenderDTO>> getPositionssenderByRadius(@ApiParam(value = "Objekt einer Position von dem aus innerhalb eines Radius alle Positionssender gesucht werden.", required = true)@Valid @RequestBody PositionDTO body, @Valid @RequestParam(value = "radius", required = false) double radius){
+    public ResponseEntity<List<PositionssenderDTO>> getPositionssenderByRadius(@ApiParam(value = "Objekt einer Position von dem aus innerhalb eines Radius alle Positionssender gesucht werden.", required = true)@Valid @RequestBody PositionDTO body, @Valid @RequestParam(value = "radius", required = false) Double radius){
         List<PositionssenderDTO> results;
 
         if (StringUtils.isBlank(String.valueOf(radius))) {
@@ -124,9 +124,11 @@ public abstract class PositionssenderApiController implements PositionssenderApi
             results = StreamSupport.stream(repository.findAll().spliterator(), false)
                     .map(x -> Positionssender.convert(x))
                     .collect(Collectors.toList());
-            results = Positionssender.positionssenderInnerhalbRadius(results, radius, Position.convert(body));
+            if(!results.isEmpty()&& radius != null) {
+                results = Positionssender.positionssenderInnerhalbRadius(results, radius, Position.convert(body));
+            }
         }
 
         return new ResponseEntity<>(results, HttpStatus.OK);
-    }*/
+    }
 }
