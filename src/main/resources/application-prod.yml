@@ -1,8 +1,14 @@
 spring:
   datasource:
-    url: jdbc:postgresql://${SHOP_DEMO_DB}:5432/${SHOP_DEMO_DB_NAME}
-    password: ${SHOP_DEMO_DB_PW}
-    username: ${SHOP_DEMO_DB_USER}
+    driverClassName: org.h2.Driver
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password:
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+  h2:
+    console:
+      enabled: true
   # kafka servers
   kafka:
     bootstrap-servers: kafka-1:9092,kafka-2:9092,kafka-3:9092
