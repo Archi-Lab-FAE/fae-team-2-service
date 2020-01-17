@@ -5,17 +5,15 @@
  */
 package de.th.koeln.archilab.fae.faeteam2service.positionssender;
 
+import de.th.koeln.archilab.fae.faeteam2service.position.PositionDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import java.util.List;
-
 import javax.validation.Valid;
-
 import de.th.koeln.archilab.fae.faeteam2service.zone.ZoneDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -46,7 +44,7 @@ public interface PositionssenderApi {
     @RequestMapping(value = "/positionssender",
             produces = {"application/json"},
             method = RequestMethod.GET)
-    ResponseEntity<List<PositionssenderDTO>> findAllPositionssender(@ApiParam(value = "Ergebnis nach Zone filtern") @Valid @RequestParam(value = "zoneId", required = false) String zoneId);
+    ResponseEntity<List<PositionssenderDTO>> findAllPositionssender(@ApiParam(value = "Ergebnis nach Zone filtern") @Valid @RequestParam(value = "zoneId", required = false) String zoneId) throws Exception;
 
 
     @ApiOperation(value = "Liefert den Positionssendermit der ID", nickname = "findPositionssender", notes = "", response = PositionssenderDTO.class, tags = {"Positionssender",})
@@ -82,5 +80,15 @@ public interface PositionssenderApi {
             consumes = {"application/json"},
             method = RequestMethod.PUT)
     ResponseEntity<PositionssenderDTO> updatePositionssender(@ApiParam(value = "Objekt eines Positionssenders, welches aktualisiert werden soll.", required = true) @Valid @RequestBody PositionssenderDTO body, @ApiParam(value = "ID des Positionssender der aktualisiert werden soll.", required = true) @PathVariable("id") String id);
+
+    @ApiOperation(value = "Liefere alle Positionssender in einem Radius", nickname = "getPositionssenderByRadius", notes = "", response = PositionssenderDTO.class, tags = {"Positionssender",})
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "successful operation.", response = PositionssenderDTO.class),
+            @ApiResponse(code = 405, message = "Invalide Daten.")})
+    @RequestMapping(value = "/positionssender",
+            produces = {"application/json"},
+            consumes = {"application/json"},
+            method = RequestMethod.GET)
+    ResponseEntity<List<PositionssenderDTO>> getPositionssenderByRadius(@ApiParam(value = "Objekt einer Position von dem aus innerhalb eines Radius alle Positionssender gesucht werden.", required = true)@Valid @RequestBody PositionDTO body, @Valid @RequestParam(value = "radius", required = false) Double radius);
 
 }

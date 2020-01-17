@@ -104,7 +104,7 @@ public class SampleDataLoader implements ApplicationListener<ContextRefreshedEve
 
     private OffsetDateTime getRandomDate() {
         return OffsetDateTime.of(
-                2019,
+                2018,
                 rng.nextInt(12) + 1,
                 rng.nextInt(29) + 1,
                 rng.nextInt(23) + 1,

@@ -2,6 +2,8 @@ package de.th.koeln.archilab.fae.faeteam2service.positionssender;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import de.th.koeln.archilab.fae.faeteam2service.position.Position;
+import de.th.koeln.archilab.fae.faeteam2service.position.PositionDTO;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,7 +57,7 @@ public class PositionssenderApiController implements PositionssenderApi {
         return new ResponseEntity<>(Positionssender.convert(saved), HttpStatus.CREATED);
     }
 
-    public ResponseEntity<List<PositionssenderDTO>> findAllPositionssender(@ApiParam(value = "Ergebnis nach Zone filtern") @Valid @RequestParam(value = "zoneId", required = false) String zoneId) {
+    public ResponseEntity<List<PositionssenderDTO>> findAllPositionssender(@ApiParam(value = "Ergebnis nach Zone filtern") @Valid @RequestParam(value = "zoneId", required = false) String zoneId) throws Exception {
         List<PositionssenderDTO> results;
 
         if (StringUtils.isBlank(zoneId)) {
@@ -67,11 +69,11 @@ public class PositionssenderApiController implements PositionssenderApi {
             Zone zone = zoneRepository.findById(zoneId).orElse(null);
             if (zone == null) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
-            //TODO Implement logic
             results = StreamSupport.stream(repository.findAll().spliterator(), false)
                     //.filter(x -> x.getPosition() is in zone.getPositionen())
                     .map(x -> Positionssender.convert(x))
                     .collect(Collectors.toList());
+            results = Positionssender.positionssenderInZone(results, zone);
         }
 
         return new ResponseEntity<>(results, HttpStatus.OK);
@@ -110,4 +112,23 @@ public class PositionssenderApiController implements PositionssenderApi {
         }
     }
 
+    public ResponseEntity<List<PositionssenderDTO>> getPositionssenderByRadius(@ApiParam(value = "Objekt einer Position von dem aus innerhalb eines Radius alle Positionssender gesucht werden.", required = true)@Valid @RequestBody PositionDTO body, @Valid @RequestParam(value = "radius", required = false) Double radius){
+        List<PositionssenderDTO> results;
+
+        if (StringUtils.isBlank(String.valueOf(radius))) {
+            results = StreamSupport.stream(repository.findAll().spliterator(), false)
+                    .map(x -> Positionssender.convert(x))
+                    .collect(Collectors.toList());
+
+        } else {
+            results = StreamSupport.stream(repository.findAll().spliterator(), false)
+                    .map(x -> Positionssender.convert(x))
+                    .collect(Collectors.toList());
+            if(!results.isEmpty()&& radius != null) {
+                results = Positionssender.positionssenderInnerhalbRadius(results, radius, Position.convert(body));
+            }
+        }
+
+        return new ResponseEntity<>(results, HttpStatus.OK);
+    }
 }

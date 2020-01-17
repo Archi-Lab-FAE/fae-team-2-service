@@ -51,7 +51,7 @@ public class PositionssenderEventConsumer {
         log.info("**\n Positionssender {} \n**", crudDomainEvent.getEventType());
     }
 
-    @KafkaListener(topics = "${tracker.topic}", groupId = "${spring.kafka.group-id}")
+    @KafkaListener(topics = "${tracker.topic}", groupId = "${spring.kafka.group-id}", autoStartup = "${spring.kafka.enabled}")
     public void listenToTracking(String message) throws IOException {
         val trackingEventDto = objectMapper.readValue(message, TrackingEventDto.class);
         val tracker = trackingEventDto.getTrackerDto();
