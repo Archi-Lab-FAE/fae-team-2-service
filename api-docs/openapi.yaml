@@ -1,0 +1,428 @@
+openapi: 3.0.2
+info:
+  title: Zonenalarmsystem (FAE-Team2-Service)
+  description: >-
+    Dies ist die REST-Dokumenation für das Zonenalarmsystem. Weitere Erläuterungen zum Projekt können dem [Domain Vision Statement](https://github.com/Archi-Lab-FAE/fae-team-2-documentation).
+  termsOfService: 'https://fae.archi-lab.io/'
+  contact:
+    email: apiteam@fase.th-koeln.de
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+  version: 1.0.0
+
+externalDocs:
+  description: Global Documentation
+  url: 'https://fae.archi-lab.io/'
+
+servers:
+  - url: 'https://fae.archi-lab.io'
+    description: Production server
+  - url: 'http://localhost:8080'
+    description: Local test server
+
+tags:
+  - name: Demenziell Erkrankter
+    description: Genaue Beschreibung auf in der [Dokumentation](https://fae.archi-lab.io/)
+  - name: Positionssender
+    description: Genaue Beschreibung auf in der [Dokumentation](https://fae.archi-lab.io/)
+  - name: Zone
+    description: Genaue Beschreibung auf in der [Dokumentation](https://fae.archi-lab.io/)
+
+paths:
+  '/demenziellerkrankter':
+    post:
+      tags:
+        - Demenziell Erkrankter
+      summary: Einen neuen Erkankten in die Datenbank aufnehmen
+      operationId: addDemenziellErkankten
+      requestBody:
+        description: Objekt, welches angelegt werden soll.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DemenziellErkrankter'
+        required: true
+      responses:
+        '204':
+          description: Objekt wurde erstellt.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DemenziellErkrankter'
+        '405':
+          description: Invalide Daten.}
+
+  '/demenziellerkrankter/{id}':
+    put:
+      tags:
+        - Demenziell Erkrankter
+      summary: Daten eines Erkranten aktualisieren
+      operationId: updateDemenziellerkankten
+      parameters:
+        - name: id
+          in: path
+          description: ID des demenziell Erkranten, welcher aktualisiert werden soll.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Objekt eines demenziell Erkranten, welches aktualisiert werden soll.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DemenziellErkrankter'
+        required: true
+      responses:
+        '200':
+          description: Objekt wurde aktualisiert.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DemenziellErkrankter'
+        '400':
+          description: Die ID ist nicht valide.
+        '404':
+          description: Objekt konnte nicht gefunden werden.
+        '405':
+          description: Validationsfehler
+
+    get:
+      tags:
+        - Demenziell Erkrankter
+      summary: Die Daten eines Demenziell Erkrankten auslesen.
+      operationId: getDemenziellErkankten
+      parameters:
+        - name: id
+          in: path
+          description: ID des demenziell Erkranten, welcher ausgelesen werden soll.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DemenziellErkrankter'
+
+
+  '/positionssender/findInRadius':
+    get:
+      tags:
+        - Positionssender
+      summary: Liefert eine Liste aller Positionssendermit der ID
+      operationId: findPositionssenderInRadius
+      parameters:
+        - name: radius
+          in: query
+          description: Radius um die Position, in welcher gesucht werden soll.
+          required: true
+          schema:
+            type: number
+            format: double
+      requestBody:
+        description: Position für den Radius
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Position'
+        required: true
+      responses:
+        '200':
+          description: Liste aller Positionssender im Radius
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Positionssender'
+        '405':
+          description: Invalide Daten
+
+  '/positionssender/{id}':
+    get:
+      tags:
+        - Positionssender
+      summary: Liefert den Positionssendermit der ID
+      operationId: findPositionssender
+      parameters:
+        - name: id
+          in: path
+          description: ID des Positionssender der zurückgeliefert werden soll.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Positionssender'
+        '400':
+          description: ID ist nicht valide.
+        '404':
+          description: Positionssender konnte nicht gefunden werden.
+
+    put:
+      tags:
+        - Positionssender
+      summary: Daten eines Positionssenders aktualisieren
+      operationId: updatePositionssender
+      parameters:
+        - name: id
+          in: path
+          description: ID des Positionssender der aktualisiert werden soll.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Objekt eines Positionssenders, welches aktualisiert werden soll.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Positionssender'
+        required: true
+      responses:
+        '200':
+          description: Objekt wurde aktualisiert.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Positionssender'
+        '400':
+          description: Die ID ist nicht valide.
+        '404':
+          description: Objekt konnte nicht gefunden werden.
+        '405':
+          description: Validationsfehler
+
+  '/positionssender':
+    get:
+      tags:
+        - Positionssender
+      summary: Liefert alle Positionssender.
+      operationId: findAllPositionssender
+      parameters:
+        - in: query
+          name: zoneId
+          description: Ergebnis nach Zone filtern
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Positionssender'
+        '400':
+          description: ID ist nicht valide.
+        '404':
+          description: Positionssender konnte nicht gefunden werden.
+
+    post:
+      tags:
+        - Positionssender
+      summary: Einen neuen Positionssender in die Datenbank aufnehmen
+      operationId: addPositionssender
+      requestBody:
+        description: Objekt, welches angelegt werden soll.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Positionssender'
+        required: true
+      responses:
+        '204':
+          description: Objekt wurde erstellt.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Positionssender'
+        '405':
+          description: Invalide Daten.
+
+  '/positionssender/{id}/zone':
+    get:
+      tags:
+        - Positionssender
+      summary: Liefer alle Zonen des Positionssenders
+      description: Liefert alle Zonene des Positionssenders
+      operationId: getZonenByPositionssenderId
+      parameters:
+        - name: id
+          in: path
+          description: ID des Positionssenders
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Zone'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Pet not found
+
+  '/zone':
+    post:
+      tags:
+        - Zone
+      summary: Eine neue Zone in die Datenbank aufnehmen
+      operationId: addZone
+      requestBody:
+        description: Objekt, welches angelegt werden soll.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Zone'
+        required: true
+      responses:
+        '204':
+          description: Objekt wurde erstellt.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Zone'
+        '405':
+          description: Invalide Daten.
+
+  '/zone/{id}':
+    get:
+      tags:
+        - Zone
+      summary: Die Daten einer Zone auslesen.
+      operationId: getZone
+      parameters:
+        - name: id
+          in: path
+          description: ID der Zone die zurückgeliefert werden soll.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Zone'
+
+    put:
+      tags:
+        - Zone
+      summary: Daten einer Zone
+      operationId: updateZone
+      parameters:
+        - name: id
+          in: path
+          description: ID der Zone die aktualisiert werden soll.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Objekt einer Zone, welches aktualisiert werden soll.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Zone'
+        required: true
+      responses:
+        '200':
+          description: Objekt wurde aktualisiert.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Zone'
+        '400':
+          description: Die ID ist nicht valide.
+        '404':
+          description: Objekt konnte nicht gefunden werden.
+        '405':
+          description: Validationsfehler
+
+
+components:
+  schemas:
+    DemenziellErkrankter:
+      type: object
+      properties:
+        demenziellErkrankterId:
+          type: string
+          example: 'f33c6fa8-1697-11ea-8d71-362b9e155667'
+        name:
+          type: string
+          example: 'K. Löhler'
+        zonen:
+          type: array
+          items:
+            $ref: '#/components/schemas/Zone'
+
+    Positionssender:
+      type: object
+      properties:
+        positionssenderId:
+          type: string
+          example: 'f33c6cd8-1697-11ea-8d71-362b9e155667'
+        letztesSignal:
+          type: string
+          format: date-time
+        batterieStatus:
+          type: number
+          format: float
+          example: 0.8
+        genauigkeit:
+          type: number
+          format: float
+          example: 1.0
+        position:
+          $ref: '#/components/schemas/Position'
+
+    Position:
+      type: object
+      properties:
+        positionsId:
+          type: string
+          example: '65cf7091-e3ac-48e7-8553-c329490aae5c'
+        laengengrad:
+          type: number
+          format: double
+          example: '51.042755'
+        breitengrad:
+          type: number
+          format: double
+          example: '7.287333'
+
+    Zone:
+      type: object
+      properties:
+        zoneId:
+          type: string
+          example: '8f926d33-27bd-4afd-aabb-b160a6402348'
+        toleranz:
+          type: number
+          format: float
+          example: 1.5
+        typ:
+          $ref: '#/components/schemas/ZonenTyp'
+        positionen:
+          type: array
+          items:
+            $ref: '#/components/schemas/Position'
+
+    ZonenTyp:
+      type: string
+      enum: ['GEWOHNT', 'UNGEWOHNT']
+
+
