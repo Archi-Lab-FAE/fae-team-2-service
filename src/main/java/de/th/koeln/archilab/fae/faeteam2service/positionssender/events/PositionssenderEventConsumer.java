@@ -45,10 +45,10 @@ public class PositionssenderEventConsumer {
 
         positionssenderRepository.save(positionssenderEntity);
         positionssenderEventInformationRepository.save(
-                new PositionssenderEventInformation(crudDomainEvent.getEventType(), new Date())
+                new PositionssenderEventInformation(crudDomainEvent.getType(), new Date())
         );
 
-        log.info("**\n Positionssender {} \n**", crudDomainEvent.getEventType());
+        log.info("**\n Positionssender {} \n**", crudDomainEvent.getType());
     }
 
     @KafkaListener(topics = "${tracker.topic}", groupId = "${spring.kafka.group-id}", autoStartup = "${spring.kafka.enabled}")

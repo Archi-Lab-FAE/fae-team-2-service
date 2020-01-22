@@ -1,18 +1,27 @@
 package de.th.koeln.archilab.fae.faeteam2service.kafka.events;
 
+import lombok.Data;
+
 import java.util.UUID;
 
+@Data
 public abstract class DomainEvent {
 
-    private final String eventID;
+    private final String id;
+    private final String key;
+    private final int version;
+    private final String timestamp;
 
-    public DomainEvent() {
-        this.eventID = UUID.randomUUID().toString();
+    public DomainEvent(String key, int version, String timestamp) {
+        this.id = UUID.randomUUID().toString();
+        this.key = key;
+        this.version = version;
+        this.timestamp = timestamp;
     }
 
-    public abstract String getEventType();
+    public abstract String getType();
 
-    public String getEventID() {
-        return this.eventID;
+    public String getId() {
+        return this.id;
     }
 }

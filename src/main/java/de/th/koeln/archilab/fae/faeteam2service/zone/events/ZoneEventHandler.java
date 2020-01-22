@@ -13,6 +13,8 @@ import org.springframework.stereotype.Component;
 import javax.persistence.PostPersist;
 import javax.persistence.PostRemove;
 import javax.persistence.PostUpdate;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 
 
 @Component
@@ -20,6 +22,7 @@ public class ZoneEventHandler {
 
     private final String topic;
     private final KafkaMessageProducer kafkaMessageProducer;
+    private static final int EVENT_VERSION = 1;
 
     @Autowired
     public ZoneEventHandler(
@@ -61,6 +64,8 @@ public class ZoneEventHandler {
             ZoneDTO zoneDTO,
             CrudEventType eventType
     ) {
-        return new CrudDomainEvent<>(zoneDTO, eventType);
+        return new CrudDomainEvent<>(
+                zoneDTO, eventType, zoneDTO.getZoneId(), EVENT_VERSION, OffsetDateTime.now(ZoneOffset.UTC).toString()
+        );
     }
 }

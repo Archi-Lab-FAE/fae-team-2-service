@@ -5,15 +5,15 @@ info:
   description: |
     Dies ist die Event-Dokumenation für das Zonenalarmsystem. Weitere Erläuterungen zum Projekt können dem [Domain Vision Statement](https://github.com/Archi-Lab-FAE/fae-team-2-documentation) entnommen werden. Alle Events halten sich im Aufbau an die [hier](https://fae.archi-lab.io/global/2020/01/10/team-3-Event-Structure.html) festgelegte Struktur, folgend werden zur Übersichtlichkeit der Payload und Header getrennt.
 
-servers:
-  production:
-    url: https://api.fae.archi-lab.io/team-2
-    protocol: kafka
-    variables:
-      port:
-        description: Der Service steht bei allen drei kafka-Servern ("kafka-1:9092", "kafka-2:9092" und "kafka-3:9092") zur Verfügung.
-
-defaultContentType: application/json
+#servers:
+#  production:
+#    url: https://api.fae.archi-lab.io/team-2 # TODO change in msg-broker fae- blub
+#    protocol: kafka
+#    variables:
+#      port:
+#        description: Der Service steht bei allen drei kafka-Servern ("kafka-1:9092", "kafka-2:9092" und "kafka-3:9092") zur Verfügung.
+#
+#defaultContentType: application/json
 
 
 channels: # aka topics
@@ -39,7 +39,7 @@ channels: # aka topics
 
 
   #### PUBLISH ####
-  Zonenabweichung: #schönen Namen einfallen lassen :)
+  zonenabweichung: #schönen Namen einfallen lassen :)
     publish:
       operationId: demenziellErkranterOutOfZone
       traits:
@@ -47,7 +47,7 @@ channels: # aka topics
       message:
         $ref: '#/components/messages/outOfZone'
 
-  Zone:
+  zone:
     publish:
       operationId: zone
       traits:

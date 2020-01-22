@@ -33,7 +33,7 @@ public class KafkaMessageProducer {
             throws JsonProcessingException {
 
         ListenableFuture<SendResult<String, String>> future = this.template
-                .send(topic, commentEvent.getEventID(),
+                .send(topic, commentEvent.getId(),
                         this.objectMapper.writeValueAsString(commentEvent));
 
         future.addCallback(new ListenableFutureCallback<SendResult<String, String>>() {
