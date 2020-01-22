@@ -1,0 +1,227 @@
+asyncapi: 2.0.0
+info:
+  title: Zonenalarmsystem - Eventdokumentation
+  version: '1.0'
+  description: |
+    Dies ist die Event-Dokumenation für das Zonenalarmsystem. Weitere Erläuterungen zum Projekt können dem [Domain Vision Statement](https://github.com/Archi-Lab-FAE/fae-team-2-documentation) entnommen werden. Alle Events halten sich im Aufbau an die [hier](https://fae.archi-lab.io/global/2020/01/10/team-3-Event-Structure.html) festgelegte Struktur, folgend werden zur Übersichtlichkeit der Payload und Header getrennt.
+
+servers:
+  production:
+    url: https://api.fae.archi-lab.io/team-2
+    protocol: kafka
+    variables:
+      port:
+        description: Der Service steht bei allen drei kafka-Servern ("kafka-1:9092", "kafka-2:9092" und "kafka-3:9092") zur Verfügung.
+
+defaultContentType: application/json
+
+
+channels: # aka topics
+  #### SUBSCRIBE ####
+  demenziellerkrankter:
+    description: Die Topic, auf welcher Personendaten für demenziell Erkrankte erzeugt und konsumiert werden.
+    subscribe:
+      operationId: receiveDemenziellErkrankte
+      traits:
+        - $ref: '#/components/operationTraits/kafka'
+      message:
+        $ref: '#/components/messages/demenziellerkrante'
+
+  positionssender:
+    description: Die Topic, auf welcher Positionssender für Demenziell Erkrankte erzeugt und konsumiert werden.
+    subscribe:
+      operationId: receivePositionssender
+      traits:
+        - $ref: '#/components/operationTraits/kafka'
+      message:
+        $ref: '#/components/messages/positionssender'
+
+
+
+  #### PUBLISH ####
+  Zonenabweichung: #schönen Namen einfallen lassen :)
+    publish:
+      operationId: demenziellErkranterOutOfZone
+      traits:
+        - $ref: '#/components/operationTraits/kafka'
+      message:
+        $ref: '#/components/messages/outOfZone'
+
+  Zone:
+    publish:
+      operationId: zone
+      traits:
+        - $ref: '#/components/operationTraits/kafka'
+      message:
+        $ref: '#/components/messages/zone'
+
+##### COMPONENTS #####
+components:
+  messages:
+    demenziellerkrante:
+      name: demenziellerkankte
+      title: Demenziell Erkrankte
+      summary: Informiert, dass ein Demenziell Erkrankter in das Programm aufgenommen bzw. seine Daten aktualisiert wurden.
+      contentType: application/json
+      traits:
+        - $ref: '#/components/messageTraits/commonHeaders'
+      payload:
+        $ref: "#/components/schemas/demenziellerkranktePayload"
+
+    positionssender:
+      name: posisitionssender
+      title: Positionssender
+      summary: Informiert, dass ein Positionssneder erstellt, aktualisiert oder gelöscht wurde.
+      contentType: application/json
+      traits:
+        - $ref: '#/components/messageTraits/commonHeaders'
+      payload:
+        $ref: "#/components/schemas/positionssenderPayload"
+
+    outOfZone:
+      name: demenziellerkranterabweichung
+      title: Demenziell Erkrankter Ausserhalb einer Zone
+      summary: Informiert, dass ein Demenziell Erkranter eine GEWOHNTEN Zone verlässt oder eine UNGEWOHNTE Zone betritt.
+      contentType: application/json
+      traits:
+        - $ref: '#/components/messageTraits/commonHeaders'
+      payload:
+        $ref: "#/components/schemas/outOfZonePayload"
+
+    zone:
+      name: Zonen-CRUD
+      summary: Informiert, dass eine Zone für einen demenziell Erkrankten angelegt, geändert oder gelöscht wurde.
+      contentType: application/json
+      traits:
+        - $ref: '#/components/messageTraits/commonHeaders'
+      payload:
+        $ref: "#/components/schemas/Zone"
+
+
+  ############### SCHEMA ###############
+  schemas:
+    demenziellerkranktePayload:
+      type: object
+      properties:
+        demenziellErkrankterId:
+          type: string
+          format: uuid-as-string
+          example: 'f33c6fa8-1697-11ea-8d71-362b9e155667'
+        name:
+          type: string
+          example: 'K. Löhler'
+        zonen:
+          type: array
+          items:
+            $ref: '#/components/schemas/Zone'
+          description: Alle für den demenziell Erkrankten definierten Zonen.
+
+    positionssenderPayload:
+      type: object
+      properties:
+        positionssenderId:
+          type: string
+          format: uuid-as-string
+          example: 'f33c6cd8-1697-11ea-8d71-362b9e155667'
+        letztesSignal:
+          type: string
+          format: unix-date
+        batterieStatus:
+          type: number
+          format: float
+          example: 0.8
+        genauigkeit:
+          type: number
+          format: float
+          example: 1.0
+        position:
+          $ref: '#/components/schemas/Position'
+          description: Aktuelle Position des Senders.
+
+    outOfZonePayload:
+      type: object
+      properties:
+        demenziellErkrankterId:
+          type: string
+          format: uuid-as-string
+          example: 'f33c6fa8-1697-11ea-8d71-362b9e155667'
+        name:
+          type: string
+          example: 'K. Löhler'
+        zonen:
+          $ref: '#/components/schemas/Zone'
+        aktuellePosition:
+          $ref: '#/components/schemas/Position'
+
+    Zone:
+      type: object
+      properties:
+        zoneId:
+          type: string
+          format: uuid-as-string
+          example: '8f926d33-27bd-4afd-aabb-b160a6402348'
+        toleranz:
+          type: number
+          format: float
+          example: 1.5
+        typ:
+          $ref: '#/components/schemas/ZonenTyp'
+        positionen:
+          type: array
+          items:
+            $ref: '#/components/schemas/Position'
+
+    ZonenTyp:
+      type: string
+      enum: ['GEWOHNT', 'UNGEWOHNT']
+
+    Position:
+      type: object
+      properties:
+        positionsId:
+          type: string
+          format: uuid-as-string
+          example: '65cf7091-e3ac-48e7-8553-c329490aae5c'
+        laengengrad:
+          type: number
+          format: double
+          example: '51.042755'
+        breitengrad:
+          type: number
+          format: double
+          example: '7.287333'
+
+  messageTraits:
+    commonHeaders:
+      headers:
+        type: object
+        properties:
+          id:
+            description: Generierte UUID des Events
+            type: string
+            format: uuid-as-string
+            example: '8f926d33-27bd-48e7-8553-b393790aa484'
+          key:
+            description: UUID der betroffenen Entität
+            type: string
+            format: uuid-as-string
+            example: '65cf7091-e3ac-48e7-8553-c329490aae5c'
+          version:
+            type: number
+            format: integer
+            description: Fortlaufende Nummer für die Vergleichbarkeit der Aktualität des Events
+            example: 3
+          timestamp:
+            type: string
+            format: unix-date
+            example: '2020-01-22T22:25:34Z'
+          type:
+            type: string
+            description: Der Typ des Events
+            example: 'Entity erstellt'
+
+  operationTraits:
+    kafka:
+      bindings:
+        kafka:
+          clientId: fae-team-2-service
