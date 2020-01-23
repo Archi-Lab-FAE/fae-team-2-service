@@ -9,18 +9,27 @@ import de.th.koeln.archilab.fae.faeteam2service.demenziell_erkrankter.Demenziell
 import de.th.koeln.archilab.fae.faeteam2service.position.Position;
 import de.th.koeln.archilab.fae.faeteam2service.zone.Zone;
 import lombok.Data;
+import lombok.val;
+import lombok.var;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Configurable;
 import org.threeten.bp.OffsetDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
 
 import javax.persistence.*;
-import java.util.*;
+import java.io.InvalidObjectException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Data
 public class Positionssender {
 
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ISO_DATE_TIME;
+    private static final Logger log = LoggerFactory.getLogger(Positionssender.class);
 
     @Id
     private String positionssenderId;
@@ -60,22 +69,22 @@ public class Positionssender {
         if (update.batterieStatus != null) batterieStatus = update.getBatterieStatus();
         if (update.genauigkeit != null) genauigkeit = update.getGenauigkeit();
         if (update.position != null) position = update.getPosition();
-        if(update.demenziellErkrankter != null) demenziellErkrankter = update.getDemenziellErkrankter();
+        if (update.demenziellErkrankter != null) demenziellErkrankter = update.getDemenziellErkrankter();
     }
-    public static List<PositionssenderDTO> positionssenderInZone(List<PositionssenderDTO> posSender, Zone zone) throws Exception {
+
+    public static List<PositionssenderDTO> positionssenderInZone(List<PositionssenderDTO> posSender, Zone zone) throws InvalidObjectException {
         Positionssender positionssender;
-        List<PositionssenderDTO>  result = new ArrayList<>();
-        for(PositionssenderDTO sender:posSender){
+        List<PositionssenderDTO> result = new ArrayList<>();
+        for (PositionssenderDTO sender : posSender) {
             positionssender = convert(sender);
-            if(positionssender.getPosition().getLaengengrad()!=null & positionssender.getPosition().getBreitengrad()!=null) {
+            if (positionssender.getPosition().getLaengengrad() != null & positionssender.getPosition().getBreitengrad() != null) {
                 Point positionPoint = Point.at(Coordinate.fromDegrees(positionssender.getPosition().getBreitengrad()),
                         Coordinate.fromDegrees(positionssender.getPosition().getLaengengrad()));
 
-                List<Position> positionsliste = new ArrayList<>();
-                positionsliste.addAll(zone.getPositionen());
+                List<Position> positionsliste = new ArrayList<>(zone.getPositionen());
 
                 //TODO: Vielleicht Decision wie die Punkte definiert werden. NorthWest an Position 0 oder als Attribute?
-                if (positionsliste.size() >= 2) {
+                if (positionsliste.size() == 2) {
                     Point northWest = Point.at(Coordinate.fromDegrees(positionsliste.get(0).getBreitengrad()),
                             Coordinate.fromDegrees(positionsliste.get(0).getLaengengrad()));
                     Point southEast = Point.at(Coordinate.fromDegrees(positionsliste.get(1).getBreitengrad()),
@@ -87,7 +96,7 @@ public class Positionssender {
                         result.add(convert(positionssender));
                     }
                 } else {
-                    throw new Exception("Zone wurde nicht korrekt initialisiert");
+                    throw new InvalidObjectException("Zone wurde nicht korrekt initialisiert");
                 }
             }
         }
