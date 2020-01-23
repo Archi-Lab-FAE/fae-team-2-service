@@ -31,6 +31,8 @@ server:
   compression.mime-types: application/json,application/xml,text/html,text/xml,text/plain
   servlet:
     context-path: /team-2
+  tomcat:
+    use-relative-redirects: true
 
 # Kafka-topic
 demenziellerkrankter.topic: demenziellerkrankter
@@ -38,4 +40,3 @@ zone.topic: zone
 zonenabweichung.topic: zonenabweichung
 positionssender.topic: positionssender
 tracker.topic: tracker
-
