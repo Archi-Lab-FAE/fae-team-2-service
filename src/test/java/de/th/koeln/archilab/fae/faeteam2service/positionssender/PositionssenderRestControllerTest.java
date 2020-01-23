@@ -1,12 +1,7 @@
 package de.th.koeln.archilab.fae.faeteam2service.positionssender;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
-import de.th.koeln.archilab.fae.faeteam2service.demenziell_erkrankter.DemenziellErkrankter;
-import de.th.koeln.archilab.fae.faeteam2service.demenziell_erkrankter.DemenziellErkrankterRepository;
-import de.th.koeln.archilab.fae.faeteam2service.position.Position;
-import de.th.koeln.archilab.fae.faeteam2service.position.PositionDTO;
-import de.th.koeln.archilab.fae.faeteam2service.zone.Zone;
-import de.th.koeln.archilab.fae.faeteam2service.zone.ZoneRepository;
-import de.th.koeln.archilab.fae.faeteam2service.zone.ZonenTyp;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +16,26 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.threeten.bp.OffsetDateTime;
 import org.threeten.bp.ZoneOffset;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Random;
+import java.util.Set;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import de.th.koeln.archilab.fae.faeteam2service.demenziell_erkrankter.DemenziellErkrankter;
+import de.th.koeln.archilab.fae.faeteam2service.demenziell_erkrankter.DemenziellErkrankterRepository;
+import de.th.koeln.archilab.fae.faeteam2service.position.Position;
+import de.th.koeln.archilab.fae.faeteam2service.position.PositionDTO;
+import de.th.koeln.archilab.fae.faeteam2service.zone.Zone;
+import de.th.koeln.archilab.fae.faeteam2service.zone.ZoneRepository;
+import de.th.koeln.archilab.fae.faeteam2service.zone.ZonenTyp;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
 @RunWith(SpringRunner.class)
@@ -69,7 +79,7 @@ public class PositionssenderRestControllerTest {
     @Test
     public void createPositionssenderReturnCreated()throws Exception{
         PositionDTO posDTO = new PositionDTO();
-        posDTO.setPositionsId("42");
+
         posDTO.setBreitengrad(0.5);
         posDTO.setLaengengrad(2.3);
 
@@ -201,7 +211,6 @@ public class PositionssenderRestControllerTest {
         PositionssenderDTO positionssenderDTO = new PositionssenderDTO();
         OffsetDateTime letztesSignal = getRandomDate();
         PositionDTO positionDTO = new PositionDTO();
-        positionDTO.setPositionsId("123");
         positionssenderDTO.setLetztesSignal(letztesSignal);
         positionssenderDTO.setPosition(positionDTO);
 
@@ -240,7 +249,6 @@ public class PositionssenderRestControllerTest {
    @Test
     public void getAllPositionssenderInnerhalbRadiusMitPositionUndRadius() throws Exception {
         PositionDTO positionDTO = new PositionDTO();
-        positionDTO.setPositionsId("ursprungspos");
         positionDTO.setLaengengrad(1.5);
         positionDTO.setBreitengrad(1.5);
 
@@ -258,7 +266,6 @@ public class PositionssenderRestControllerTest {
     @Test
     public void getAllPositionssenderInnerhalbRadiusMitPositionOhneRadius() throws Exception{
         PositionDTO positionDTO = new PositionDTO();
-        positionDTO.setPositionsId("ursprungspos");
         positionDTO.setLaengengrad(1.5);
         positionDTO.setBreitengrad(1.5);
 
@@ -272,17 +279,6 @@ public class PositionssenderRestControllerTest {
                 .andExpect(header().string("content-type", "application/json;charset=UTF-8"));
     }
 
-    @Test
-    public void getNoPositionssenderInnerhalbeinesRadiusOhnePosition() throws Exception{
-        Double radius = 500.9; //meter
-
-        mvc.perform(get("/positionssender")
-                .accept(MediaType.APPLICATION_JSON)
-                .param("radius", String.valueOf(radius))
-                .contentType(MediaType.APPLICATION_JSON))
-
-                .andExpect(status().isBadRequest());
-    }
 }
 
 

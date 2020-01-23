@@ -122,13 +122,20 @@ paths:
           schema:
             type: number
             format: double
-      requestBody:
-        description: Position für den Radius
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Position'
-        required: true
+        - name: laengengrad
+          in: query
+          description: Laengengrad des Radius um die Position, in welcher gesucht werden soll.
+          required: true
+          schema:
+            type: number
+            format: double
+        - name: breitengrad
+          in: query
+          description: Breitengrad des Radius um die Position, in welcher gesucht werden soll.
+          required: true
+          schema:
+            type: number
+            format: double
       responses:
         '200':
           description: Liste aller Positionssender im Radius
@@ -392,9 +399,6 @@ components:
     Position:
       type: object
       properties:
-        positionsId:
-          type: string
-          example: '65cf7091-e3ac-48e7-8553-c329490aae5c'
         laengengrad:
           type: number
           format: double
@@ -420,6 +424,8 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Position'
+          minItems: 2
+          maxItems: 2
 
     ZonenTyp:
       type: string

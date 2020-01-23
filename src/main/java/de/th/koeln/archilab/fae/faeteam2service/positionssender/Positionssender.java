@@ -5,6 +5,23 @@ import com.grum.geocalc.BoundingArea;
 import com.grum.geocalc.Coordinate;
 import com.grum.geocalc.EarthCalc;
 import com.grum.geocalc.Point;
+
+import org.apache.commons.lang.NotImplementedException;
+import org.apache.commons.lang.StringUtils;
+import org.threeten.bp.OffsetDateTime;
+import org.threeten.bp.format.DateTimeFormatter;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+
 import de.th.koeln.archilab.fae.faeteam2service.demenziell_erkrankter.DemenziellErkrankter;
 import de.th.koeln.archilab.fae.faeteam2service.position.Position;
 import de.th.koeln.archilab.fae.faeteam2service.positionssender.events.ZonenabweichungKafkaPublisher;
@@ -78,6 +95,11 @@ public class Positionssender {
         if (update.demenziellErkrankter != null) demenziellErkrankter = update.getDemenziellErkrankter();
     }
 
+
+    public boolean isInZone(Zone zone) {
+        throw new NotImplementedException(); ///TODO
+    }
+
     public static List<PositionssenderDTO> positionssenderInZone(List<PositionssenderDTO> posSender, Zone zone) throws InvalidObjectException {
         Positionssender positionssender;
         List<PositionssenderDTO> result = new ArrayList<>();
@@ -108,6 +130,11 @@ public class Positionssender {
         }
         return result;
     }
+
+    public boolean isInnerhalbRadius(double radius, double laengengrad, double breitengrad) {
+        throw new NotImplementedException(); ///TODO
+    }
+
 
     public static List<PositionssenderDTO> positionssenderInnerhalbRadius(List<PositionssenderDTO> posSender, Double radius, Position position) {
         Positionssender positionssender;

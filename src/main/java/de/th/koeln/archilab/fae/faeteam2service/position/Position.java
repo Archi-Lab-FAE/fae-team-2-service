@@ -42,7 +42,6 @@ public class Position {
 
     public static Position convert(PositionDTO dto) {
         Position entity = new Position();
-        entity.positionsId = dto.getPositionsId();
         entity.laengengrad = dto.getLaengengrad();
         entity.breitengrad = dto.getBreitengrad();
 
@@ -51,7 +50,6 @@ public class Position {
 
     public static PositionDTO convert(Position entity) {
         PositionDTO dto = new PositionDTO();
-        dto.setPositionsId(entity.positionsId);
         dto.setLaengengrad(entity.laengengrad);
         dto.setBreitengrad(entity.breitengrad);
 

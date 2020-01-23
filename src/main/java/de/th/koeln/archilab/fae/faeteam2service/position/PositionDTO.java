@@ -9,39 +9,16 @@ import java.util.Objects;
 import io.swagger.annotations.ApiModelProperty;
 
 /**
- * PositionDTO
+ * Position
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-12-19T10:48:55.616846300+01:00[Europe/Berlin]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-01-23T20:04:16.757Z[GMT]")
 public class PositionDTO {
-    @JsonProperty("positionsId")
-    private String positionsId = null;
-
     @JsonProperty("laengengrad")
     private Double laengengrad = null;
 
     @JsonProperty("breitengrad")
     private Double breitengrad = null;
-
-    public PositionDTO positionsId(String positionsId) {
-        this.positionsId = positionsId;
-        return this;
-    }
-
-    /**
-     * Get positionsId
-     *
-     * @return positionsId
-     **/
-    @ApiModelProperty(example = "65cf7091-e3ac-48e7-8553-c329490aae5c", value = "")
-
-    public String getPositionsId() {
-        return positionsId;
-    }
-
-    public void setPositionsId(String positionsId) {
-        this.positionsId = positionsId;
-    }
 
     public PositionDTO laengengrad(Double laengengrad) {
         this.laengengrad = laengengrad;
@@ -85,7 +62,7 @@ public class PositionDTO {
 
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(java.lang.Object o) {
         if (this == o) {
             return true;
         }
@@ -93,14 +70,13 @@ public class PositionDTO {
             return false;
         }
         PositionDTO position = (PositionDTO) o;
-        return Objects.equals(this.positionsId, position.positionsId) &&
-                Objects.equals(this.laengengrad, position.laengengrad) &&
+        return Objects.equals(this.laengengrad, position.laengengrad) &&
                 Objects.equals(this.breitengrad, position.breitengrad);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(positionsId, laengengrad, breitengrad);
+        return Objects.hash(laengengrad, breitengrad);
     }
 
     @Override
@@ -108,7 +84,6 @@ public class PositionDTO {
         StringBuilder sb = new StringBuilder();
         sb.append("class PositionDTO {\n");
 
-        sb.append("    positionsId: ").append(toIndentedString(positionsId)).append("\n");
         sb.append("    laengengrad: ").append(toIndentedString(laengengrad)).append("\n");
         sb.append("    breitengrad: ").append(toIndentedString(breitengrad)).append("\n");
         sb.append("}");
@@ -119,7 +94,7 @@ public class PositionDTO {
      * Convert the given object to string with each line indented by 4 spaces
      * (except the first line).
      */
-    private String toIndentedString(Object o) {
+    private String toIndentedString(java.lang.Object o) {
         if (o == null) {
             return "null";
         }

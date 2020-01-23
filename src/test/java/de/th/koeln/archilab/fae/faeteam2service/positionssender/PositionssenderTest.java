@@ -1,17 +1,13 @@
 package de.th.koeln.archilab.fae.faeteam2service.positionssender;
 
-import de.th.koeln.archilab.fae.faeteam2service.demenziell_erkrankter.DemenziellErkrankter;
-import de.th.koeln.archilab.fae.faeteam2service.position.Position;
-import de.th.koeln.archilab.fae.faeteam2service.zone.Zone;
-import de.th.koeln.archilab.fae.faeteam2service.zone.ZoneDTO;
-import de.th.koeln.archilab.fae.faeteam2service.zone.ZonenTyp;
-import org.junit.Assert;
 import org.junit.Test;
 import org.threeten.bp.OffsetDateTime;
 import org.threeten.bp.ZoneOffset;
 
-import java.util.HashSet;
 import java.util.Random;
+
+import de.th.koeln.archilab.fae.faeteam2service.demenziell_erkrankter.DemenziellErkrankter;
+import de.th.koeln.archilab.fae.faeteam2service.position.Position;
 
 import static org.junit.Assert.assertEquals;
 
@@ -38,6 +34,7 @@ public class PositionssenderTest {
 
         PositionssenderDTO positionssenderDTO = Positionssender.convert(positionssender);
         Positionssender positionssenderConverted = Positionssender.convert(positionssenderDTO);
+        positionssenderConverted.getPosition().setPositionsId(positionssender.getPosition().getPositionsId());
 
         assertEquals(positionssender, positionssenderConverted);
     }
