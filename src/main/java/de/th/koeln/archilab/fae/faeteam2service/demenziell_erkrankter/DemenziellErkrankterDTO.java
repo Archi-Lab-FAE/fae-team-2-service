@@ -1,20 +1,18 @@
 package de.th.koeln.archilab.fae.faeteam2service.demenziell_erkrankter;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+import de.th.koeln.archilab.fae.faeteam2service.zone.ZoneDTO;
+import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import javax.validation.Valid;
-
-import de.th.koeln.archilab.fae.faeteam2service.zone.ZoneDTO;
-import io.swagger.annotations.ApiModelProperty;
-
 /**
  * DemenziellErkrankterDTO
+ * TODO nach event durch team-1 anpassen.
  */
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-01-07T14:10:32.528Z[GMT]")
