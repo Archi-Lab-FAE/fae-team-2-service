@@ -48,7 +48,7 @@ public class DemenziellErkrankterEventConsumer {
         demenziellErkrankterRepository.save(demenziellErkrankterEntity);
 
         demenziellErkrankterEventInformationRepository.save(
-                new DemenziellErkrankterEventInformation(crudDomainEvent.getType(), new Date())
+                new DemenziellErkrankterEventInformation(crudDomainEvent.getId(), crudDomainEvent.getType(), new Date())
         );
 
         log.info("*****************************");
