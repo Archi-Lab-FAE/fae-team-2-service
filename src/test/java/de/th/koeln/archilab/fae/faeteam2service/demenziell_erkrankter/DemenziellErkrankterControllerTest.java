@@ -105,6 +105,14 @@ public class DemenziellErkrankterControllerTest {
     }
 
     @Test
+    public void testReadDemenziellErkrankterWithWrongId() throws Exception {
+        repository.save(demenziellErkrankter);
+
+        mockMvc.perform(get(PATH + "/" + "not an id"))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
     public void testUpdateDemenziellerkrankter() throws Exception {
         repository.save(demenziellErkrankter);
         val newName = "Hans";
