@@ -28,9 +28,11 @@ spring:
 server:
   port: 8080
   compression.enabled: true
+  use-forward-headers: true
   compression.mime-types: application/json,application/xml,text/html,text/xml,text/plain
   servlet:
     context-path: /team-2
+
 # Kafka-topic
 demenziellerkrankter.topic: demenziellerkrankter
 zone.topic: zone
