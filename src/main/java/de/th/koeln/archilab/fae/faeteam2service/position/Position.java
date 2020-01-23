@@ -1,13 +1,17 @@
 package de.th.koeln.archilab.fae.faeteam2service.position;
 
+import com.grum.geocalc.BoundingArea;
+import com.grum.geocalc.Coordinate;
+import com.grum.geocalc.Point;
+import de.th.koeln.archilab.fae.faeteam2service.zone.Zone;
+import lombok.Data;
+import lombok.val;
 import org.apache.commons.lang.StringUtils;
-
-import java.util.UUID;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-
-import lombok.Data;
+import java.util.ArrayList;
+import java.util.UUID;
 
 @Entity
 @Data
@@ -52,5 +56,20 @@ public class Position {
         dto.setBreitengrad(entity.breitengrad);
 
         return dto;
+    }
+
+    public Point toPoint() {
+        return Point.at(Coordinate.fromDegrees(breitengrad), Coordinate.fromDegrees(laengengrad));
+    }
+
+    public boolean inZone(Zone zone) {
+        val positionenList = new ArrayList<Position>(zone.getPositionen());
+
+        Point northWest = positionenList.get(0).toPoint();
+        Point southEast = positionenList.get(1).toPoint();
+
+        BoundingArea area = BoundingArea.at(northWest, southEast);
+
+        return area.contains(toPoint());
     }
 }

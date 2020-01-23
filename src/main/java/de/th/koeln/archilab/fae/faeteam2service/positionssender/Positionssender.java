@@ -7,7 +7,9 @@ import com.grum.geocalc.EarthCalc;
 import com.grum.geocalc.Point;
 import de.th.koeln.archilab.fae.faeteam2service.demenziell_erkrankter.DemenziellErkrankter;
 import de.th.koeln.archilab.fae.faeteam2service.position.Position;
+import de.th.koeln.archilab.fae.faeteam2service.positionssender.events.ZonenabweichungKafkaPublisher;
 import de.th.koeln.archilab.fae.faeteam2service.zone.Zone;
+import de.th.koeln.archilab.fae.faeteam2service.zone.ZonenTyp;
 import lombok.Data;
 import lombok.val;
 import lombok.var;
@@ -25,6 +27,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
+@Configurable
 @Data
 public class Positionssender {
 
@@ -45,6 +48,9 @@ public class Positionssender {
 
     @ManyToOne(fetch = FetchType.EAGER)
     private DemenziellErkrankter demenziellErkrankter;
+
+    @Transient
+    private ZonenabweichungKafkaPublisher eventPublisher;
 
 
     public Positionssender() {
@@ -103,17 +109,17 @@ public class Positionssender {
         return result;
     }
 
-    public static List<PositionssenderDTO> positionssenderInnerhalbRadius(List<PositionssenderDTO> posSender, Double radius, Position position){
+    public static List<PositionssenderDTO> positionssenderInnerhalbRadius(List<PositionssenderDTO> posSender, Double radius, Position position) {
         Positionssender positionssender;
-        List<PositionssenderDTO>  result = new ArrayList<PositionssenderDTO>();
-        Point ursprung = Point.at(Coordinate.fromDegrees(position.getBreitengrad()),Coordinate.fromDegrees(position.getLaengengrad()));
+        List<PositionssenderDTO> result = new ArrayList<>();
+        Point ursprung = Point.at(Coordinate.fromDegrees(position.getBreitengrad()), Coordinate.fromDegrees(position.getLaengengrad()));
         BoundingArea kreisArea = EarthCalc.around(ursprung, radius);
 
-        for(PositionssenderDTO sender:posSender) {
+        for (PositionssenderDTO sender : posSender) {
             positionssender = convert(sender);
-            if(positionssender.getPosition().getBreitengrad() != null &&positionssender.getPosition().getLaengengrad()!=null) {
-                System.out.println(positionssender.getPosition().getBreitengrad());
-                System.out.println(positionssender.getPosition().getLaengengrad());
+            if (positionssender.getPosition().getBreitengrad() != null && positionssender.getPosition().getLaengengrad() != null) {
+                log.debug("{}", positionssender.getPosition().getBreitengrad());
+                log.debug("{}", positionssender.getPosition().getLaengengrad());
 
                 Point positionssenderPunkt = Point.at(Coordinate.fromDegrees(positionssender.getPosition().getBreitengrad()), Coordinate.fromDegrees(positionssender.getPosition().getLaengengrad()));
                 if (kreisArea.contains(positionssenderPunkt)) {
@@ -144,5 +150,29 @@ public class Positionssender {
         dto.setPosition(Position.convert(entity.position));
 
         return dto;
+    }
+
+
+    public void setPosition(Position position) {
+        this.position = position;
+
+        val zonen = demenziellErkrankter.getZonen();
+        var isInGewohnteZone = false;
+
+        for (Zone zone : zonen) {
+            if (zone.getTyp() == ZonenTyp.GEWOHNT && position.inZone(zone)) {
+                isInGewohnteZone = true;
+            } else if (position.inZone(zone)) {
+                val msg = "Achtung, " + demenziellErkrankter.getName() + " hat eine ungewohnte Zone betreten.";
+                eventPublisher.publishZonenabweichung(this, msg);
+                // TODO REST-CALL team4
+            }
+        }
+
+        if (!isInGewohnteZone) {
+            val msg = "Achtung, " + demenziellErkrankter.getName() + " hat die gewohnte Zone verlassen.";
+            eventPublisher.publishZonenabweichung(this, msg);
+            // TODO REST-CALL team4
+        }
     }
 }

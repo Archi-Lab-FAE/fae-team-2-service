@@ -71,6 +71,7 @@ public class PositionssenderEventConsumer {
 
 
             // TODO implement business logic --> out of zone?
+            positionssender.getDemenziellErkrankter().getZonen();
         } else {
             log.warn("Could not find Tracker with id {}", tracker.getTrackerId());
             return;
