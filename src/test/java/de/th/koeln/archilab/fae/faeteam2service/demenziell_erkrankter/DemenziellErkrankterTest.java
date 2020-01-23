@@ -49,4 +49,16 @@ public class DemenziellErkrankterTest {
 
         assertEquals(entity.getName(), newName);
     }
+
+    @Test
+    public void testConversionBackAndForthReturnsInitialEntity() {
+        val entity = new DemenziellErkrankter();
+        entity.setDemenziellErkrankterId(uuid);
+        entity.setName(name);
+
+        val dto = DemenziellErkrankter.convert(entity);
+        val entityConverted = DemenziellErkrankter.convert(dto);
+
+        assertEquals(entity, entityConverted);
+    }
 }

@@ -26,10 +26,11 @@ public class DemenziellErkrankterEventInformation {
     }
 
     public DemenziellErkrankterEventInformation(
+            String demenziellErkrankterEventId,
             String demenziellErkrankterEventType,
             Date date
     ) {
-        this.demenziellErkrankterEventId = UUID.randomUUID().toString();
+        this.demenziellErkrankterEventId = demenziellErkrankterEventId;
         this.demenziellErkrankterEventType = demenziellErkrankterEventType;
         this.date = date;
     }
