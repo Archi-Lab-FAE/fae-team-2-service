@@ -1,6 +1,7 @@
 package de.th.koeln.archilab.fae.faeteam2service.zone;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import de.th.koeln.archilab.fae.faeteam2service.position.PositionDTO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,7 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -43,7 +44,7 @@ public class ZoneRestControllerIntegrationTest {
         body.setZoneId("42");
         body.setToleranz(1f);
         body.setTyp(ZonenTyp.UNGEWOHNT);
-        body.setPositionen(new ArrayList<>());
+        body.setPositionen(Arrays.asList(new PositionDTO(), new PositionDTO()));
 
         mvc.perform(post("/zone")
                 .accept(MediaType.APPLICATION_JSON)

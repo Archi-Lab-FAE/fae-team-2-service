@@ -12,7 +12,6 @@ import de.th.koeln.archilab.fae.faeteam2service.zone.Zone;
 import de.th.koeln.archilab.fae.faeteam2service.zone.ZonenTyp;
 import lombok.Data;
 import lombok.val;
-import lombok.var;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +20,6 @@ import org.threeten.bp.OffsetDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
 
 import javax.persistence.*;
-import java.io.InvalidObjectException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -79,7 +77,7 @@ public class Positionssender {
     }
 
 
-    public boolean isInZone(Zone zone) throws InvalidObjectException {
+    public boolean isInZone(Zone zone) {
         if (position.getLaengengrad() != null && position.getBreitengrad() != null) {
             Point positionPoint = position.toPoint();
 
@@ -95,14 +93,12 @@ public class Positionssender {
 
                 return area.contains(positionPoint);
             }
-
-            throw new InvalidObjectException("Die Positionsliste der Zone besitzt nicht genau zwei Elemente.");
         }
 
-        throw new InvalidObjectException("Positionssender besitzt keine Position.");
+        return false;
     }
 
-    public boolean isInnerhalbRadius(double radius, double laengengrad, double breitengrad) throws InvalidObjectException {
+    public boolean isInnerhalbRadius(double radius, double laengengrad, double breitengrad) {
 
         if (position.getBreitengrad() != null && position.getLaengengrad() != null) {
             log.debug("{}", position.getBreitengrad());
@@ -115,7 +111,7 @@ public class Positionssender {
             return kreisArea.contains(positionssenderPunkt);
         }
 
-        throw new InvalidObjectException("Positionssender besitzt keine Position.");
+        return false;
     }
 
     public static Positionssender convert(PositionssenderDTO dto) {
@@ -144,8 +140,13 @@ public class Positionssender {
     public void setPosition(Position position) {
         this.position = position;
 
+        if (demenziellErkrankter == null
+                || demenziellErkrankter.getZonen() == null
+                || demenziellErkrankter.getZonen().isEmpty()
+        ) return;
+
         val zonen = demenziellErkrankter.getZonen();
-        var isInGewohnteZone = false;
+        boolean isInGewohnteZone = false;
 
         for (Zone zone : zonen) {
             if (zone.getTyp() == ZonenTyp.GEWOHNT && position.inZone(zone)) {
@@ -154,6 +155,8 @@ public class Positionssender {
                 val msg = "Achtung, " + demenziellErkrankter.getName() + " hat eine ungewohnte Zone betreten.";
                 eventPublisher.publishZonenabweichung(this, msg);
                 // TODO REST-CALL team4
+
+                // @Value("${messagingSystem.url}")
             }
         }
 

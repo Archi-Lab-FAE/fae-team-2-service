@@ -40,3 +40,6 @@ zone.topic: zone
 zonenabweichung.topic: zonenabweichung
 positionssender.topic: positionssender
 tracker.topic: tracker
+
+# Messaging system
+messagingSystem.url: "https://api.fae.archi-lab.io/team-4/"
