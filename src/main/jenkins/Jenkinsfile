@@ -22,8 +22,6 @@ node {
             junit 'target/surefire-reports/*.xml'
         }
 
-        /*
-        // TODO erstmal auskommentieren
         stage('Quality Check') {
             sh 'mvn -B -s settings.xml checkstyle:checkstyle'
             jacoco()
@@ -32,7 +30,7 @@ node {
                     org.sonarsource.scanner.maven:sonar-maven-plugin:3.6.0.1398:sonar'
             }
         }
-
+        /*
         // TODO erstmal auskommentieren
         stage("Quality Gate") {
             timeout(time: 1, unit: "MINUTES") {
