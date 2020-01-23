@@ -1,10 +1,7 @@
 package de.th.koeln.archilab.fae.faeteam2service.demenziell_erkrankter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import de.th.koeln.archilab.fae.faeteam2service.position.Position;
-import de.th.koeln.archilab.fae.faeteam2service.zone.Zone;
-import de.th.koeln.archilab.fae.faeteam2service.zone.ZonenTyp;
-import lombok.val;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,7 +17,14 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.HashSet;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import de.th.koeln.archilab.fae.faeteam2service.position.Position;
+import de.th.koeln.archilab.fae.faeteam2service.zone.Zone;
+import de.th.koeln.archilab.fae.faeteam2service.zone.ZonenTyp;
+import lombok.val;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -71,7 +75,7 @@ public class DemenziellErkrankterControllerTest {
 
     @Test
     public void testCreateDemenziellErkrankter() throws Exception {
-        val payload = objectMapper.writeValueAsString(demenziellErkrankterDTO);
+        String payload = objectMapper.writeValueAsString(demenziellErkrankterDTO);
 
         mockMvc.perform(post(PATH)
                 .content(payload)
@@ -83,7 +87,7 @@ public class DemenziellErkrankterControllerTest {
 
     @Test
     public void testCreateDemenziellErkrankterWithInvalidPayload() throws Exception {
-        val payload = "{" +
+        String payload = "{" +
                 "\"demenziellErkrankterId\": \"f33c6fa8-1697-11ea-8d71-362b9e155667\"," +
                 "\"name\": null" +
                 "\"zonen\": []}";
@@ -107,10 +111,10 @@ public class DemenziellErkrankterControllerTest {
     @Test
     public void testUpdateDemenziellerkrankter() throws Exception {
         repository.save(demenziellErkrankter);
-        val newName = "Hans";
-        val dto = DemenziellErkrankter.convert(demenziellErkrankter);
+        String newName = "Hans";
+        DemenziellErkrankterDTO dto = DemenziellErkrankter.convert(demenziellErkrankter);
         dto.setName(newName);
-        val payload = objectMapper.writeValueAsString(dto);
+        String payload = objectMapper.writeValueAsString(dto);
 
         mockMvc.perform(put(PATH + "/{id}", uuid)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -124,11 +128,11 @@ public class DemenziellErkrankterControllerTest {
     public void testUpdateDemenziellerkrankterWithInvalidId() throws Exception {
         repository.save(demenziellErkrankter);
 
-        val newName = "Hans";
-        val dto = DemenziellErkrankter.convert(demenziellErkrankter);
+        String newName = "Hans";
+        DemenziellErkrankterDTO dto = DemenziellErkrankter.convert(demenziellErkrankter);
         dto.setName(newName);
 
-        val payload = objectMapper.writeValueAsString(dto);
+        String payload = objectMapper.writeValueAsString(dto);
 
         mockMvc.perform(put(PATH + "/{id}", "not-a-uuid")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -138,13 +142,13 @@ public class DemenziellErkrankterControllerTest {
 
     @Test
     public void testUpdateDemenziellerkrankterWithIdNotInDatabase() throws Exception {
-        val newName = "Hans";
-        val newUuid = "not-an-id";
-        val dto = DemenziellErkrankter.convert(demenziellErkrankter);
+        String newName = "Hans";
+        String newUuid = "not-an-id";
+        DemenziellErkrankterDTO dto = DemenziellErkrankter.convert(demenziellErkrankter);
         dto.setName(newName);
         dto.setDemenziellErkrankterId(newUuid);
 
-        val payload = objectMapper.writeValueAsString(dto);
+        String payload = objectMapper.writeValueAsString(dto);
 
         mockMvc.perform(put(PATH + "/{id}", newUuid)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -156,8 +160,8 @@ public class DemenziellErkrankterControllerTest {
     public void testUpdateDemenziellerkrankterWithInvalidPayload() throws Exception {
         repository.save(demenziellErkrankter);
 
-        val invalidPayload = "{" +
-                "\"demenziellErkrankterId\": \""+ uuid +"\"," +
+        String invalidPayload = "{" +
+                "\"demenziellErkrankterId\": \"" + uuid + "\"," +
                 "\"name\": null" +
                 "\"zonen\": []}";
 
