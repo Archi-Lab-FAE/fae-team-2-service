@@ -5,16 +5,27 @@ import com.grum.geocalc.BoundingArea;
 import com.grum.geocalc.Coordinate;
 import com.grum.geocalc.EarthCalc;
 import com.grum.geocalc.Point;
-import de.th.koeln.archilab.fae.faeteam2service.demenziell_erkrankter.DemenziellErkrankter;
-import de.th.koeln.archilab.fae.faeteam2service.position.Position;
-import de.th.koeln.archilab.fae.faeteam2service.zone.Zone;
-import lombok.Data;
+
+import org.apache.commons.lang.NotImplementedException;
 import org.apache.commons.lang.StringUtils;
 import org.threeten.bp.OffsetDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
 
-import javax.persistence.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+
+import de.th.koeln.archilab.fae.faeteam2service.demenziell_erkrankter.DemenziellErkrankter;
+import de.th.koeln.archilab.fae.faeteam2service.position.Position;
+import de.th.koeln.archilab.fae.faeteam2service.zone.Zone;
+import lombok.Data;
 
 @Entity
 @Data
@@ -60,14 +71,21 @@ public class Positionssender {
         if (update.batterieStatus != null) batterieStatus = update.getBatterieStatus();
         if (update.genauigkeit != null) genauigkeit = update.getGenauigkeit();
         if (update.position != null) position = update.getPosition();
-        if(update.demenziellErkrankter != null) demenziellErkrankter = update.getDemenziellErkrankter();
+        if (update.demenziellErkrankter != null)
+            demenziellErkrankter = update.getDemenziellErkrankter();
     }
+
+
+    public boolean isInZone(Zone zone) {
+        throw new NotImplementedException(); ///TODO
+    }
+
     public static List<PositionssenderDTO> positionssenderInZone(List<PositionssenderDTO> posSender, Zone zone) throws Exception {
         Positionssender positionssender;
-        List<PositionssenderDTO>  result = new ArrayList<>();
-        for(PositionssenderDTO sender:posSender){
+        List<PositionssenderDTO> result = new ArrayList<>();
+        for (PositionssenderDTO sender : posSender) {
             positionssender = convert(sender);
-            if(positionssender.getPosition().getLaengengrad()!=null & positionssender.getPosition().getBreitengrad()!=null) {
+            if (positionssender.getPosition().getLaengengrad() != null & positionssender.getPosition().getBreitengrad() != null) {
                 Point positionPoint = Point.at(Coordinate.fromDegrees(positionssender.getPosition().getBreitengrad()),
                         Coordinate.fromDegrees(positionssender.getPosition().getLaengengrad()));
 
@@ -94,13 +112,18 @@ public class Positionssender {
         return result;
     }
 
-    public static List<PositionssenderDTO> positionssenderInnerhalbRadius(List<PositionssenderDTO> posSender, Double radius, Position position){
+    public boolean isInnerhalbRadius(double radius, double laengengrad, double breitengrad) {
+        throw new NotImplementedException(); ///TODO
+    }
+
+
+    public static List<PositionssenderDTO> positionssenderInnerhalbRadius(List<PositionssenderDTO> posSender, Double radius, Position position) {
         Positionssender positionssender;
-        List<PositionssenderDTO>  result = new ArrayList<PositionssenderDTO>();
-        Point ursprung = Point.at(Coordinate.fromDegrees(position.getBreitengrad()),Coordinate.fromDegrees(position.getLaengengrad()));
+        List<PositionssenderDTO> result = new ArrayList<PositionssenderDTO>();
+        Point ursprung = Point.at(Coordinate.fromDegrees(position.getBreitengrad()), Coordinate.fromDegrees(position.getLaengengrad()));
         BoundingArea kreisArea = EarthCalc.around(ursprung, radius);
 
-        for(PositionssenderDTO sender:posSender) {
+        for (PositionssenderDTO sender : posSender) {
             positionssender = convert(sender);
             if(positionssender.getPosition().getBreitengrad() != null &&positionssender.getPosition().getLaengengrad()!=null) {
                 System.out.println(positionssender.getPosition().getBreitengrad());

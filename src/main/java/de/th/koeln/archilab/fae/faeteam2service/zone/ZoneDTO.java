@@ -9,15 +9,16 @@ import java.util.List;
 import java.util.Objects;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Size;
 
 import de.th.koeln.archilab.fae.faeteam2service.position.PositionDTO;
 import io.swagger.annotations.ApiModelProperty;
 
 /**
- * ZoneDTO
+ * Zone
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-12-19T10:48:55.616846300+01:00[Europe/Berlin]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-01-23T20:04:16.757Z[GMT]")
 public class ZoneDTO {
     @JsonProperty("zoneId")
     private String zoneId = null;
@@ -113,6 +114,7 @@ public class ZoneDTO {
      **/
     @ApiModelProperty(value = "")
     @Valid
+    @Size(min = 2, max = 2)
     public List<PositionDTO> getPositionen() {
         return positionen;
     }
@@ -123,7 +125,7 @@ public class ZoneDTO {
 
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(java.lang.Object o) {
         if (this == o) {
             return true;
         }
@@ -159,7 +161,7 @@ public class ZoneDTO {
      * Convert the given object to string with each line indented by 4 spaces
      * (except the first line).
      */
-    private String toIndentedString(Object o) {
+    private String toIndentedString(java.lang.Object o) {
         if (o == null) {
             return "null";
         }
