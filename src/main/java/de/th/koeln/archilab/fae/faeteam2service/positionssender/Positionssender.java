@@ -5,23 +5,6 @@ import com.grum.geocalc.BoundingArea;
 import com.grum.geocalc.Coordinate;
 import com.grum.geocalc.EarthCalc;
 import com.grum.geocalc.Point;
-
-import org.apache.commons.lang.NotImplementedException;
-import org.apache.commons.lang.StringUtils;
-import org.threeten.bp.OffsetDateTime;
-import org.threeten.bp.format.DateTimeFormatter;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-
 import de.th.koeln.archilab.fae.faeteam2service.demenziell_erkrankter.DemenziellErkrankter;
 import de.th.koeln.archilab.fae.faeteam2service.position.Position;
 import de.th.koeln.archilab.fae.faeteam2service.positionssender.events.ZonenabweichungKafkaPublisher;
@@ -96,65 +79,43 @@ public class Positionssender {
     }
 
 
-    public boolean isInZone(Zone zone) {
-        throw new NotImplementedException(); ///TODO
-    }
+    public boolean isInZone(Zone zone) throws InvalidObjectException {
+        if (position.getLaengengrad() != null && position.getBreitengrad() != null) {
+            Point positionPoint = position.toPoint();
 
-    public static List<PositionssenderDTO> positionssenderInZone(List<PositionssenderDTO> posSender, Zone zone) throws InvalidObjectException {
-        Positionssender positionssender;
-        List<PositionssenderDTO> result = new ArrayList<>();
-        for (PositionssenderDTO sender : posSender) {
-            positionssender = convert(sender);
-            if (positionssender.getPosition().getLaengengrad() != null & positionssender.getPosition().getBreitengrad() != null) {
-                Point positionPoint = Point.at(Coordinate.fromDegrees(positionssender.getPosition().getBreitengrad()),
-                        Coordinate.fromDegrees(positionssender.getPosition().getLaengengrad()));
+            List<Position> positionsliste = new ArrayList<>(zone.getPositionen());
 
-                List<Position> positionsliste = new ArrayList<>(zone.getPositionen());
+            //TODO: Vielleicht Decision wie die Punkte definiert werden. NorthWest an Position 0 oder als Attribute?
+            if (positionsliste.size() == 2) {
 
-                //TODO: Vielleicht Decision wie die Punkte definiert werden. NorthWest an Position 0 oder als Attribute?
-                if (positionsliste.size() == 2) {
-                    Point northWest = Point.at(Coordinate.fromDegrees(positionsliste.get(0).getBreitengrad()),
-                            Coordinate.fromDegrees(positionsliste.get(0).getLaengengrad()));
-                    Point southEast = Point.at(Coordinate.fromDegrees(positionsliste.get(1).getBreitengrad()),
-                            Coordinate.fromDegrees(positionsliste.get(1).getLaengengrad()));
+                Point northWest = positionsliste.get(0).toPoint();
+                Point southEast = positionsliste.get(1).toPoint();
 
-                    BoundingArea area = BoundingArea.at(northWest, southEast);
+                BoundingArea area = BoundingArea.at(northWest, southEast);
 
-                    if (area.contains(positionPoint)) {
-                        result.add(convert(positionssender));
-                    }
-                } else {
-                    throw new InvalidObjectException("Zone wurde nicht korrekt initialisiert");
-                }
+                return area.contains(positionPoint);
             }
+
+            throw new InvalidObjectException("Die Positionsliste der Zone besitzt nicht genau zwei Elemente.");
         }
-        return result;
+
+        throw new InvalidObjectException("Positionssender besitzt keine Position.");
     }
 
-    public boolean isInnerhalbRadius(double radius, double laengengrad, double breitengrad) {
-        throw new NotImplementedException(); ///TODO
-    }
+    public boolean isInnerhalbRadius(double radius, double laengengrad, double breitengrad) throws InvalidObjectException {
 
+        if (position.getBreitengrad() != null && position.getLaengengrad() != null) {
+            log.debug("{}", position.getBreitengrad());
+            log.debug("{}", position.getLaengengrad());
 
-    public static List<PositionssenderDTO> positionssenderInnerhalbRadius(List<PositionssenderDTO> posSender, Double radius, Position position) {
-        Positionssender positionssender;
-        List<PositionssenderDTO> result = new ArrayList<>();
-        Point ursprung = Point.at(Coordinate.fromDegrees(position.getBreitengrad()), Coordinate.fromDegrees(position.getLaengengrad()));
-        BoundingArea kreisArea = EarthCalc.around(ursprung, radius);
+            Point ursprung = Point.at(Coordinate.fromDegrees(breitengrad), Coordinate.fromDegrees(laengengrad));
+            BoundingArea kreisArea = EarthCalc.around(ursprung, radius);
+            Point positionssenderPunkt = position.toPoint();
 
-        for (PositionssenderDTO sender : posSender) {
-            positionssender = convert(sender);
-            if (positionssender.getPosition().getBreitengrad() != null && positionssender.getPosition().getLaengengrad() != null) {
-                log.debug("{}", positionssender.getPosition().getBreitengrad());
-                log.debug("{}", positionssender.getPosition().getLaengengrad());
-
-                Point positionssenderPunkt = Point.at(Coordinate.fromDegrees(positionssender.getPosition().getBreitengrad()), Coordinate.fromDegrees(positionssender.getPosition().getLaengengrad()));
-                if (kreisArea.contains(positionssenderPunkt)) {
-                    result.add(convert(positionssender));
-                }
-            }
+            return kreisArea.contains(positionssenderPunkt);
         }
-        return result;
+
+        throw new InvalidObjectException("Positionssender besitzt keine Position.");
     }
 
     public static Positionssender convert(PositionssenderDTO dto) {
