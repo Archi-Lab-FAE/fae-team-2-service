@@ -24,7 +24,7 @@ public class ZonenabweichungKafkaPublisher {
                 positionssender.getPositionssenderId(),
                 EVENT_VERSION,
                 OffsetDateTime.now(Clock.systemUTC()).toString(),
-                new ZonenabweichungMessage(positionssender.getPositionssenderId(), msg)
+                new ZonenabweichungMessage(positionssender.getPositionssenderId(), positionssender.getPosition(), msg)
         );
 
         kafkaGateway.publishZonenabweichungEvent(event);
