@@ -24,6 +24,6 @@ public class HomeController {
     @GetMapping(value = "/asyncapi")
     public String eventApi() {
         log.info("Redirected to asyncapi");
-        return "redirect:/index.html";
+        return "redirect:/asyncapi/index.html";
     }
 }
