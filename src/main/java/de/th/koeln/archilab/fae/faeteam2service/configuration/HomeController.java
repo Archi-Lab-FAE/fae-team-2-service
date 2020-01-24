@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-
 import springfox.documentation.annotations.ApiIgnore;
 
 /**
@@ -20,5 +19,11 @@ public class HomeController {
     public String index() {
         log.info("Redirected to swagger-ui.html");
         return "redirect:/swagger-ui.html";
+    }
+
+    @GetMapping(value = "/asyncapi")
+    public String eventApi() {
+        log.info("Redirected to asyncapi");
+        return "redirect:/index.html";
     }
 }
