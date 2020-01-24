@@ -24,7 +24,7 @@ public class ZonenabweichungKafkaGateway {
     public ZonenabweichungKafkaGateway(
             KafkaTemplate<String, String> kafkaTemplate,
             ObjectMapper objectMapper,
-            @Value("${zone.topic}") String topic) {
+            @Value("${zonenabweichung.topic}") String topic) {
         this.kafkaTemplate = kafkaTemplate;
         this.objectMapper = objectMapper;
         this.topic = topic;
