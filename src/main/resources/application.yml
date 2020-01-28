@@ -45,3 +45,4 @@ tracker.topic: tracker
 messaging:
   service-post-url: "http://fae-team-3-service/ausnahmesituation"
   delayBetweenRetry: 15000 #in ms
+  maxAgeForRetry: 20 #in min

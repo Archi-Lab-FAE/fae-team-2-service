@@ -12,9 +12,11 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.LocalDateTime;
 import java.util.stream.StreamSupport;
 
 import de.th.koeln.archilab.fae.faeteam2service.positionssender.events.ZonenabweichungMessage;
+import lombok.val;
 
 @Component
 public class ZonenAusnahmeHandler {
@@ -23,6 +25,9 @@ public class ZonenAusnahmeHandler {
 
     @Value("${messaging.service-post-url}")
     private String messagingServiceUrl;
+
+    @Value("${messaging.maxAgeForRetry}")
+    private long maxAgeForRetry;
 
     private ZonenAusnahmeRepository ausnahmeRepository;
 
@@ -41,11 +46,20 @@ public class ZonenAusnahmeHandler {
      */
     @Scheduled(initialDelay = 30000L, fixedDelayString = "${messaging.delayBetweenRetry}")
     private void sendZonenAusnahmen() {
-        log.info("Sending all open ZonenAusnahmen...");
-        StreamSupport.stream(
-                ausnahmeRepository.findAllByAbgeschlossenFalse().spliterator(),
-                false)
-                .forEach(this::sendZonenAusnahme);
+        log.info("Handling all open ZonenAusnahmen...");
+        val ausnahmeSpliterator = ausnahmeRepository.findAllByAbgeschlossenFalse().spliterator();
+        val maxDate = LocalDateTime.now().plusMinutes(maxAgeForRetry);
+
+        //"Remove" all entries which are older then the given threshold
+        //and try resend all others
+        StreamSupport.stream(ausnahmeSpliterator, false).forEach(zonenAusnahme -> {
+            if (zonenAusnahme.getEntstanden().isBefore(maxDate)) {
+                zonenAusnahme.setAbgeschlossen(true);
+                ausnahmeRepository.save(zonenAusnahme);
+            } else {
+                sendZonenAusnahme(zonenAusnahme);
+            }
+        });
     }
 
     /**
