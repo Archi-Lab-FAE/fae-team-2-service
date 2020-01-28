@@ -1,5 +1,8 @@
 package de.th.koeln.archilab.fae.faeteam2service.kafka.events;
 
+import lombok.EqualsAndHashCode;
+
+@EqualsAndHashCode(callSuper = true)
 public class CrudDomainEvent<T> extends DomainEvent {
 
     private final T payload;
