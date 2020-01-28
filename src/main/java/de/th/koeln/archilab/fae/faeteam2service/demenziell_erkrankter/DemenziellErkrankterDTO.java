@@ -12,7 +12,7 @@ import java.util.Objects;
 
 /**
  * DemenziellErkrankterDTO
- * TODO nach event durch team-1 anpassen.
+ * TODO nach event durch team-1 anpassen. &
  */
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-01-07T14:10:32.528Z[GMT]")

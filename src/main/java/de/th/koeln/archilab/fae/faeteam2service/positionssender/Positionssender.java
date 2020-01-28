@@ -83,7 +83,7 @@ public class Positionssender {
 
             List<Position> positionsliste = new ArrayList<>(zone.getPositionen());
 
-            //TODO: Vielleicht Decision wie die Punkte definiert werden. NorthWest an Position 0 oder als Attribute?
+            //TODO: Vielleicht Decision wie die Punkte definiert werden. NorthWest an Position 0 oder als Attribute? --> in Test umsetzen.
             if (positionsliste.size() == 2) {
 
                 Point northWest = positionsliste.get(0).toPoint();
