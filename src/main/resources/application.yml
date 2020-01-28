@@ -42,4 +42,4 @@ positionssender.topic: positionssender
 tracker.topic: tracker
 
 # Messaging system
-messagingSystem.url: "https://api.fae.archi-lab.io/team-4/"
+messagingSystem.url: "fae-team-3-service"
