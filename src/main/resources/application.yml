@@ -42,4 +42,6 @@ positionssender.topic: positionssender
 tracker.topic: tracker
 
 # Messaging system
-messagingSystem.url: "fae-team-3-service"
+messaging:
+  service-post-url: "http://fae-team-3-service/ausnahmesituation"
+  delayBetweenRetry: 15000 #in ms
