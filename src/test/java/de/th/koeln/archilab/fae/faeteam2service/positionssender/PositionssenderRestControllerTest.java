@@ -245,16 +245,13 @@ public class PositionssenderRestControllerTest {
 
    @Test
     public void getAllPositionssenderInnerhalbRadiusMitPositionUndRadius() throws Exception {
-        PositionDTO positionDTO = new PositionDTO();
-        positionDTO.setLaengengrad(1.5);
-        positionDTO.setBreitengrad(1.5);
-
+        double laengengrad = 1.5;
+        double breitengrad = 1.5;
         double radius = 200.9; //meter
 
-        mvc.perform(get("/positionssender?radius="+radius)
+        mvc.perform(get("/positionssender/findInRadius?radius="+radius+"&laengengrad="+laengengrad+"&breitengrad="+breitengrad)
                 .accept(MediaType.APPLICATION_JSON)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(positionDTO)))
+                .contentType(MediaType.APPLICATION_JSON))
 
                 .andExpect(status().isOk())
                 .andExpect(header().string("content-type", "application/json;charset=UTF-8"))
@@ -262,18 +259,11 @@ public class PositionssenderRestControllerTest {
     }
     @Test
     public void getAllPositionssenderInnerhalbRadiusMitPositionOhneRadius() throws Exception{
-        PositionDTO positionDTO = new PositionDTO();
-        positionDTO.setLaengengrad(1.5);
-        positionDTO.setBreitengrad(1.5);
-
-
-        mvc.perform(get("/positionssender")
+        mvc.perform(get("/positionssender/findInRadius")
                 .accept(MediaType.APPLICATION_JSON)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(positionDTO)))
+                .contentType(MediaType.APPLICATION_JSON))
 
-                .andExpect(status().isOk())
-                .andExpect(header().string("content-type", "application/json;charset=UTF-8"));
+                .andExpect(status().isBadRequest());
     }
 
 }
