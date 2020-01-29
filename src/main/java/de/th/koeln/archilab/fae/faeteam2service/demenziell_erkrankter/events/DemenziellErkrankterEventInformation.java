@@ -9,6 +9,10 @@ import javax.persistence.Id;
 import java.util.Date;
 import java.util.UUID;
 
+/**
+ * All information for which is given in an event for a demenziell Erkrankten.
+ * @see <a href="https://fae.archi-lab.io/global/2020/01/10/team-3-Event-Structure.html">Event Structure Definition</a>
+ */
 @Entity
 @Getter
 @EqualsAndHashCode

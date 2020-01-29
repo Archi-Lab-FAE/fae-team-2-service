@@ -16,6 +16,10 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.util.Date;
 
+/**
+ * The DemenziellErkrankterEventConsumer consumes all events of the topic demenziellerkrankter,
+ * which are published by Team-1 and persistently saves them in the database.
+ */
 @Component
 public class DemenziellErkrankterEventConsumer {
 
@@ -37,6 +41,11 @@ public class DemenziellErkrankterEventConsumer {
         this.demenziellErkrankterRepository = demenziellErkrankterRepository;
     }
 
+    /**
+     * Consume all events for the topic demenziellerkrankter and save them in the database.
+     * @param message json message of the event
+     * @throws IOException If the message cannot be parsed into an object.
+     */
     @KafkaListener(topics = "${demenziellerkrankter.topic}", groupId = "${spring.kafka.group-id}", autoStartup = "${spring.kafka.enabled}")
     public void listen(String message) throws IOException {
         CrudDomainEvent crudDomainEvent = this.objectMapper

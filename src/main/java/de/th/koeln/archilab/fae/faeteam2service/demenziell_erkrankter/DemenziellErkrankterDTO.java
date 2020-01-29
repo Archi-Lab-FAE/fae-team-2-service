@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * DemenziellErkrankterDTO
+ * The DTO object is used to receive data of a DemenziellErkrankter, which is published by Team-1
  * TODO nach event durch team-1 anpassen. &
  */
 @Validated
