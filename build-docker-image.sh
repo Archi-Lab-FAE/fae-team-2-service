@@ -1,0 +1,1 @@
+docker build -f "./Dockerfile" -t docker.nexus.archi-lab.io/archilab/fae-team-2-service .
