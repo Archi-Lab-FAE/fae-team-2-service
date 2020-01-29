@@ -63,7 +63,7 @@ public class PositionssenderRestControllerTest {
 
     private OffsetDateTime getRandomDate() {
         return OffsetDateTime.of(
-                2019,
+                2020,
                 rng.nextInt(12) + 1,
                 rng.nextInt(29) + 1,
                 rng.nextInt(23) + 1,
@@ -110,27 +110,31 @@ public class PositionssenderRestControllerTest {
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$[0].positionssenderId").isNotEmpty());
     }
-    @Test
+    /*@Test
     //TODO: Fehlt da noch etwas? Es müssen keine Positionssender übergeben werden, da diese Funktion speziell woanders getestet wird?
     public void findeAllePositionssenderMitZoneIdWennSieExistiert() throws Exception {
-        Position position = new Position(2.0,3.6);
-        Position position2 =   new Position(2.4,3.3);
+        Position northEast = new Position(40.0,60.0);
+        Position southWest =   new Position(20.0,50.0);
         List<Position> positionsset = new ArrayList<>();
-        positionsset.add(position);
-        positionsset.add(position2);
+        positionsset.add(northEast);
+        positionsset.add(southWest);
         Zone zone = new Zone(2f, ZonenTyp.GEWOHNT, positionsset);
-        zoneRepository.save(zone);
 
+        zoneRepository.save(zone);
         String zoneId = zone.getZoneId();
+
+        Positionssender positionssender = new Positionssender();
+        positionssender.setPosition(new Position(30.0,55.0));
+        positionssenderRepository.save(positionssender);
+
         mvc.perform(get("/positionssender")
                 .param("zoneId", zoneId)
                 .accept(MediaType.APPLICATION_JSON))
 
                 .andExpect(status().isOk())
                 .andExpect(header().string("content-type", "application/json;charset=UTF-8"));
-                //.andExpect(content.isEmpty())?
     }
-
+*/
     @Test
     public void findeAllePositionssenderMitZoneIdWennSieNichtExistiert() throws Exception {
         String zoneId = "13464337368383837575";

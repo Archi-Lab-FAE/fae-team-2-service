@@ -76,27 +76,6 @@ public class Positionssender {
         if (update.demenziellErkrankter != null) demenziellErkrankter = update.getDemenziellErkrankter();
     }
 
-
-    public boolean isInZone(Zone zone) {
-        if (position.getLaengengrad() != null && position.getBreitengrad() != null) {
-            Point positionPoint = position.toPoint();
-
-            List<Position> positionsliste = new ArrayList<>(zone.getPositionen());
-
-            if (positionsliste.size() == 2) {
-
-                Point northWest = positionsliste.get(0).toPoint();
-                Point southEast = positionsliste.get(1).toPoint();
-
-                BoundingArea area = BoundingArea.at(northWest, southEast);
-
-                return area.contains(positionPoint);
-            }
-        }
-
-        return false;
-    }
-
     public boolean isInnerhalbRadius(double radius, double laengengrad, double breitengrad) {
 
         if (position.getBreitengrad() != null && position.getLaengengrad() != null) {
