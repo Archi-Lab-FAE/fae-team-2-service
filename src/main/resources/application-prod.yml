@@ -1,16 +1,10 @@
 spring:
   datasource:
-    driverClassName: org.h2.Driver
-    url: jdbc:h2:mem:testdb
-    username: sa
-    password:
+    url: jdbc:postgresql://${TEAM2_DB}:5432/${TEAM2_DB_NAME}
+    password: ${TEAM2_DB_PW}
+    username: ${TEAM2_DB_USER}
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
-  h2:
-    console:
-      enabled: true
-      settings:
-        web-allow-others: true
   # kafka servers
   kafka:
     bootstrap-servers: kafka-1:9092,kafka-2:9092,kafka-3:9092

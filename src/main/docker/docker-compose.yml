@@ -4,22 +4,25 @@ services:
   postgres:
     image: postgres:10.1
     volumes:
-      - shop_demo_db:/var/lib/postgresql/data
+      - fae-team-2-service_db:/var/lib/postgresql/data
     environment:
-      - POSTGRES_PASSWORD=_FAE_DeMO_MS_2019
-      - POSTGRES_USER=shop_demo
-      - POSTGRES_DB=shop_demo
+      - POSTGRES_PASSWORD=SuperTeam123
+      - POSTGRES_USER=team2
+      - POSTGRES_DB=team2
       - PGDATA=/var/lib/postgresql/data/pgdata
     networks:
       - service_internal
+      - fae_backend
+    ports:
+      - "25565:5432"
   springboot-service:
     image: docker.nexus.archi-lab.io/archilab/fae-team-2-service
     environment:
       - TZ=Europe/Berlin
-      - SHOP_DEMO_DB=postgres
-      - SHOP_DEMO_DB_NAME=shop_demo
-      - SHOP_DEMO_DB_USER=shop_demo
-      - SHOP_DEMO_DB_PW=_FAE_DeMO_MS_2019
+      - TEAM2_DB=postgres
+      - TEAM2_DB_NAME=team2
+      - TEAM2_DB_USER=team2
+      - TEAM2_DB_PW=SuperTeam123
     depends_on:
       - postgres
     networks:
@@ -27,7 +30,7 @@ services:
       - fae_backend
 
 volumes:
-  shop_demo_db: {}
+  fae-team-2-service_db: {}
 
 networks:
   service_internal:
