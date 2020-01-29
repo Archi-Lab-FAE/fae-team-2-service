@@ -14,6 +14,7 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 
@@ -61,7 +62,7 @@ public class ZoneRestControllerIntegrationTest {
 
     @Test
     public void getZoneShouldWorkWhenZoneExists() throws Exception {
-        Zone zone = new Zone(1f, ZonenTyp.GEWOHNT, new HashSet<>());
+        Zone zone = new Zone(1f, ZonenTyp.GEWOHNT, new ArrayList<>());
         zoneRepository.save(zone);
 
         String zoneId = zone.getZoneId();
@@ -88,7 +89,7 @@ public class ZoneRestControllerIntegrationTest {
 
     @Test
     public void updateZoneReturnUpdatedZone() throws Exception {
-        Zone zone = new Zone(1f, ZonenTyp.GEWOHNT, new HashSet<>());
+        Zone zone = new Zone(1f, ZonenTyp.GEWOHNT, new ArrayList<>());
         zoneRepository.save(zone);
 
         ZoneDTO zonenUpdate = new ZoneDTO();

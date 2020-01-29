@@ -18,9 +18,7 @@ import org.springframework.stereotype.Component;
 import org.threeten.bp.OffsetDateTime;
 import org.threeten.bp.ZoneOffset;
 
-import java.util.HashSet;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 @Component
 @Profile("local")
@@ -87,8 +85,8 @@ public class SampleDataLoader implements ApplicationListener<ContextRefreshedEve
     }
 
 
-    private Set<Position> generateAndSaveRandomPositions(int count) {
-        Set<Position> positionen = new HashSet<>();
+    private List<Position> generateAndSaveRandomPositions(int count) {
+        List<Position> positionen = new ArrayList<>();
         for (int i = 0; i < count; i++) {
             positionen.add(new Position(rng.nextDouble() * 1000, rng.nextDouble() * 1000));
         }

@@ -6,10 +6,7 @@ import lombok.Data;
 import org.apache.commons.lang.StringUtils;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 
 @Entity
@@ -25,13 +22,13 @@ public class Zone {
     private ZonenTyp typ;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<Position> positionen;
+    private List<Position> positionen;
 
     public Zone() {
         this(null, null, null);
     }
 
-    public Zone(Float toleranz, ZonenTyp typ, Set<Position> positionen) {
+    public Zone(Float toleranz, ZonenTyp typ, List<Position> positionen) {
         this.zoneId = UUID.randomUUID().toString();
         this.toleranz = toleranz;
         this.typ = typ;
@@ -53,7 +50,7 @@ public class Zone {
         entity.typ = dto.getTyp();
 
         if (dto.getPositionen() != null) {
-            entity.positionen = new HashSet<>();
+            entity.positionen = new ArrayList<>();
             dto.getPositionen().forEach(positionDto -> entity.positionen.add(Position.convert(positionDto)));
         }
 

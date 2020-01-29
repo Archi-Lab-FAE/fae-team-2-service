@@ -15,6 +15,7 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 
 import de.th.koeln.archilab.fae.faeteam2service.position.Position;
@@ -55,11 +56,11 @@ public class DemenziellErkrankterControllerTest {
 
     @Before
     public void init() {
-        val positionen1 = new HashSet<Position>();
+        val positionen1 = new ArrayList<Position>();
         positionen1.add(new Position(7.5649, 51.02322));
         positionen1.add(new Position(6.5649, 50.02322));
 
-        val positionen2 = new HashSet<Position>();
+        val positionen2 = new ArrayList<Position>();
         positionen2.add(new Position(8.5649, 52.02322));
         positionen2.add(new Position(9.5649, 49.02322));
 

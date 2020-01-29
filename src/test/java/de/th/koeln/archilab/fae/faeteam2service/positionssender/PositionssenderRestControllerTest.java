@@ -16,9 +16,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.threeten.bp.OffsetDateTime;
 import org.threeten.bp.ZoneOffset;
 
-import java.util.HashSet;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 import de.th.koeln.archilab.fae.faeteam2service.demenziell_erkrankter.DemenziellErkrankter;
 import de.th.koeln.archilab.fae.faeteam2service.demenziell_erkrankter.DemenziellErkrankterRepository;
@@ -117,7 +115,7 @@ public class PositionssenderRestControllerTest {
     public void findeAllePositionssenderMitZoneIdWennSieExistiert() throws Exception {
         Position position = new Position(2.0,3.6);
         Position position2 =   new Position(2.4,3.3);
-        Set<Position> positionsset = new HashSet<>();
+        List<Position> positionsset = new ArrayList<>();
         positionsset.add(position);
         positionsset.add(position2);
         Zone zone = new Zone(2f, ZonenTyp.GEWOHNT, positionsset);
@@ -170,7 +168,7 @@ public class PositionssenderRestControllerTest {
     @Test
     public void findeZoneByPositionssenderIdWennSenderExistiert() throws Exception {
         Set<Zone> zoneSet = new HashSet<>();
-        Zone zone = new Zone(2f, ZonenTyp.GEWOHNT, new HashSet<>());
+        Zone zone = new Zone(2f, ZonenTyp.GEWOHNT, new ArrayList<>());
         zoneSet.add(zone);
         zoneRepository.save(zone);
 

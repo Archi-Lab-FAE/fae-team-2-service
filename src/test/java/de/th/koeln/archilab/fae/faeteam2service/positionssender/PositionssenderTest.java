@@ -81,16 +81,16 @@ public class PositionssenderTest {
         positionssender.update(positionssenderNull);
 
         assertEquals("Hans", positionssender.getDemenziellErkrankter().getName());
-        assertEquals(1f, positionssender.getBatterieStatus().floatValue(),0.0002);
+        assertEquals(1f, positionssender.getBatterieStatus(),0.0002);
         assertEquals(letztesSignal, positionssender.getLetztesSignal());
         assertEquals(position.getBreitengrad(), positionssender.getPosition().getBreitengrad());
 
     }
     @Test
-    public void positionssenderIstInZoneKorrektInitialisiert() throws Exception {
+    public void positionssenderIstInZoneKorrektInitialisiert() {
         Position position = new Position(2.0,3.0);
         Position position2 =   new Position(2.4,3.3);
-        Set<Position> positionsset = new HashSet<>();
+        List<Position> positionsset = new ArrayList<>();
         positionsset.add(position);
         positionsset.add(position2);
         Zone zone = new Zone(2f, ZonenTyp.GEWOHNT, positionsset);
@@ -111,7 +111,7 @@ public class PositionssenderTest {
     public void positionssenderIstInZoneFalschInitialisiert() throws Exception {
         Boolean exception = false;
         Position position = new Position(43.0,43.6);
-        Set<Position> positionsset = new HashSet<>();
+        List<Position> positionsset = new ArrayList<>();
         positionsset.add(position);
         Zone zone = new Zone(2f, ZonenTyp.GEWOHNT, positionsset);
 
@@ -125,7 +125,7 @@ public class PositionssenderTest {
         positionssender.setPositionssenderId("1234");
 
         try {
-            Boolean posSenderInZone = positionPositionssender.inZone(zone);
+            positionPositionssender.inZone(zone);
         }catch(Exception e){
             exception = true;
         }

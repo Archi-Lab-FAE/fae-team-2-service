@@ -66,7 +66,7 @@ public class Position {
         Point northWest = positionenList.get(0).toPoint();
         Point southEast = positionenList.get(1).toPoint();
 
-        BoundingArea area = BoundingArea.at(northWest, southEast);
+        BoundingArea area = BoundingArea.at(southEast, northWest);
 
         return area.contains(toPoint());
     }
