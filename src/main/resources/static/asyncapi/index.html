@@ -29,11 +29,7 @@
       <li class="mb-3">
         <a class="js-menu-item text-grey-darkest no-underline" href="#introduction">Introduction</a>
       </li>
-      
-      <li class="mb-3">
-        <a class="js-menu-item text-grey-darkest no-underline" href="#servers">Servers</a>
-      </li>
-      
+
     </ul>
     
     <h2 class="text-xs uppercase text-grey mt-10 mb-4 font-thin">Operations</h2>
@@ -65,13 +61,13 @@
         
         
         <a class="js-menu-item flex break-words no-underline text-grey-darkest mt-8 sm:mt-8 md:mt-3"
-          href="#operation-subscribe-positionssender">
+          href="#operation-subscribe-tracker">
           <span class="bg-green-dark font-bold no-underline text-white uppercase p-1 mr-2 rounded"
             style="height: 21px;font-size: 11px;" title="Subscribe">Sub</span>
           
           <div style="display:inline-block;">
             
-<span class="string-chunk" style="padding-top: 2px;">positionssender</span>
+<span class="string-chunk" style="padding-top: 2px;">tracker</span>
 
           </div>
           
@@ -173,7 +169,7 @@
 
     </h3>
 
-    <div class="mt-4 mb-4 markdown"><p>Die Topic, auf welcher Personendaten für demenziell Erkrankte erzeugt und konsumiert werden.</p>
+    <div class="mt-4 mb-4 markdown"><p>Die Topic, auf welcher Personendaten für demenziell Erkrankte erzeugt und konsumiert werden. (Äquivalent zu Team-1)</p>
 </div>
 
     <p class="text-grey text-sm"></p>
@@ -258,7 +254,7 @@ object
   <div class="">
     <div class=" flex property">
       <div class="pr-4" style="margin-top:-2px; min-width: 25%;">
-        <span class="text-sm " style="word-break: break-word;">demenziellErkrankterId</span>
+        <span class="text-sm " style="word-break: break-word;">id</span>
         
         
       </div>
@@ -353,9 +349,400 @@ string
 
 <div class="bg-grey-lightest pl-8 pr-8 rounded">
   <div class="">
+    <div class=" flex property">
+      <div class="pr-4" style="margin-top:-2px; min-width: 25%;">
+        <span class="text-sm " style="word-break: break-word;">vorname</span>
+        
+        
+      </div>
+
+      <div>
+        <div class="capitalize text-sm text-teal font-bold">
+          
+string
+          
+          
+          
+          <div class="inline-block">
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+          </div>
+        </div>
+
+        
+        
+        
+        
+        
+      </div>
+    </div>
+
+    
+  </div>
+</div>
+
+
+          
+            
+
+<div class="bg-grey-lightest pl-8 pr-8 rounded">
+  <div class="">
     <div class="js-prop cursor-pointer py-2 flex property">
       <div class="pr-4" style="margin-top:-2px; min-width: 25%;">
-        <span class="text-sm " style="word-break: break-word;">zonen</span>
+        <span class="text-sm " style="word-break: break-word;">kontaktpersonen</span>
+        
+        <svg class="expand" version="1.1" viewBox="0 0 24 24" x="0"
+          xmlns="http://www.w3.org/2000/svg" y="0">
+          <polygon points="17.3 8.3 12 13.6 6.7 8.3 5.3 9.7 12 16.4 18.7 9.7 "></polygon>
+        </svg>
+        
+        
+      </div>
+
+      <div>
+        <div class="capitalize text-sm text-teal font-bold">
+          
+array&lt;object&gt;
+          
+          
+          
+          <div class="inline-block">
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+          </div>
+        </div>
+
+        
+        
+        
+        
+        
+      </div>
+    </div>
+
+    
+      <div class="children bg-grey-lighter py-4 rounded">
+        
+
+        
+        
+
+        
+          
+            <p class="pl-6 mb-2 text-xs font-bold uppercase text-grey-darker">Items:</p>
+            
+              
+
+<div class="bg-grey-lighter pl-8 pr-8 rounded">
+  <div class="">
+    <div class="js-prop cursor-pointer py-2 flex property">
+      <div class="pr-4" style="margin-top:-2px; min-width: 25%;">
+        <span class="text-sm " style="word-break: break-word;">0</span>
+        
+        <svg class="expand" version="1.1" viewBox="0 0 24 24" x="0"
+          xmlns="http://www.w3.org/2000/svg" y="0">
+          <polygon points="17.3 8.3 12 13.6 6.7 8.3 5.3 9.7 12 16.4 18.7 9.7 "></polygon>
+        </svg>
+        
+        
+      </div>
+
+      <div>
+        <div class="capitalize text-sm text-teal font-bold">
+          
+object
+          
+          
+          
+          <div class="inline-block">
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+          </div>
+        </div>
+
+        
+        
+        
+        
+        
+      </div>
+    </div>
+
+    
+      <div class="children bg-grey-lightest py-4 rounded">
+        
+          
+            
+
+<div class="bg-grey-lightest pl-8 pr-8 rounded">
+  <div class="">
+    <div class=" flex property">
+      <div class="pr-4" style="margin-top:-2px; min-width: 25%;">
+        <span class="text-sm " style="word-break: break-word;">id</span>
+        
+        
+      </div>
+
+      <div>
+        <div class="capitalize text-sm text-teal font-bold">
+          
+string
+          
+          
+          
+          <div class="inline-block">
+            
+              <span class="bg-yellow-dark font-bold no-underline text-black rounded lowercase ml-2"
+                style="height: 20px;font-size: 11px;padding: 3px;">uuid-as-string</span>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+          </div>
+        </div>
+
+        
+        
+        
+        
+        
+      </div>
+    </div>
+
+    
+  </div>
+</div>
+
+
+          
+            
+
+<div class="bg-grey-lightest pl-8 pr-8 rounded">
+  <div class="">
+    <div class=" flex property">
+      <div class="pr-4" style="margin-top:-2px; min-width: 25%;">
+        <span class="text-sm " style="word-break: break-word;">vorname</span>
+        
+        
+      </div>
+
+      <div>
+        <div class="capitalize text-sm text-teal font-bold">
+          
+string
+          
+          
+          
+          <div class="inline-block">
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+          </div>
+        </div>
+
+        
+        
+        
+        
+        
+      </div>
+    </div>
+
+    
+  </div>
+</div>
+
+
+          
+            
+
+<div class="bg-grey-lightest pl-8 pr-8 rounded">
+  <div class="">
+    <div class=" flex property">
+      <div class="pr-4" style="margin-top:-2px; min-width: 25%;">
+        <span class="text-sm " style="word-break: break-word;">nachname</span>
+        
+        
+      </div>
+
+      <div>
+        <div class="capitalize text-sm text-teal font-bold">
+          
+string
+          
+          
+          
+          <div class="inline-block">
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+          </div>
+        </div>
+
+        
+        
+        
+        
+        
+      </div>
+    </div>
+
+    
+  </div>
+</div>
+
+
+          
+            
+
+<div class="bg-grey-lightest pl-8 pr-8 rounded">
+  <div class="">
+    <div class=" flex property">
+      <div class="pr-4" style="margin-top:-2px; min-width: 25%;">
+        <span class="text-sm " style="word-break: break-word;">telefonnummer</span>
+        
+        
+      </div>
+
+      <div>
+        <div class="capitalize text-sm text-teal font-bold">
+          
+string
+          
+          
+          
+          <div class="inline-block">
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+          </div>
+        </div>
+
+        
+        
+        
+        
+        
+      </div>
+    </div>
+
+    
+  </div>
+</div>
+
+
+          
+        
+
+        
+        
+
+        
+
+        
+          
+            <p class="pl-6 mb-2 mt-4 text-xs text-grey-darker">Additional properties are allowed.</p>
+          
+        
+
+        
+
+        
+
+        
+      </div>
+    
+  </div>
+</div>
+
+
+            
+          
+
+          
+            <p class="pl-6 mb-2 mt-4 text-xs text-grey-darker">Additional items are allowed.</p>
+          
+        
+
+        
+
+        
+
+        
+
+        
+      </div>
+    
+  </div>
+</div>
+
+
+          
+            
+
+<div class="bg-grey-lightest pl-8 pr-8 rounded">
+  <div class="">
+    <div class="js-prop cursor-pointer py-2 flex property">
+      <div class="pr-4" style="margin-top:-2px; min-width: 25%;">
+        <span class="text-sm " style="word-break: break-word;">positionssender</span>
         
         <svg class="expand" version="1.1" viewBox="0 0 24 24" x="0"
           xmlns="http://www.w3.org/2000/svg" y="0">
@@ -465,7 +852,7 @@ object
   <div class="">
     <div class=" flex property">
       <div class="pr-4" style="margin-top:-2px; min-width: 25%;">
-        <span class="text-sm " style="word-break: break-word;">zoneId</span>
+        <span class="text-sm " style="word-break: break-word;">id</span>
         
         
       </div>
@@ -515,220 +902,7 @@ string
   <div class="">
     <div class=" flex property">
       <div class="pr-4" style="margin-top:-2px; min-width: 25%;">
-        <span class="text-sm " style="word-break: break-word;">toleranz</span>
-        
-        
-      </div>
-
-      <div>
-        <div class="capitalize text-sm text-teal font-bold">
-          
-number
-          
-          
-          
-          <div class="inline-block">
-            
-              <span class="bg-yellow-dark font-bold no-underline text-black rounded lowercase ml-2"
-                style="height: 20px;font-size: 11px;padding: 3px;">float</span>
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-          </div>
-        </div>
-
-        
-        
-        
-        
-        
-      </div>
-    </div>
-
-    
-  </div>
-</div>
-
-
-          
-            
-
-<div class="bg-grey-lightest pl-8 pr-8 rounded">
-  <div class="">
-    <div class=" flex property">
-      <div class="pr-4" style="margin-top:-2px; min-width: 25%;">
-        <span class="text-sm " style="word-break: break-word;">typ</span>
-        
-        
-      </div>
-
-      <div>
-        <div class="capitalize text-sm text-teal font-bold">
-          
-string
-          
-          
-          
-          <div class="inline-block">
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-          </div>
-        </div>
-
-        
-        
-        
-        
-          <div class="text-xs">
-            Enum:
-            
-              <span class="border text-orange rounded ml-1 py-0 px-2">"GEWOHNT"</span>
-            
-              <span class="border text-orange rounded ml-1 py-0 px-2">"UNGEWOHNT"</span>
-            
-          </div>
-        
-        
-      </div>
-    </div>
-
-    
-  </div>
-</div>
-
-
-          
-            
-
-<div class="bg-grey-lightest pl-8 pr-8 rounded">
-  <div class="">
-    <div class="js-prop cursor-pointer py-2 flex property">
-      <div class="pr-4" style="margin-top:-2px; min-width: 25%;">
-        <span class="text-sm " style="word-break: break-word;">positionen</span>
-        
-        <svg class="expand" version="1.1" viewBox="0 0 24 24" x="0"
-          xmlns="http://www.w3.org/2000/svg" y="0">
-          <polygon points="17.3 8.3 12 13.6 6.7 8.3 5.3 9.7 12 16.4 18.7 9.7 "></polygon>
-        </svg>
-        
-        
-      </div>
-
-      <div>
-        <div class="capitalize text-sm text-teal font-bold">
-          
-array&lt;object&gt;
-          
-          
-          
-          <div class="inline-block">
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-          </div>
-        </div>
-
-        
-        
-        
-        
-        
-      </div>
-    </div>
-
-    
-      <div class="children bg-grey-lighter py-4 rounded">
-        
-
-        
-        
-
-        
-          
-            <p class="pl-6 mb-2 text-xs font-bold uppercase text-grey-darker">Items:</p>
-            
-              
-
-<div class="bg-grey-lighter pl-8 pr-8 rounded">
-  <div class="">
-    <div class="js-prop cursor-pointer py-2 flex property">
-      <div class="pr-4" style="margin-top:-2px; min-width: 25%;">
-        <span class="text-sm " style="word-break: break-word;">0</span>
-        
-        <svg class="expand" version="1.1" viewBox="0 0 24 24" x="0"
-          xmlns="http://www.w3.org/2000/svg" y="0">
-          <polygon points="17.3 8.3 12 13.6 6.7 8.3 5.3 9.7 12 16.4 18.7 9.7 "></polygon>
-        </svg>
-        
-        
-      </div>
-
-      <div>
-        <div class="capitalize text-sm text-teal font-bold">
-          
-object
-          
-          
-          
-          <div class="inline-block">
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-          </div>
-        </div>
-
-        
-        
-        
-        
-        
-      </div>
-    </div>
-
-    
-      <div class="children bg-grey-lightest py-4 rounded">
-        
-          
-            
-
-<div class="bg-grey-lightest pl-8 pr-8 rounded">
-  <div class="">
-    <div class=" flex property">
-      <div class="pr-4" style="margin-top:-2px; min-width: 25%;">
-        <span class="text-sm " style="word-break: break-word;">positionsId</span>
+        <span class="text-sm " style="word-break: break-word;">letzteWartung</span>
         
         
       </div>
@@ -743,7 +917,7 @@ string
           <div class="inline-block">
             
               <span class="bg-yellow-dark font-bold no-underline text-black rounded lowercase ml-2"
-                style="height: 20px;font-size: 11px;padding: 3px;">uuid-as-string</span>
+                style="height: 20px;font-size: 11px;padding: 3px;">unix-date</span>
             
             
             
@@ -766,152 +940,6 @@ string
       </div>
     </div>
 
-    
-  </div>
-</div>
-
-
-          
-            
-
-<div class="bg-grey-lightest pl-8 pr-8 rounded">
-  <div class="">
-    <div class=" flex property">
-      <div class="pr-4" style="margin-top:-2px; min-width: 25%;">
-        <span class="text-sm " style="word-break: break-word;">laengengrad</span>
-        
-        
-      </div>
-
-      <div>
-        <div class="capitalize text-sm text-teal font-bold">
-          
-number
-          
-          
-          
-          <div class="inline-block">
-            
-              <span class="bg-yellow-dark font-bold no-underline text-black rounded lowercase ml-2"
-                style="height: 20px;font-size: 11px;padding: 3px;">double</span>
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-          </div>
-        </div>
-
-        
-        
-        
-        
-        
-      </div>
-    </div>
-
-    
-  </div>
-</div>
-
-
-          
-            
-
-<div class="bg-grey-lightest pl-8 pr-8 rounded">
-  <div class="">
-    <div class=" flex property">
-      <div class="pr-4" style="margin-top:-2px; min-width: 25%;">
-        <span class="text-sm " style="word-break: break-word;">breitengrad</span>
-        
-        
-      </div>
-
-      <div>
-        <div class="capitalize text-sm text-teal font-bold">
-          
-number
-          
-          
-          
-          <div class="inline-block">
-            
-              <span class="bg-yellow-dark font-bold no-underline text-black rounded lowercase ml-2"
-                style="height: 20px;font-size: 11px;padding: 3px;">double</span>
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-          </div>
-        </div>
-
-        
-        
-        
-        
-        
-      </div>
-    </div>
-
-    
-  </div>
-</div>
-
-
-          
-        
-
-        
-        
-
-        
-
-        
-          
-            <p class="pl-6 mb-2 mt-4 text-xs text-grey-darker">Additional properties are allowed.</p>
-          
-        
-
-        
-
-        
-
-        
-      </div>
-    
-  </div>
-</div>
-
-
-            
-          
-
-          
-            <p class="pl-6 mb-2 mt-4 text-xs text-grey-darker">Additional items are allowed.</p>
-          
-        
-
-        
-
-        
-
-        
-
-        
-      </div>
     
   </div>
 </div>
@@ -1362,20 +1390,21 @@ string
   <div class="payload-examples mt-4">
     
     <pre class="hljs mb-4 border border-grey-darkest rounded"><code>{
-  "demenziellErkrankterId": "f33c6fa8-1697-11ea-8d71-362b9e155667",
-  "name": "K. Löhler",
-  "zonen": [
+  "id": "f33c6fa8-1697-11ea-8d71-362b9e155667",
+  "name": "Löhler",
+  "vorname": "Karsten",
+  "kontaktpersonen": [
     {
-      "zoneId": "8f926d33-27bd-4afd-aabb-b160a6402348",
-      "toleranz": 1.5,
-      "typ": "GEWOHNT",
-      "positionen": [
-        {
-          "positionsId": "65cf7091-e3ac-48e7-8553-c329490aae5c",
-          "laengengrad": "51.042755",
-          "breitengrad": "7.287333"
-        }
-      ]
+      "id": "f33c6fa8-1697-11ea-8d71-362b9e155667",
+      "vorname": "Bennis",
+      "nachname": "Duderus",
+      "telefonnummer": "015719489272"
+    }
+  ],
+  "positionssender": [
+    {
+      "id": "f33c6fa8-1697-11ea-8d71-362b9e155667",
+      "letzteWartung": "2020-01-22T22:25:34Z"
     }
   ]
 }</code></pre>
@@ -1413,7 +1442,7 @@ string
     
       
 
-<a name="operation-subscribe-positionssender"></a>
+<a name="operation-subscribe-tracker"></a>
 <div class="center-block p-8">
   <div class="operation pt-8 pb-8">
     <h3 class="font-mono text-base">
@@ -1423,11 +1452,11 @@ string
         title="Subscribe">Sub</span>
       
       
-<span class="string-chunk" >positionssender</span>
+<span class="string-chunk" >tracker</span>
 
     </h3>
 
-    <div class="mt-4 mb-4 markdown"><p>Die Topic, auf welcher Positionssender für Demenziell Erkrankte erzeugt und konsumiert werden.</p>
+    <div class="mt-4 mb-4 markdown"><p>Die Topic, für welche der Draußen-Ortung Service aktuelle Positionen der Tracker (Positionssender) veröffentlicht.</p>
 </div>
 
     <p class="text-grey text-sm"></p>
@@ -1446,13 +1475,13 @@ string
   <div class="text-sm text-grey-darker mb-2">
     
     
-      Positionssender
+      Tracker
       
-        <span class="border text-orange rounded text-xs ml-3 py-0 px-2">posisitionssender</span>
+        <span class="border text-orange rounded text-xs ml-3 py-0 px-2">tracker</span>
       
     
   </div>
-  <p class="text-grey-dark text-sm">Informiert, dass ein Positionssneder erstellt, aktualisiert oder gelöscht wurde.</p>
+  <p class="text-grey-dark text-sm">Informiert, über die neue Position eines Positionssneder.</p>
   <div class="mt-4 mb-4 markdown"></div>
   
 <div>
@@ -1512,7 +1541,7 @@ object
   <div class="">
     <div class=" flex property">
       <div class="pr-4" style="margin-top:-2px; min-width: 25%;">
-        <span class="text-sm " style="word-break: break-word;">positionssenderId</span>
+        <span class="text-sm " style="word-break: break-word;">trackerId</span>
         
         
       </div>
@@ -1560,159 +1589,9 @@ string
 
 <div class="bg-grey-lightest pl-8 pr-8 rounded">
   <div class="">
-    <div class=" flex property">
-      <div class="pr-4" style="margin-top:-2px; min-width: 25%;">
-        <span class="text-sm " style="word-break: break-word;">letztesSignal</span>
-        
-        
-      </div>
-
-      <div>
-        <div class="capitalize text-sm text-teal font-bold">
-          
-string
-          
-          
-          
-          <div class="inline-block">
-            
-              <span class="bg-yellow-dark font-bold no-underline text-black rounded lowercase ml-2"
-                style="height: 20px;font-size: 11px;padding: 3px;">unix-date</span>
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-          </div>
-        </div>
-
-        
-        
-        
-        
-        
-      </div>
-    </div>
-
-    
-  </div>
-</div>
-
-
-          
-            
-
-<div class="bg-grey-lightest pl-8 pr-8 rounded">
-  <div class="">
-    <div class=" flex property">
-      <div class="pr-4" style="margin-top:-2px; min-width: 25%;">
-        <span class="text-sm " style="word-break: break-word;">batterieStatus</span>
-        
-        
-      </div>
-
-      <div>
-        <div class="capitalize text-sm text-teal font-bold">
-          
-number
-          
-          
-          
-          <div class="inline-block">
-            
-              <span class="bg-yellow-dark font-bold no-underline text-black rounded lowercase ml-2"
-                style="height: 20px;font-size: 11px;padding: 3px;">float</span>
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-          </div>
-        </div>
-
-        
-        
-        
-        
-        
-      </div>
-    </div>
-
-    
-  </div>
-</div>
-
-
-          
-            
-
-<div class="bg-grey-lightest pl-8 pr-8 rounded">
-  <div class="">
-    <div class=" flex property">
-      <div class="pr-4" style="margin-top:-2px; min-width: 25%;">
-        <span class="text-sm " style="word-break: break-word;">genauigkeit</span>
-        
-        
-      </div>
-
-      <div>
-        <div class="capitalize text-sm text-teal font-bold">
-          
-number
-          
-          
-          
-          <div class="inline-block">
-            
-              <span class="bg-yellow-dark font-bold no-underline text-black rounded lowercase ml-2"
-                style="height: 20px;font-size: 11px;padding: 3px;">float</span>
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-          </div>
-        </div>
-
-        
-        
-        
-        
-        
-      </div>
-    </div>
-
-    
-  </div>
-</div>
-
-
-          
-            
-
-<div class="bg-grey-lightest pl-8 pr-8 rounded">
-  <div class="">
     <div class="js-prop cursor-pointer py-2 flex property">
       <div class="pr-4" style="margin-top:-2px; min-width: 25%;">
-        <span class="text-sm " style="word-break: break-word;">position</span>
+        <span class="text-sm " style="word-break: break-word;">currentPosition</span>
         
         <svg class="expand" version="1.1" viewBox="0 0 24 24" x="0"
           xmlns="http://www.w3.org/2000/svg" y="0">
@@ -1765,57 +1644,7 @@ object
   <div class="">
     <div class=" flex property">
       <div class="pr-4" style="margin-top:-2px; min-width: 25%;">
-        <span class="text-sm " style="word-break: break-word;">positionsId</span>
-        
-        
-      </div>
-
-      <div>
-        <div class="capitalize text-sm text-teal font-bold">
-          
-string
-          
-          
-          
-          <div class="inline-block">
-            
-              <span class="bg-yellow-dark font-bold no-underline text-black rounded lowercase ml-2"
-                style="height: 20px;font-size: 11px;padding: 3px;">uuid-as-string</span>
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-          </div>
-        </div>
-
-        
-        
-        
-        
-        
-      </div>
-    </div>
-
-    
-  </div>
-</div>
-
-
-          
-            
-
-<div class="bg-grey-lighter pl-8 pr-8 rounded">
-  <div class="">
-    <div class=" flex property">
-      <div class="pr-4" style="margin-top:-2px; min-width: 25%;">
-        <span class="text-sm " style="word-break: break-word;">laengengrad</span>
+        <span class="text-sm " style="word-break: break-word;">longitude</span>
         
         
       </div>
@@ -1865,7 +1694,57 @@ number
   <div class="">
     <div class=" flex property">
       <div class="pr-4" style="margin-top:-2px; min-width: 25%;">
-        <span class="text-sm " style="word-break: break-word;">breitengrad</span>
+        <span class="text-sm " style="word-break: break-word;">latitude</span>
+        
+        
+      </div>
+
+      <div>
+        <div class="capitalize text-sm text-teal font-bold">
+          
+number
+          
+          
+          
+          <div class="inline-block">
+            
+              <span class="bg-yellow-dark font-bold no-underline text-black rounded lowercase ml-2"
+                style="height: 20px;font-size: 11px;padding: 3px;">double</span>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+          </div>
+        </div>
+
+        
+        
+        
+        
+        
+      </div>
+    </div>
+
+    
+  </div>
+</div>
+
+
+          
+            
+
+<div class="bg-grey-lighter pl-8 pr-8 rounded">
+  <div class="">
+    <div class=" flex property">
+      <div class="pr-4" style="margin-top:-2px; min-width: 25%;">
+        <span class="text-sm " style="word-break: break-word;">altitude</span>
         
         
       </div>
@@ -2322,24 +2201,21 @@ string
   
 
 <form>
-  <input type="radio" checked id="example-payload-positionssender-posisitionssender" name="tab" class="examples-payload-tab hidden" />
-  <label for="example-payload-positionssender-posisitionssender" class="py-1 px-2 mr-2 mb-4 text-grey-lightest text-sm border rounded focus:outline-none cursor-pointer text-grey-lightest" >Payload</label>
+  <input type="radio" checked id="example-payload-tracker-tracker" name="tab" class="examples-payload-tab hidden" />
+  <label for="example-payload-tracker-tracker" class="py-1 px-2 mr-2 mb-4 text-grey-lightest text-sm border rounded focus:outline-none cursor-pointer text-grey-lightest" >Payload</label>
 
-  <input type="radio" id="example-headers-positionssender-posisitionssender" name="tab" class="examples-headers-tab hidden"  />
-  <label for="example-headers-positionssender-posisitionssender"
+  <input type="radio" id="example-headers-tracker-tracker" name="tab" class="examples-headers-tab hidden"  />
+  <label for="example-headers-tracker-tracker"
       class="py-1 px-2 mr-2 mb-4 text-sm border rounded focus:outline-none cursor-pointer text-grey-lightest" >Headers</label>
 
   <div class="payload-examples mt-4">
     
     <pre class="hljs mb-4 border border-grey-darkest rounded"><code>{
-  "positionssenderId": "f33c6cd8-1697-11ea-8d71-362b9e155667",
-  "letztesSignal": "string",
-  "batterieStatus": 0.8,
-  "genauigkeit": 1,
-  "position": {
-    "positionsId": "65cf7091-e3ac-48e7-8553-c329490aae5c",
-    "laengengrad": "51.042755",
-    "breitengrad": "7.287333"
+  "trackerId": "f33c6cd8-1697-11ea-8d71-362b9e155667",
+  "currentPosition": {
+    "longitude": 51.044311,
+    "latitude": 7.287689,
+    "altitude": 0
   }
 }</code></pre>
     <h6 class="text-xs font-bold text-grey-darker italic">This example has been generated automatically.</h6>

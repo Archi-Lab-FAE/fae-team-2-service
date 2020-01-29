@@ -19,7 +19,7 @@ info:
 channels: # aka topics
   #### SUBSCRIBE ####
   demenziellerkrankter:
-    description: Die Topic, auf welcher Personendaten für demenziell Erkrankte erzeugt und konsumiert werden.
+    description: Die Topic, auf welcher Personendaten für demenziell Erkrankte erzeugt und konsumiert werden. (Äquivalent zu Team-1)
     subscribe:
       operationId: receiveDemenziellErkrankte
       traits:
@@ -27,14 +27,14 @@ channels: # aka topics
       message:
         $ref: '#/components/messages/demenziellerkrante'
 
-  positionssender:
-    description: Die Topic, auf welcher Positionssender für Demenziell Erkrankte erzeugt und konsumiert werden.
+  tracker:
+    description: Die Topic, für welche der Draußen-Ortung Service aktuelle Positionen der Tracker (Positionssender) veröffentlicht.
     subscribe:
-      operationId: receivePositionssender
+      operationId: receiveTracker
       traits:
         - $ref: '#/components/operationTraits/kafka'
       message:
-        $ref: '#/components/messages/positionssender'
+        $ref: '#/components/messages/tracker'
 
 
 
@@ -68,15 +68,15 @@ components:
       payload:
         $ref: "#/components/schemas/demenziellerkranktePayload"
 
-    positionssender:
-      name: posisitionssender
-      title: Positionssender
-      summary: Informiert, dass ein Positionssneder erstellt, aktualisiert oder gelöscht wurde.
+    tracker:
+      name: tracker
+      title: Tracker
+      summary: Informiert, über die neue Position eines Positionssneder.
       contentType: application/json
       traits:
         - $ref: '#/components/messageTraits/commonHeaders'
       payload:
-        $ref: "#/components/schemas/positionssenderPayload"
+        $ref: "#/components/schemas/trackerPayload"
 
     outOfZone:
       name: demenziellerkranterabweichung
@@ -103,40 +103,81 @@ components:
     demenziellerkranktePayload:
       type: object
       properties:
-        demenziellErkrankterId:
+        id:
           type: string
           format: uuid-as-string
           example: 'f33c6fa8-1697-11ea-8d71-362b9e155667'
         name:
           type: string
-          example: 'K. Löhler'
-        zonen:
+          example: 'Löhler'
+        vorname:
+          type: string
+          example: 'Karsten'
+        kontaktpersonen:
           type: array
           items:
-            $ref: '#/components/schemas/Zone'
+            $ref: '#/components/schemas/Kontaktperson'
+        positionssender:
+          type: array
+          items:
+            $ref: '#/components/schemas/Positionssender'
           description: Alle für den demenziell Erkrankten definierten Zonen.
 
-    positionssenderPayload:
+    Kontaktperson:
       type: object
       properties:
-        positionssenderId:
+        id:
+          type: string
+          format: uuid-as-string
+          example: 'f33c6fa8-1697-11ea-8d71-362b9e155667'
+        vorname:
+          type: string
+          example: 'Bennis'
+        nachname:
+          type: string
+          example: 'Duderus'
+        telefonnummer:
+          type: string
+          example: '015719489272'
+
+    Positionssender:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid-as-string
+          example: 'f33c6fa8-1697-11ea-8d71-362b9e155667'
+        letzteWartung:
+          type: string
+          format: unix-date
+          example: '2020-01-22T22:25:34Z'
+
+    trackerPayload:
+      type: object
+      properties:
+        trackerId:
           type: string
           format: uuid-as-string
           example: 'f33c6cd8-1697-11ea-8d71-362b9e155667'
-        letztesSignal:
-          type: string
-          format: unix-date
-        batterieStatus:
-          type: number
-          format: float
-          example: 0.8
-        genauigkeit:
-          type: number
-          format: float
-          example: 1.0
-        position:
-          $ref: '#/components/schemas/Position'
+        currentPosition:
+          $ref: '#/components/schemas/trackerPosition'
           description: Aktuelle Position des Senders.
+
+    trackerPosition:
+      type: object
+      properties:
+        longitude:
+          type: number
+          format: double
+          example: 51.044311
+        latitude:
+          type: number
+          format: double
+          example: 7.287689
+        altitude:
+          type: number
+          format: double
+          example: 0.0
 
     outOfZonePayload:
       type: object
