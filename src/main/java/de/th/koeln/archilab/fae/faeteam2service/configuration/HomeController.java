@@ -17,6 +17,12 @@ public class HomeController {
 
     @GetMapping(value = "/")
     public String index() {
+        log.info("Redirected to index.html");
+        return "redirect:/index.html";
+    }
+
+    @GetMapping(value = "/openapi")
+    public String restApi() {
         log.info("Redirected to swagger-ui.html");
         return "redirect:/swagger-ui.html";
     }
