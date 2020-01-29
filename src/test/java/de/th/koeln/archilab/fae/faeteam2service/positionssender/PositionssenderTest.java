@@ -88,18 +88,18 @@ public class PositionssenderTest {
     }
     @Test
     public void positionssenderIstInZoneKorrektInitialisiert() {
-        Position position = new Position(2.0,3.0);
-        Position position2 =   new Position(2.4,3.3);
+        Position northEast = new Position(40.0,60.0);
+        Position southWest =   new Position(20.0,50.0);
         List<Position> positionsset = new ArrayList<>();
-        positionsset.add(position);
-        positionsset.add(position2);
+        positionsset.add(northEast);
+        positionsset.add(southWest);
         Zone zone = new Zone(2f, ZonenTyp.GEWOHNT, positionsset);
 
         Positionssender positionssender = new Positionssender();
         String letztesSignal = getRandomDate().toString();
         Position positionPositionssender = new Position();
-        positionPositionssender.setBreitengrad(3.1);
-        positionPositionssender.setLaengengrad(2.1);
+        positionPositionssender.setBreitengrad(55.0);
+        positionPositionssender.setLaengengrad(30.0);
         positionssender.setLetztesSignal(letztesSignal);
         positionssender.setPosition(positionPositionssender);
         positionssender.setPositionssenderId("123456789");

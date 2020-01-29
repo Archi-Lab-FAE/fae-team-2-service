@@ -63,10 +63,10 @@ public class Position {
     public boolean inZone(Zone zone) {
         val positionenList = new ArrayList<Position>(zone.getPositionen());
 
-        Point northWest = positionenList.get(0).toPoint();
-        Point southEast = positionenList.get(1).toPoint();
+        Point northEast = positionenList.get(0).toPoint();
+        Point southWest = positionenList.get(1).toPoint();
 
-        BoundingArea area = BoundingArea.at(southEast, northWest);
+        BoundingArea area = BoundingArea.at(northEast, southWest);
 
         return area.contains(toPoint());
     }
