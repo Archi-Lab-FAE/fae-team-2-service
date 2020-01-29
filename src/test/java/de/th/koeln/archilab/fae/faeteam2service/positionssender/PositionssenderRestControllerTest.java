@@ -199,7 +199,6 @@ public class PositionssenderRestControllerTest {
     }
 
    @Test
-    //TODO Without letztesSignal, Position the test failed
     public void updatePositionssenderDerExistiert() throws Exception {
         Positionssender positionssender = new Positionssender(getRandomDate(),2f,2f, new Position());
         positionssenderRepository.save(positionssender);
@@ -250,7 +249,7 @@ public class PositionssenderRestControllerTest {
         positionDTO.setLaengengrad(1.5);
         positionDTO.setBreitengrad(1.5);
 
-        Double radius = 200.9; //meter
+        double radius = 200.9; //meter
 
         mvc.perform(get("/positionssender?radius="+radius)
                 .accept(MediaType.APPLICATION_JSON)
