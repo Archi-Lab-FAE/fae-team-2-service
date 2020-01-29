@@ -27,9 +27,10 @@ public class PositionssenderEventInformation {
 
     public PositionssenderEventInformation(
             String positionssenderEventType,
+            String positionssenderEventId,
             Date date
     ) {
-        this.positionssenderEventId = UUID.randomUUID().toString();
+        this.positionssenderEventId = positionssenderEventId;
         this.positionssenderEventType = positionssenderEventType;
         this.date = date;
     }

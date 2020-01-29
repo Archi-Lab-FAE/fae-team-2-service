@@ -69,7 +69,7 @@ public class PositionssenderApiController implements PositionssenderApi {
             if (zone == null) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
             results = StreamSupport.stream(repository.findAll().spliterator(), false)
-                    .filter(x -> x.isInZone(zone))
+                    .filter(x -> x.getPosition().inZone(zone))
                     .map(x -> Positionssender.convert(x))
                     .collect(Collectors.toList());
         }
