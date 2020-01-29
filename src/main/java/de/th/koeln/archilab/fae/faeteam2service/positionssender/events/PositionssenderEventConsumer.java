@@ -36,21 +36,6 @@ public class PositionssenderEventConsumer {
         this.positionssenderRepository = positionssenderRepository;
     }
 
-    @KafkaListener(topics = "${positionssender.topic}", groupId = "${spring.kafka.group-id}", autoStartup = "${spring.kafka.enabled}")
-    public void listen(String message) throws IOException {
-        val crudDomainEvent = this.objectMapper.readValue(message, CrudDomainEvent.class);
-        val positionssenderDTO = new CrudDomainEventParser<PositionssenderDTO>()
-                .parse(message, PositionssenderDTO.class);
-        val positionssenderEntity = Positionssender.convert(positionssenderDTO);
-
-        positionssenderRepository.save(positionssenderEntity);
-        positionssenderEventInformationRepository.save(
-                new PositionssenderEventInformation(crudDomainEvent.getType(), new Date())
-        );
-
-        log.info("**\n Positionssender {} \n**", crudDomainEvent.getType());
-    }
-
     @KafkaListener(topics = "${tracker.topic}", groupId = "${spring.kafka.group-id}", autoStartup = "${spring.kafka.enabled}")
     public void listenToTracking(String message) throws IOException {
         val trackingEventDto = objectMapper.readValue(message, TrackingEventDto.class);
@@ -64,7 +49,7 @@ public class PositionssenderEventConsumer {
             positionssender.setLetztesSignal(trackingEventDto.getTime());
 
             positionssenderEventInformationRepository.save(
-                    new PositionssenderEventInformation(CrudEventType.UPDATED.name(), new Date())
+                    new PositionssenderEventInformation(trackingEventDto.getId(), CrudEventType.UPDATED.name(), new Date())
             );
 
             positionssenderRepository.save(positionssender);
@@ -72,7 +57,6 @@ public class PositionssenderEventConsumer {
             log.warn("Could not find Tracker with id {}", tracker.getTrackerId());
             return;
         }
-
         log.info("Updated Tracker: {}", tracker.getTrackerId());
     }
 }
