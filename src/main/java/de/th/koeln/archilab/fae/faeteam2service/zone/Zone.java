@@ -1,14 +1,27 @@
 package de.th.koeln.archilab.fae.faeteam2service.zone;
 
+import org.apache.commons.lang.StringUtils;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
 import de.th.koeln.archilab.fae.faeteam2service.position.Position;
 import de.th.koeln.archilab.fae.faeteam2service.zone.events.ZoneEventHandler;
 import lombok.Data;
-import org.apache.commons.lang.StringUtils;
 
-import javax.persistence.*;
-import java.util.*;
-
-
+/**
+ * This class represents a zone which can be relevant for the Zonenalarmsystem.
+ *
+ * @see <a href="https://fae.archi-lab.io/glossary/2019/11/15/Glossary-Zone.html">Glossary Definition</a>
+ */
 @Entity
 @Data
 @EntityListeners(ZoneEventHandler.class)

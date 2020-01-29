@@ -9,6 +9,11 @@ import javax.validation.constraints.NotNull;
 
 import lombok.Data;
 
+/**
+ * This class represents data which are relevant for a zone event like going out of a zone.
+ *
+ * @see <a href="https://fae.archi-lab.io/glossary/2020/01/28/Glossary-Zonen-Ausnahme.html">Glossary Definition</a>
+ */
 @Data
 @Entity
 public class ZonenAusnahme {

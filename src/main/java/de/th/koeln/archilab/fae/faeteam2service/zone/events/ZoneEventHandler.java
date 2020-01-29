@@ -1,22 +1,29 @@
 package de.th.koeln.archilab.fae.faeteam2service.zone.events;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
+
+import javax.persistence.PostPersist;
+import javax.persistence.PostRemove;
+import javax.persistence.PostUpdate;
+
 import de.th.koeln.archilab.fae.faeteam2service.kafka.config.KafkaMessageProducer;
 import de.th.koeln.archilab.fae.faeteam2service.kafka.events.CrudDomainEvent;
 import de.th.koeln.archilab.fae.faeteam2service.kafka.events.CrudEventType;
 import de.th.koeln.archilab.fae.faeteam2service.zone.Zone;
 import de.th.koeln.archilab.fae.faeteam2service.zone.ZoneDTO;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
-
-import javax.persistence.PostPersist;
-import javax.persistence.PostRemove;
-import javax.persistence.PostUpdate;
-import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
 
 
+/**
+ * This class is responsable for sending kafka events when a {@link Zone} gets changed and
+ * saved in the {@link de.th.koeln.archilab.fae.faeteam2service.zone.ZoneRepository}.
+ */
 @Component
 public class ZoneEventHandler {
 

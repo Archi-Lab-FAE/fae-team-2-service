@@ -4,7 +4,10 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
- * Gets or Sets ZonenTyp
+ * Representation of the type of a {@link Zone}.
+ *
+ * @see <a href="https://fae.archi-lab.io/glossary/2019/12/02/Glossary-gewohnte-Zone.html">Glossary Definition "Gewohnt"</a>
+ * @see <a href="https://fae.archi-lab.io/glossary/2019/12/02/Glossary-ungewohnte-Zone.html">Glossary Definition "Ungewohnt"</a>
  */
 public enum ZonenTyp {
     GEWOHNT("GEWOHNT"),

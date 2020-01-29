@@ -18,6 +18,10 @@ import java.util.stream.StreamSupport;
 import de.th.koeln.archilab.fae.faeteam2service.positionssender.events.ZonenabweichungMessage;
 import lombok.val;
 
+/**
+ * Component for handling synchronous calls of {@link ZonenAusnahme} to the messaging microservice
+ * with retry functionality.
+ */
 @Component
 public class ZonenAusnahmeHandler {
 

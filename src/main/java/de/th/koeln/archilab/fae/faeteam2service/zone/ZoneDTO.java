@@ -15,7 +15,7 @@ import de.th.koeln.archilab.fae.faeteam2service.position.PositionDTO;
 import io.swagger.annotations.ApiModelProperty;
 
 /**
- * Zone
+ * The DTO is used to receive and send data from the rest endpoints.
  */
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-01-23T20:04:16.757Z[GMT]")
