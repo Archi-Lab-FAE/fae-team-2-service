@@ -1,11 +1,5 @@
 package de.th.koeln.archilab.fae.faeteam2service.positionssender;
 
-import de.th.koeln.archilab.fae.faeteam2service.kafka.events.CrudEventType;
-import de.th.koeln.archilab.fae.faeteam2service.position.Position;
-import de.th.koeln.archilab.fae.faeteam2service.position.PositionDTO;
-import de.th.koeln.archilab.fae.faeteam2service.positionssender.events.PositionssenderEventConsumer;
-import de.th.koeln.archilab.fae.faeteam2service.positionssender.events.PositionssenderEventInformation;
-import de.th.koeln.archilab.fae.faeteam2service.positionssender.events.PositionssenderEventInformationRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +16,16 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.Optional;
 
-import static org.junit.Assert.*;
+import de.th.koeln.archilab.fae.faeteam2service.kafka.events.CrudEventType;
+import de.th.koeln.archilab.fae.faeteam2service.position.Position;
+import de.th.koeln.archilab.fae.faeteam2service.position.PositionDTO;
+import de.th.koeln.archilab.fae.faeteam2service.positionssender.events.PositionssenderEventConsumer;
+import de.th.koeln.archilab.fae.faeteam2service.positionssender.events.PositionssenderEventInformation;
+import de.th.koeln.archilab.fae.faeteam2service.positionssender.events.PositionssenderEventInformationRepository;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -48,9 +51,8 @@ public class PositionssenderEventConsumerTest {
 
         Positionssender positionssender = new Positionssender(
                 OffsetDateTime.now(Clock.systemUTC()),
-                4f,
-                4f,
-                new Position(30.0,55.0)
+                OffsetDateTime.now(Clock.systemUTC()),
+                new Position(30.0, 55.0)
         );
         positionssender.setPositionssenderId(entityId);
         entityRepository.save(positionssender);
@@ -119,9 +121,8 @@ public class PositionssenderEventConsumerTest {
 
         Positionssender positionssender = new Positionssender(
                 OffsetDateTime.now(Clock.systemUTC()),
-                4f,
-                4f,
-                new Position(30.0,55.0)
+                OffsetDateTime.now(Clock.systemUTC()),
+                new Position(30.0, 55.0)
         );
         positionssender.setPositionssenderId(entityId);
 

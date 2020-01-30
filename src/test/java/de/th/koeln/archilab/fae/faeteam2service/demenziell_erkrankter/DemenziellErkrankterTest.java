@@ -1,7 +1,8 @@
 package de.th.koeln.archilab.fae.faeteam2service.demenziell_erkrankter;
 
-import lombok.val;
 import org.junit.Test;
+
+import lombok.val;
 
 import static org.junit.Assert.assertEquals;
 
@@ -19,19 +20,19 @@ public class DemenziellErkrankterTest {
         val dto = DemenziellErkrankter.convert(entity);
 
         assertEquals(dto.getName(), entity.getName());
-        assertEquals(dto.getDemenziellErkrankterId(), entity.getDemenziellErkrankterId());
+        assertEquals(dto.getId(), entity.getDemenziellErkrankterId());
     }
 
     @Test
     public void testConversionToEntity() {
         val dto = new DemenziellErkrankterDTO();
-        dto.setDemenziellErkrankterId(uuid);
+        dto.setId(uuid);
         dto.setName(name);
 
         val entity = DemenziellErkrankter.convert(dto);
 
         assertEquals(dto.getName(), entity.getName());
-        assertEquals(dto.getDemenziellErkrankterId(), entity.getDemenziellErkrankterId());
+        assertEquals(dto.getId(), entity.getDemenziellErkrankterId());
     }
 
     @Test

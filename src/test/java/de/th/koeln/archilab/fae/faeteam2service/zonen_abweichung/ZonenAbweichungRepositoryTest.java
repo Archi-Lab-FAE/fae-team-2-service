@@ -1,7 +1,5 @@
 package de.th.koeln.archilab.fae.faeteam2service.zonen_abweichung;
 
-import de.th.koeln.archilab.fae.faeteam2service.position.Position;
-import de.th.koeln.archilab.fae.faeteam2service.positionssender.Positionssender;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,10 +14,14 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.threeten.bp.Clock;
 import org.threeten.bp.OffsetDateTime;
 
-import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.transaction.Transactional;
+
+import de.th.koeln.archilab.fae.faeteam2service.position.Position;
+import de.th.koeln.archilab.fae.faeteam2service.positionssender.Positionssender;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -40,9 +42,8 @@ public class ZonenAbweichungRepositoryTest {
     public void findAllByAbgeschlossenFalseTest() {
         Positionssender positionssender = new Positionssender(
                 OffsetDateTime.now(Clock.systemUTC()),
-                4f,
-                4f,
-                new Position(30.0,55.0)
+                OffsetDateTime.now(Clock.systemUTC()),
+                new Position(30.0, 55.0)
         );
         String message = "HilfeHilfe";
 

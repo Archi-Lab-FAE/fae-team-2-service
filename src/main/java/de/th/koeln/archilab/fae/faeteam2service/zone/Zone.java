@@ -30,20 +30,17 @@ public class Zone {
     @Id
     private String zoneId;
 
-    private Float toleranz;
-
     private ZonenTyp typ;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Position> positionen;
 
     public Zone() {
-        this(null, null, null);
+        this(null, null);
     }
 
-    public Zone(Float toleranz, ZonenTyp typ, List<Position> positionen) {
+    public Zone(ZonenTyp typ, List<Position> positionen) {
         this.zoneId = UUID.randomUUID().toString();
-        this.toleranz = toleranz;
         this.typ = typ;
         this.positionen = positionen;
     }
@@ -51,7 +48,6 @@ public class Zone {
 
     public void update(Zone update) {
         if (StringUtils.isNotBlank(update.zoneId)) zoneId = update.getZoneId();
-        if (update.toleranz != null) toleranz = update.getToleranz();
         if (update.typ != null) typ = update.getTyp();
         if (update.positionen != null) positionen = update.getPositionen();
     }
@@ -59,7 +55,6 @@ public class Zone {
     public static Zone convert(ZoneDTO dto) {
         Zone entity = new Zone();
         entity.zoneId = dto.getZoneId();
-        entity.toleranz = dto.getToleranz();
         entity.typ = dto.getTyp();
 
         if (dto.getPositionen() != null) {
@@ -73,7 +68,6 @@ public class Zone {
     public static ZoneDTO convert(Zone entity) {
         ZoneDTO dto = new ZoneDTO();
         dto.setZoneId(entity.zoneId);
-        dto.setToleranz(entity.toleranz);
         dto.setTyp(entity.typ);
 
         if (entity.getPositionen() != null) {

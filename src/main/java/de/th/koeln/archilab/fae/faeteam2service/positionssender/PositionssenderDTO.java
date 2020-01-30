@@ -1,53 +1,55 @@
 package de.th.koeln.archilab.fae.faeteam2service.positionssender;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import org.springframework.validation.annotation.Validated;
 import org.threeten.bp.OffsetDateTime;
+
 import java.util.Objects;
+
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
 import de.th.koeln.archilab.fae.faeteam2service.position.PositionDTO;
 import io.swagger.annotations.ApiModelProperty;
 
 /**
- *  The dto object is used to receive the data of a Positionssender, published by team 1.
+ * PositionssenderDTO
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen",
-                            date = "2019-12-19T10:48:55.616846300+01:00[Europe/Berlin]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-01-30T16:33:21.467Z[GMT]")
 public class PositionssenderDTO {
-    @JsonProperty("positionssenderId")
-    private String positionssenderId = null;
+    @JsonProperty("id")
+    private String id = null;
 
     @JsonProperty("letztesSignal")
     private OffsetDateTime letztesSignal = null;
 
-    @JsonProperty("batterieStatus")
-    private Float batterieStatus = null;
-
-    @JsonProperty("genauigkeit")
-    private Float genauigkeit = null;
+    @JsonProperty("letzteWartung")
+    private OffsetDateTime letzteWartung = null;
 
     @JsonProperty("position")
     private PositionDTO position = null;
 
-    public PositionssenderDTO positionssenderId(String positionssenderId) {
-        this.positionssenderId = positionssenderId;
+    public PositionssenderDTO id(String id) {
+        this.id = id;
         return this;
     }
 
     /**
-     * Get positionssenderId
+     * Get id
      *
-     * @return positionssenderId
+     * @return id
      **/
-    @ApiModelProperty(example = "f33c6cd8-1697-11ea-8d71-362b9e155667", value = "")
+    @ApiModelProperty(example = "f33c6cd8-1697-11ea-8d71-362b9e155667", required = true, value = "")
+    @NotNull
 
-    public String getPositionssenderId() {
-        return positionssenderId;
+    public String getId() {
+        return id;
     }
 
-    public void setPositionssenderId(String positionssenderId) {
-        this.positionssenderId = positionssenderId;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public PositionssenderDTO letztesSignal(OffsetDateTime letztesSignal) {
@@ -71,44 +73,25 @@ public class PositionssenderDTO {
         this.letztesSignal = letztesSignal;
     }
 
-    public PositionssenderDTO batterieStatus(Float batterieStatus) {
-        this.batterieStatus = batterieStatus;
+    public PositionssenderDTO letztWartung(OffsetDateTime letztWartung) {
+        this.letzteWartung = letztWartung;
         return this;
     }
 
     /**
-     * Get batterieStatus
+     * Get letztWartung
      *
-     * @return batterieStatus
+     * @return letztWartung
      **/
-    @ApiModelProperty(example = "0.8", value = "")
+    @ApiModelProperty(value = "")
 
-    public Float getBatterieStatus() {
-        return batterieStatus;
+    @Valid
+    public OffsetDateTime getLetzteWartung() {
+        return letzteWartung;
     }
 
-    public void setBatterieStatus(Float batterieStatus) {
-        this.batterieStatus = batterieStatus;
-    }
-
-    public PositionssenderDTO genauigkeit(Float genauigkeit) {
-        this.genauigkeit = genauigkeit;
-        return this;
-    }
-
-    /**
-     * Get genauigkeit
-     *
-     * @return genauigkeit
-     **/
-    @ApiModelProperty(example = "1.0", value = "")
-
-    public Float getGenauigkeit() {
-        return genauigkeit;
-    }
-
-    public void setGenauigkeit(Float genauigkeit) {
-        this.genauigkeit = genauigkeit;
+    public void setLetzteWartung(OffsetDateTime letzteWartung) {
+        this.letzteWartung = letzteWartung;
     }
 
     public PositionssenderDTO position(PositionDTO position) {
@@ -134,24 +117,23 @@ public class PositionssenderDTO {
 
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(java.lang.Object o) {
         if (this == o) {
             return true;
         }
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        PositionssenderDTO positionssender = (PositionssenderDTO) o;
-        return Objects.equals(this.positionssenderId, positionssender.positionssenderId) &&
-                Objects.equals(this.letztesSignal, positionssender.letztesSignal) &&
-                Objects.equals(this.batterieStatus, positionssender.batterieStatus) &&
-                Objects.equals(this.genauigkeit, positionssender.genauigkeit) &&
-                Objects.equals(this.position, positionssender.position);
+        PositionssenderDTO positionssenderDTO = (PositionssenderDTO) o;
+        return Objects.equals(this.id, positionssenderDTO.id) &&
+                Objects.equals(this.letztesSignal, positionssenderDTO.letztesSignal) &&
+                Objects.equals(this.letzteWartung, positionssenderDTO.letzteWartung) &&
+                Objects.equals(this.position, positionssenderDTO.position);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(positionssenderId, letztesSignal, batterieStatus, genauigkeit, position);
+        return Objects.hash(id, letztesSignal, letzteWartung, position);
     }
 
     @Override
@@ -159,10 +141,9 @@ public class PositionssenderDTO {
         StringBuilder sb = new StringBuilder();
         sb.append("class PositionssenderDTO {\n");
 
-        sb.append("    positionssenderId: ").append(toIndentedString(positionssenderId)).append("\n");
+        sb.append("    id: ").append(toIndentedString(id)).append("\n");
         sb.append("    letztesSignal: ").append(toIndentedString(letztesSignal)).append("\n");
-        sb.append("    batterieStatus: ").append(toIndentedString(batterieStatus)).append("\n");
-        sb.append("    genauigkeit: ").append(toIndentedString(genauigkeit)).append("\n");
+        sb.append("    letztWartung: ").append(toIndentedString(letzteWartung)).append("\n");
         sb.append("    position: ").append(toIndentedString(position)).append("\n");
         sb.append("}");
         return sb.toString();
@@ -172,7 +153,7 @@ public class PositionssenderDTO {
      * Convert the given object to string with each line indented by 4 spaces
      * (except the first line).
      */
-    private String toIndentedString(Object o) {
+    private String toIndentedString(java.lang.Object o) {
         if (o == null) {
             return "null";
         }

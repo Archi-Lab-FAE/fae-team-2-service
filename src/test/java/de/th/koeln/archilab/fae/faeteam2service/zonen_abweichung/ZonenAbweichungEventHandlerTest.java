@@ -2,9 +2,7 @@ package de.th.koeln.archilab.fae.faeteam2service.zonen_abweichung;
 
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import de.th.koeln.archilab.fae.faeteam2service.position.Position;
-import de.th.koeln.archilab.fae.faeteam2service.positionssender.Positionssender;
-import de.th.koeln.archilab.fae.faeteam2service.zonen_abweichung.event.ZonenAbweichungEventHandler;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +14,10 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.threeten.bp.Clock;
 import org.threeten.bp.OffsetDateTime;
+
+import de.th.koeln.archilab.fae.faeteam2service.position.Position;
+import de.th.koeln.archilab.fae.faeteam2service.positionssender.Positionssender;
+import de.th.koeln.archilab.fae.faeteam2service.zonen_abweichung.event.ZonenAbweichungEventHandler;
 
 import static org.junit.Assert.assertFalse;
 
@@ -31,12 +33,12 @@ public class ZonenAbweichungEventHandlerTest {
     @Autowired
     ZonenAbweichungEventHandler producer;
 
-    private ZonenAbweichung getZonenAbweichung(){
-        Positionssender positionssender = new Positionssender(OffsetDateTime.now(Clock.systemUTC()),
-                4f,
-                4f,
-                new Position(30.0,55.0));
-         return new ZonenAbweichung(positionssender,"zonenAbweichung");
+    private ZonenAbweichung getZonenAbweichung() {
+        Positionssender positionssender = new Positionssender(
+                OffsetDateTime.now(Clock.systemUTC()),
+                OffsetDateTime.now(Clock.systemUTC()),
+                new Position(30.0, 55.0));
+        return new ZonenAbweichung(positionssender, "zonenAbweichung");
     }
 
     @Test

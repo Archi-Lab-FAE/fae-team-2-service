@@ -18,12 +18,11 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-01-23T20:04:16.757Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-01-30T16:33:21.467Z[GMT]")
 @Api(value = "zone", description = "the zone API")
 public interface ZoneApi {
 
-    @ApiOperation(value = "Eine neue Zone in die Datenbank aufnehmen", nickname = "addZone", notes = "", response = ZoneDTO.class, tags = {"Zone"})
+    @ApiOperation(value = "Eine neue Zone in die Datenbank aufnehmen", nickname = "addZone", notes = "", response = ZoneDTO.class, tags = {"Zone",})
     @ApiResponses(value = {
             @ApiResponse(code = 204, message = "Objekt wurde erstellt.", response = ZoneDTO.class),
             @ApiResponse(code = 405, message = "Invalide Daten.")})
@@ -35,7 +34,7 @@ public interface ZoneApi {
     );
 
 
-    @ApiOperation(value = "Die Daten einer Zone auslesen.", nickname = "getZone", notes = "", response = ZoneDTO.class, tags = {"Zone"})
+    @ApiOperation(value = "Die Daten einer Zone auslesen.", nickname = "getZone", notes = "", response = ZoneDTO.class, tags = {"Zone",})
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "successful operation", response = ZoneDTO.class)})
     @RequestMapping(value = "/zone/{id}",
@@ -45,7 +44,7 @@ public interface ZoneApi {
     );
 
 
-    @ApiOperation(value = "Daten einer Zone", nickname = "updateZone", notes = "", response = ZoneDTO.class, tags = {"Zone"})
+    @ApiOperation(value = "Daten einer Zone", nickname = "updateZone", notes = "", response = ZoneDTO.class, tags = {"Zone",})
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Objekt wurde aktualisiert.", response = ZoneDTO.class),
             @ApiResponse(code = 400, message = "Die ID ist nicht valide."),

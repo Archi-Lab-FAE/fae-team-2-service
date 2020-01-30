@@ -4,6 +4,24 @@ import com.grum.geocalc.BoundingArea;
 import com.grum.geocalc.Coordinate;
 import com.grum.geocalc.EarthCalc;
 import com.grum.geocalc.Point;
+
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.threeten.bp.OffsetDateTime;
+import org.threeten.bp.format.DateTimeFormatter;
+
+import java.util.Objects;
+import java.util.UUID;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Transient;
+
 import de.th.koeln.archilab.fae.faeteam2service.BeanUtil;
 import de.th.koeln.archilab.fae.faeteam2service.demenziell_erkrankter.DemenziellErkrankter;
 import de.th.koeln.archilab.fae.faeteam2service.position.Position;
@@ -13,15 +31,6 @@ import de.th.koeln.archilab.fae.faeteam2service.zonen_abweichung.ZonenAbweichung
 import de.th.koeln.archilab.fae.faeteam2service.zonen_abweichung.ZonenAbweichungRepository;
 import lombok.Data;
 import lombok.val;
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.threeten.bp.OffsetDateTime;
-import org.threeten.bp.format.DateTimeFormatter;
-
-import javax.persistence.*;
-import java.util.Objects;
-import java.util.UUID;
 
 /**
  * This class stores all data of the positionssender for the Zonenalarmsystem.
@@ -39,9 +48,8 @@ public class Positionssender {
 
     private String letztesSignal;
 
-    private Float batterieStatus;
+    private String letzteWartung;
 
-    private Float genauigkeit;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Position position;
@@ -55,14 +63,15 @@ public class Positionssender {
 
     private Positionssender() {}
 
-    public Positionssender(OffsetDateTime letztesSignal, Float batterieStatus, Float genauigkeit, Position position) {
+    public Positionssender(OffsetDateTime letztesSignal, OffsetDateTime letzteWartung, Position position) {
         positionssenderId = UUID.randomUUID().toString();
 
         if (letztesSignal == null) this.letztesSignal = null;
         else this.letztesSignal = letztesSignal.format(DATE_FORMAT);
 
-        this.batterieStatus = batterieStatus;
-        this.genauigkeit = genauigkeit;
+        if (letzteWartung == null) this.letzteWartung = null;
+        else this.letzteWartung = letzteWartung.format(DATE_FORMAT);
+
         this.position = position;
 
         zonenAbweichungRepository = BeanUtil.getBean(ZonenAbweichungRepository.class);
@@ -72,8 +81,7 @@ public class Positionssender {
         if (StringUtils.isNotBlank(update.positionssenderId))
             positionssenderId = update.getPositionssenderId();
         if (update.letztesSignal != null) letztesSignal = update.getLetztesSignal();
-        if (update.batterieStatus != null) batterieStatus = update.getBatterieStatus();
-        if (update.genauigkeit != null) genauigkeit = update.getGenauigkeit();
+        if (update.letzteWartung != null) letzteWartung = update.getLetzteWartung();
         if (update.position != null) position = update.getPosition();
         if (update.demenziellErkrankter != null) demenziellErkrankter = update.getDemenziellErkrankter();
     }
@@ -96,10 +104,10 @@ public class Positionssender {
 
     public static Positionssender convert(PositionssenderDTO dto) {
         Positionssender entity = new Positionssender();
-        entity.positionssenderId = dto.getPositionssenderId();
+        entity.positionssenderId = dto.getId();
         entity.letztesSignal = dto.getLetztesSignal().format(DATE_FORMAT);
-        entity.batterieStatus = dto.getBatterieStatus();
-        entity.genauigkeit = dto.getGenauigkeit();
+        entity.letzteWartung = dto.getLetzteWartung().format(DATE_FORMAT);
+
         entity.position = Position.convert(dto.getPosition());
 
         return entity;
@@ -107,10 +115,9 @@ public class Positionssender {
 
     public static PositionssenderDTO convert(Positionssender entity) {
         PositionssenderDTO dto = new PositionssenderDTO();
-        dto.setPositionssenderId(entity.positionssenderId);
+        dto.setId(entity.positionssenderId);
         dto.setLetztesSignal(OffsetDateTime.parse(entity.letztesSignal, DATE_FORMAT));
-        dto.setBatterieStatus(entity.batterieStatus);
-        dto.setGenauigkeit(entity.genauigkeit);
+        dto.setLetzteWartung(OffsetDateTime.parse(entity.letzteWartung, DATE_FORMAT));
         dto.setPosition(Position.convert(entity.position));
 
         return dto;
@@ -152,9 +159,8 @@ public class Positionssender {
 
         Positionssender p = (Positionssender) o;
         return Objects.equals(this.demenziellErkrankter, p.demenziellErkrankter) &&
-                Objects.equals(this.batterieStatus, p.batterieStatus) &&
+                Objects.equals(this.letzteWartung, p.letzteWartung) &&
                 Objects.equals(this.letztesSignal, p.letztesSignal) &&
-                Objects.equals(this.genauigkeit, p.genauigkeit) &&
                 Objects.equals(this.position, p.position);
     }
 
@@ -164,9 +170,8 @@ public class Positionssender {
         return Objects.hash(
                 positionssenderId,
                 demenziellErkrankter,
-                batterieStatus,
+                letzteWartung,
                 letztesSignal,
-                genauigkeit,
                 position
         );
     }

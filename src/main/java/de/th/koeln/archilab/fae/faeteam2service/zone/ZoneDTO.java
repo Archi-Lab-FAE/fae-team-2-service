@@ -9,29 +9,27 @@ import java.util.List;
 import java.util.Objects;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import de.th.koeln.archilab.fae.faeteam2service.position.PositionDTO;
 import io.swagger.annotations.ApiModelProperty;
 
 /**
- * The DTO is used to receive and send data from the rest endpoints.
+ * ZoneDTO
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-01-23T20:04:16.757Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-01-30T16:33:21.467Z[GMT]")
 public class ZoneDTO {
     @JsonProperty("zoneId")
     private String zoneId = null;
-
-    @JsonProperty("toleranz")
-    private Float toleranz = null;
 
     @JsonProperty("typ")
     private ZonenTyp typ = null;
 
     @JsonProperty("positionen")
     @Valid
-    private List<PositionDTO> positionen = null;
+    private List<PositionDTO> positionen = new ArrayList<PositionDTO>();
 
     public ZoneDTO zoneId(String zoneId) {
         this.zoneId = zoneId;
@@ -43,7 +41,8 @@ public class ZoneDTO {
      *
      * @return zoneId
      **/
-    @ApiModelProperty(example = "8f926d33-27bd-4afd-aabb-b160a6402348", value = "")
+    @ApiModelProperty(example = "8f926d33-27bd-4afd-aabb-b160a6402348", required = true, value = "")
+    @NotNull
 
     public String getZoneId() {
         return zoneId;
@@ -51,26 +50,6 @@ public class ZoneDTO {
 
     public void setZoneId(String zoneId) {
         this.zoneId = zoneId;
-    }
-
-    public ZoneDTO toleranz(Float toleranz) {
-        this.toleranz = toleranz;
-        return this;
-    }
-
-    /**
-     * Get toleranz
-     *
-     * @return toleranz
-     **/
-    @ApiModelProperty(example = "1.5", value = "")
-
-    public Float getToleranz() {
-        return toleranz;
-    }
-
-    public void setToleranz(Float toleranz) {
-        this.toleranz = toleranz;
     }
 
     public ZoneDTO typ(ZonenTyp typ) {
@@ -83,7 +62,8 @@ public class ZoneDTO {
      *
      * @return typ
      **/
-    @ApiModelProperty(value = "")
+    @ApiModelProperty(required = true, value = "")
+    @NotNull
 
     @Valid
     public ZonenTyp getTyp() {
@@ -100,9 +80,6 @@ public class ZoneDTO {
     }
 
     public ZoneDTO addPositionenItem(PositionDTO positionenItem) {
-        if (this.positionen == null) {
-            this.positionen = new ArrayList<PositionDTO>();
-        }
         this.positionen.add(positionenItem);
         return this;
     }
@@ -112,7 +89,8 @@ public class ZoneDTO {
      *
      * @return positionen
      **/
-    @ApiModelProperty(value = "")
+    @ApiModelProperty(example = "[{\"laengengrad\":51.042755,\"breitengrad\":7.287333},{\"laengengrad\":51.042755,\"breitengrad\":7.287333}]", required = true, value = "")
+    @NotNull
     @Valid
     @Size(min = 2, max = 2)
     public List<PositionDTO> getPositionen() {
@@ -132,16 +110,15 @@ public class ZoneDTO {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        ZoneDTO zone = (ZoneDTO) o;
-        return Objects.equals(this.zoneId, zone.zoneId) &&
-                Objects.equals(this.toleranz, zone.toleranz) &&
-                Objects.equals(this.typ, zone.typ) &&
-                Objects.equals(this.positionen, zone.positionen);
+        ZoneDTO zoneDTO = (ZoneDTO) o;
+        return Objects.equals(this.zoneId, zoneDTO.zoneId) &&
+                Objects.equals(this.typ, zoneDTO.typ) &&
+                Objects.equals(this.positionen, zoneDTO.positionen);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(zoneId, toleranz, typ, positionen);
+        return Objects.hash(zoneId, typ, positionen);
     }
 
     @Override
@@ -150,7 +127,6 @@ public class ZoneDTO {
         sb.append("class ZoneDTO {\n");
 
         sb.append("    zoneId: ").append(toIndentedString(zoneId)).append("\n");
-        sb.append("    toleranz: ").append(toIndentedString(toleranz)).append("\n");
         sb.append("    typ: ").append(toIndentedString(typ)).append("\n");
         sb.append("    positionen: ").append(toIndentedString(positionen)).append("\n");
         sb.append("}");

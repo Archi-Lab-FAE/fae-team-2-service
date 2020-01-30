@@ -1,14 +1,7 @@
 package de.th.koeln.archilab.fae.faeteam2service.positionssender;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import de.th.koeln.archilab.fae.faeteam2service.demenziell_erkrankter.DemenziellErkrankter;
-import de.th.koeln.archilab.fae.faeteam2service.demenziell_erkrankter.DemenziellErkrankterRepository;
-import de.th.koeln.archilab.fae.faeteam2service.position.Position;
-import de.th.koeln.archilab.fae.faeteam2service.position.PositionDTO;
-import de.th.koeln.archilab.fae.faeteam2service.zone.Zone;
-import de.th.koeln.archilab.fae.faeteam2service.zone.ZoneRepository;
-import de.th.koeln.archilab.fae.faeteam2service.zone.ZonenTyp;
-import lombok.val;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,11 +17,29 @@ import org.threeten.bp.Clock;
 import org.threeten.bp.OffsetDateTime;
 import org.threeten.bp.ZoneOffset;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import de.th.koeln.archilab.fae.faeteam2service.demenziell_erkrankter.DemenziellErkrankter;
+import de.th.koeln.archilab.fae.faeteam2service.demenziell_erkrankter.DemenziellErkrankterRepository;
+import de.th.koeln.archilab.fae.faeteam2service.position.Position;
+import de.th.koeln.archilab.fae.faeteam2service.position.PositionDTO;
+import de.th.koeln.archilab.fae.faeteam2service.zone.Zone;
+import de.th.koeln.archilab.fae.faeteam2service.zone.ZoneRepository;
+import de.th.koeln.archilab.fae.faeteam2service.zone.ZonenTyp;
+import lombok.val;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
 @RunWith(SpringRunner.class)
@@ -72,9 +83,8 @@ public class PositionssenderRestControllerTest {
     private Positionssender getPositionssender() {
         return new Positionssender(
                 OffsetDateTime.now(Clock.systemUTC()),
-                4f,
-                4f,
-                new Position(30.0,55.0)
+                OffsetDateTime.now(Clock.systemUTC()),
+                new Position(30.0, 55.0)
         );
     }
 
@@ -86,10 +96,9 @@ public class PositionssenderRestControllerTest {
         posDTO.setLaengengrad(2.3);
 
         PositionssenderDTO body = new PositionssenderDTO();
-        body.setPositionssenderId("88");
-        body.setGenauigkeit(2f);
+        body.setId("88");
         body.setLetztesSignal(getRandomDate());
-        body.setBatterieStatus(2f);
+        body.setLetzteWartung(getRandomDate());
         body.setPosition(posDTO);
 
         mvc.perform(post("/positionssender")
@@ -112,7 +121,7 @@ public class PositionssenderRestControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(header().string("content-type", "application/json;charset=UTF-8"))
                 .andExpect(jsonPath("$").isArray())
-                .andExpect(jsonPath("$[0].positionssenderId").isNotEmpty());
+                .andExpect(jsonPath("$[0].id").isNotEmpty());
     }
     @Test
     public void findeAllePositionssenderMitZoneIdWennSieExistiert() throws Exception {
@@ -121,7 +130,7 @@ public class PositionssenderRestControllerTest {
         List<Position> positionsset = new ArrayList<>();
         positionsset.add(northEast);
         positionsset.add(southWest);
-        Zone zone = new Zone(2f, ZonenTyp.GEWOHNT, positionsset);
+        Zone zone = new Zone(ZonenTyp.GEWOHNT, positionsset);
 
         zoneRepository.save(zone);
         String zoneId = zone.getZoneId();
@@ -179,11 +188,11 @@ public class PositionssenderRestControllerTest {
     @Test
     public void findeZoneByPositionssenderIdWennSenderExistiert() throws Exception {
         Set<Zone> zoneSet = new HashSet<>();
-        Zone zone = new Zone(2f, ZonenTyp.GEWOHNT, new ArrayList<>());
+        Zone zone = new Zone(ZonenTyp.GEWOHNT, new ArrayList<>());
         zoneSet.add(zone);
         zoneRepository.save(zone);
 
-        DemenziellErkrankter demenziellErkrankter = new DemenziellErkrankter("Maria B", zoneSet);
+        DemenziellErkrankter demenziellErkrankter = new DemenziellErkrankter("Maria", "B", zoneSet);
         demenziellErkrankterRepository.save(demenziellErkrankter);
 
         Positionssender positionssender = getPositionssender();
@@ -217,16 +226,20 @@ public class PositionssenderRestControllerTest {
 
         String id = positionssender.getPositionssenderId();
         PositionssenderDTO positionssenderDTO = new PositionssenderDTO();
-        OffsetDateTime letztesSignal = getRandomDate();
-        PositionDTO positionDTO = new PositionDTO();
+       OffsetDateTime letztesSignal = getRandomDate();
+       OffsetDateTime letzteWartung = getRandomDate();
+       PositionDTO positionDTO = new PositionDTO();
         positionDTO.setBreitengrad(55.0);
         positionDTO.setLaengengrad(30.0);
-        positionssenderDTO.setLetztesSignal(letztesSignal);
-        positionssenderDTO.setPosition(positionDTO);
+       positionssenderDTO.setLetztesSignal(letztesSignal);
+       positionssenderDTO.setLetzteWartung(letzteWartung);
+       positionssenderDTO.setPosition(positionDTO);
+       positionssenderDTO.setId(id);
 
 
         positionssender.setPosition(Position.convert(positionDTO));
-        positionssender.setLetztesSignal(letztesSignal.toString());
+       positionssender.setLetztesSignal(letztesSignal.toString());
+       positionssender.setLetzteWartung(letzteWartung.toString());
 
 
         mvc.perform(put("/positionssender/{id}", id)
@@ -245,6 +258,7 @@ public class PositionssenderRestControllerTest {
         String positionssenderId = "GibtesNicht";
 
         PositionssenderDTO positionssenderDTO = new PositionssenderDTO();
+        positionssenderDTO.setId(positionssenderId);
 
         mvc.perform(put("/positionssender/{id}", positionssenderId)
                 .accept(MediaType.APPLICATION_JSON)
