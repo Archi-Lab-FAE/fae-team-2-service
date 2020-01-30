@@ -1,6 +1,5 @@
 package de.th.koeln.archilab.fae.faeteam2service.positionssender;
 
-
 import com.grum.geocalc.BoundingArea;
 import com.grum.geocalc.Coordinate;
 import com.grum.geocalc.EarthCalc;
@@ -19,10 +18,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.threeten.bp.OffsetDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
-
 import javax.persistence.*;
 import java.util.UUID;
 
+/**
+ * This class stores all data of the positionssender for the Zonenalarmsystem.
+ * @see <a href="https://fae.archi-lab.io/glossary/2019/11/15/Glossary-Positionssender.html">Glossary Definition</a>
+ */
 @Entity
 @Configurable
 @Data

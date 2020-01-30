@@ -1,7 +1,6 @@
 package de.th.koeln.archilab.fae.faeteam2service.positionssender;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,16 +10,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-
 import de.th.koeln.archilab.fae.faeteam2service.demenziell_erkrankter.DemenziellErkrankterRepository;
 import de.th.koeln.archilab.fae.faeteam2service.zone.Zone;
 import de.th.koeln.archilab.fae.faeteam2service.zone.ZoneDTO;
@@ -43,7 +39,8 @@ public class PositionssenderApiController implements PositionssenderApi {
 
     @org.springframework.beans.factory.annotation.Autowired
     public PositionssenderApiController(ObjectMapper objectMapper, HttpServletRequest request,
-                                        PositionssenderRepository repository, ZoneRepository zoneRepository, DemenziellErkrankterRepository demenziellErkrankterRepository) {
+                                        PositionssenderRepository repository, ZoneRepository zoneRepository,
+                                        DemenziellErkrankterRepository demenziellErkrankterRepository) {
         this.objectMapper = objectMapper;
         this.request = request;
         this.repository = repository;
