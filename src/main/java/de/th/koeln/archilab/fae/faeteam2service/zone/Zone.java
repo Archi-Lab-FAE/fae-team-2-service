@@ -1,21 +1,14 @@
 package de.th.koeln.archilab.fae.faeteam2service.zone;
 
-import org.apache.commons.lang.StringUtils;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-
 import de.th.koeln.archilab.fae.faeteam2service.position.Position;
 import de.th.koeln.archilab.fae.faeteam2service.zone.events.ZoneEventHandler;
 import lombok.Data;
+import org.apache.commons.lang.StringUtils;
+
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * This class represents a zone which can be relevant for the Zonenalarmsystem.
@@ -57,10 +50,8 @@ public class Zone {
         entity.zoneId = dto.getZoneId();
         entity.typ = dto.getTyp();
 
-        if (dto.getPositionen() != null) {
-            entity.positionen = new ArrayList<>();
-            dto.getPositionen().forEach(positionDto -> entity.positionen.add(Position.convert(positionDto)));
-        }
+        entity.positionen = new ArrayList<>();
+        dto.getPositionen().forEach(positionDto -> entity.positionen.add(Position.convert(positionDto)));
 
         return entity;
     }
