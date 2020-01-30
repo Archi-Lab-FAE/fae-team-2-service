@@ -29,7 +29,7 @@ channels: # aka topics
 
 
   #### PUBLISH ####
-  zonenabweichung: #schönen Namen einfallen lassen :)
+  zonenabweichung:
     publish:
       operationId: demenziellErkranterOutOfZone
       traits:
@@ -103,10 +103,6 @@ components:
         vorname:
           type: string
           example: 'Karsten'
-        kontaktpersonen:
-          type: array
-          items:
-            $ref: '#/components/schemas/Kontaktperson'
         positionssender:
           type: array
           items:
@@ -176,10 +172,10 @@ components:
           type: string
           format: uuid-as-string
           example: 'f33c6fa8-1697-11ea-8d71-362b9e155667'
-        message:
+        text:
           type: string
           example: 'K. Löhler, hat die gewohnte Zone verlassen.'
-        aktuellePosition:
+        position:
           $ref: '#/components/schemas/Position'
 
     Zone:

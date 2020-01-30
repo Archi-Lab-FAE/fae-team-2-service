@@ -7,6 +7,10 @@ import de.th.koeln.archilab.fae.faeteam2service.zonen_abweichung.ZonenAbweichung
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
+/**
+ * All information for which is given in an event for a ZonenAbweichung.
+ * @see <a href="https://fae.archi-lab.io/global/2020/01/10/team-3-Event-Structure.html">Event Structure Definition</a>
+ */
 @EqualsAndHashCode(callSuper = false)
 public class ZonenAbweichungEvent extends DomainEvent {
 
