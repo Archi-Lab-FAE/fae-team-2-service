@@ -29,7 +29,9 @@ public class PositionssenderEventConsumer {
 
 
     @Autowired
-    public PositionssenderEventConsumer(final ObjectMapper objectMapper, PositionssenderEventInformationRepository positionssenderEventInformationRepository, PositionssenderRepository positionssenderRepository) {
+    public PositionssenderEventConsumer(final ObjectMapper objectMapper,
+                                        PositionssenderEventInformationRepository positionssenderEventInformationRepository,
+                                        PositionssenderRepository positionssenderRepository) {
         this.objectMapper = objectMapper;
         this.positionssenderEventInformationRepository = positionssenderEventInformationRepository;
         this.positionssenderRepository = positionssenderRepository;
@@ -37,8 +39,8 @@ public class PositionssenderEventConsumer {
 
     /**
      * This function consumes all events for the topic tracker and saves them into the database.
-     * @param message
-     * @throws IOException
+     * @param message json message of the event
+     * @throws IOException if the message cannot be parsed into an object
      */
     @KafkaListener(topics = "${tracker.topic}", groupId = "${spring.kafka.group-id}", autoStartup = "${spring.kafka.enabled}")
     public void listenToTracking(String message) throws IOException {

@@ -39,7 +39,8 @@ public class PositionssenderApiController implements PositionssenderApi {
 
     @org.springframework.beans.factory.annotation.Autowired
     public PositionssenderApiController(ObjectMapper objectMapper, HttpServletRequest request,
-                                        PositionssenderRepository repository, ZoneRepository zoneRepository, DemenziellErkrankterRepository demenziellErkrankterRepository) {
+                                        PositionssenderRepository repository, ZoneRepository zoneRepository,
+                                        DemenziellErkrankterRepository demenziellErkrankterRepository) {
         this.objectMapper = objectMapper;
         this.request = request;
         this.repository = repository;

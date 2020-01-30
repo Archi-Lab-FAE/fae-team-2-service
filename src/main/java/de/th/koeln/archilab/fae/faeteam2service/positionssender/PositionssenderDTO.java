@@ -12,7 +12,8 @@ import io.swagger.annotations.ApiModelProperty;
  *  The dto object is used to receive the data of a Positionssender, published by team 1.
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-12-19T10:48:55.616846300+01:00[Europe/Berlin]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen",
+                            date = "2019-12-19T10:48:55.616846300+01:00[Europe/Berlin]")
 public class PositionssenderDTO {
     @JsonProperty("positionssenderId")
     private String positionssenderId = null;
