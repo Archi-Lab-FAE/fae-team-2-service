@@ -1,19 +1,5 @@
 package de.th.koeln.archilab.fae.faeteam2service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationListener;
-import org.springframework.context.annotation.Profile;
-import org.springframework.context.event.ContextRefreshedEvent;
-import org.springframework.stereotype.Component;
-import org.threeten.bp.OffsetDateTime;
-import org.threeten.bp.ZoneOffset;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
-
 import de.th.koeln.archilab.fae.faeteam2service.demenziell_erkrankter.DemenziellErkrankter;
 import de.th.koeln.archilab.fae.faeteam2service.demenziell_erkrankter.DemenziellErkrankterRepository;
 import de.th.koeln.archilab.fae.faeteam2service.position.Position;
@@ -24,6 +10,15 @@ import de.th.koeln.archilab.fae.faeteam2service.zone.Zone;
 import de.th.koeln.archilab.fae.faeteam2service.zone.ZoneRepository;
 import de.th.koeln.archilab.fae.faeteam2service.zone.ZonenTyp;
 import lombok.val;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationListener;
+import org.springframework.context.annotation.Profile;
+import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.stereotype.Component;
+import org.threeten.bp.OffsetDateTime;
+import org.threeten.bp.ZoneOffset;
+
+import java.util.*;
 
 @Component
 @Profile("local")
@@ -109,7 +104,7 @@ public class SampleDataLoader implements ApplicationListener<ContextRefreshedEve
         return OffsetDateTime.of(
                 2018,
                 rng.nextInt(12) + 1,
-                rng.nextInt(29) + 1,
+                rng.nextInt(25) + 1,
                 rng.nextInt(23) + 1,
                 rng.nextInt(59) + 1,
                 rng.nextInt(59) + 1,
