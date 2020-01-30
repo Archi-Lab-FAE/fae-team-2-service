@@ -67,10 +67,15 @@ public class DemenziellErkrankterEventConsumer {
         val demenziellErkrankterEntity = DemenziellErkrankter.convert(demenziellErkrankterDTO);
         demenziellErkrankterRepository.save(demenziellErkrankterEntity);
 
+
+
         val positionssenderDTOList = demenziellErkrankterDTO.getPositionssender();
         val positionssenderList = new ArrayList<Positionssender>();
-
-        positionssenderDTOList.forEach(it -> positionssenderList.add(Positionssender.convert(it)));
+        positionssenderDTOList.forEach(it -> {
+            val positionssender = Positionssender.convert(it);
+            positionssender.setDemenziellErkrankter(demenziellErkrankterEntity);
+            positionssenderList.add(positionssender);
+        });
         positionssenderRepository.saveAll(positionssenderList);
 
         demenziellErkrankterEventInformationRepository.save(

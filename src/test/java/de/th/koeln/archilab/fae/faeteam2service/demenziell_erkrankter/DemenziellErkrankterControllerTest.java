@@ -1,7 +1,12 @@
 package de.th.koeln.archilab.fae.faeteam2service.demenziell_erkrankter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-
+import de.th.koeln.archilab.fae.faeteam2service.position.Position;
+import de.th.koeln.archilab.fae.faeteam2service.positionssender.Positionssender;
+import de.th.koeln.archilab.fae.faeteam2service.positionssender.PositionssenderDTO;
+import de.th.koeln.archilab.fae.faeteam2service.zone.Zone;
+import de.th.koeln.archilab.fae.faeteam2service.zone.ZonenTyp;
+import lombok.val;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,15 +22,9 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
-import de.th.koeln.archilab.fae.faeteam2service.position.Position;
-import de.th.koeln.archilab.fae.faeteam2service.zone.Zone;
-import de.th.koeln.archilab.fae.faeteam2service.zone.ZonenTyp;
-import lombok.val;
-
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -73,6 +72,14 @@ public class DemenziellErkrankterControllerTest {
         demenziellErkrankter.setDemenziellErkrankterId(uuid);
 
         demenziellErkrankterDTO = DemenziellErkrankter.convert(demenziellErkrankter);
+        List<PositionssenderDTO> positionssenderDTOS = new ArrayList<>();
+        positionssenderDTOS.add(Positionssender.convert(
+                new Positionssender(
+                        null,
+                        null,
+                        new Position(43.0, 42.0))
+        ));
+        demenziellErkrankterDTO.setPositionssender(positionssenderDTOS);
     }
 
     @Test
@@ -122,7 +129,7 @@ public class DemenziellErkrankterControllerTest {
     public void testUpdateDemenziellerkrankter() throws Exception {
         repository.save(demenziellErkrankter);
 
-        DemenziellErkrankterDTO dto = DemenziellErkrankter.convert(demenziellErkrankter);
+        DemenziellErkrankterDTO dto = demenziellErkrankterDTO;
         String newVorName = "Kleiner";
         String newName = "Hocke";
         dto.setName(newName);
