@@ -1,5 +1,6 @@
-package de.th.koeln.archilab.fae.faeteam2service.zonenausnahme;
+package de.th.koeln.archilab.fae.faeteam2service.zonen_abweichung;
 
+import de.th.koeln.archilab.fae.faeteam2service.positionssender.Positionssender;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,11 +13,10 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.transaction.Transactional;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -25,31 +25,39 @@ import javax.transaction.Transactional;
 @Transactional
 @DirtiesContext
 @TestPropertySource(properties = {"spring.kafka.bootstrap-servers=${spring.embedded.kafka.brokers}"})
-public class ZonenAusnahmeRepositoryTest {
+public class ZonenAbweichungRepositoryTest {
 
     @Autowired
     private TestEntityManager entityManager;
 
     @Autowired
-    private ZonenAusnahmeRepository ausnahmeRepository;
+    private ZonenAbweichungRepository ausnahmeRepository;
 
     @Test
     public void findAllByAbgeschlossenFalseTest() {
-        ZonenAusnahme za1 = new ZonenAusnahme(LocalDateTime.now(), true);
-        ZonenAusnahme za2 = new ZonenAusnahme(LocalDateTime.now(), false);
-        ZonenAusnahme za3 = new ZonenAusnahme(LocalDateTime.now(), false);
+        Positionssender positionssender = new Positionssender();
+        String message = "HilfeHilfe";
+
+        ZonenAbweichung za1 = new ZonenAbweichung(
+                LocalDateTime.now(),
+                true,
+                positionssender.getPositionssenderId(),
+                positionssender.getPosition(),
+                message
+        );
+        ZonenAbweichung za2 = new ZonenAbweichung(positionssender, message);
+        ZonenAbweichung za3 = new ZonenAbweichung(positionssender, message);
 
         entityManager.persist(za1);
         entityManager.persist(za2);
         entityManager.persist(za3);
         entityManager.flush();
 
-        List<ZonenAusnahme> found = new ArrayList<>();
+        List<ZonenAbweichung> found = new ArrayList<>();
         ausnahmeRepository.findAllByAbgeschlossenFalse().forEach(found::add);
 
         Assert.assertFalse(found.contains(za1));
         Assert.assertTrue(found.contains(za2));
         Assert.assertTrue(found.contains(za3));
     }
-
 }

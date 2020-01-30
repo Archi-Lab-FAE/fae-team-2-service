@@ -7,9 +7,10 @@ import com.grum.geocalc.EarthCalc;
 import com.grum.geocalc.Point;
 import de.th.koeln.archilab.fae.faeteam2service.demenziell_erkrankter.DemenziellErkrankter;
 import de.th.koeln.archilab.fae.faeteam2service.position.Position;
-import de.th.koeln.archilab.fae.faeteam2service.positionssender.events.ZonenabweichungKafkaPublisher;
 import de.th.koeln.archilab.fae.faeteam2service.zone.Zone;
 import de.th.koeln.archilab.fae.faeteam2service.zone.ZonenTyp;
+import de.th.koeln.archilab.fae.faeteam2service.zonen_abweichung.ZonenAbweichung;
+import de.th.koeln.archilab.fae.faeteam2service.zonen_abweichung.ZonenAbweichungRepository;
 import lombok.Data;
 import lombok.val;
 import org.apache.commons.lang.StringUtils;
@@ -20,8 +21,6 @@ import org.threeten.bp.OffsetDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -48,7 +47,7 @@ public class Positionssender {
     private DemenziellErkrankter demenziellErkrankter;
 
     @Transient
-    private ZonenabweichungKafkaPublisher eventPublisher;
+    private ZonenAbweichungRepository zonenAbweichungRepository;
 
 
     public Positionssender() {
@@ -131,17 +130,15 @@ public class Positionssender {
                 isInGewohnteZone = true;
             } else if (position.inZone(zone)) {
                 val msg = "Achtung, " + demenziellErkrankter.getName() + " hat eine ungewohnte Zone betreten.";
-                eventPublisher.publishZonenabweichung(this, msg);
-                // TODO REST-CALL team4
-
-                // @Value("${messagingSystem.url}")
+                val zonenAusnahme = new ZonenAbweichung(this, msg);
+                zonenAbweichungRepository.save(zonenAusnahme);
             }
         }
 
         if (!isInGewohnteZone) {
             val msg = "Achtung, " + demenziellErkrankter.getName() + " hat die gewohnte Zone verlassen.";
-            eventPublisher.publishZonenabweichung(this, msg);
-            // TODO REST-CALL team4
+            val zonenAusnahme = new ZonenAbweichung(this, msg);
+            zonenAbweichungRepository.save(zonenAusnahme);
         }
     }
 }
