@@ -97,49 +97,6 @@ public class PositionssenderTest {
         assertEquals(55.0, positionssender.getPosition().getBreitengrad(), 0);
 
     }
-    @Test
-    public void positionssenderIstInZoneKorrektInitialisiert() {
-        Position northEast = new Position(40.0,60.0);
-        Position southWest =   new Position(20.0,50.0);
-        List<Position> positionsset = new ArrayList<>();
-        positionsset.add(northEast);
-        positionsset.add(southWest);
-        Zone zone = new Zone(2f, ZonenTyp.GEWOHNT, positionsset);
-
-        Positionssender positionssender = getPositionssender();
-        String letztesSignal = getRandomDate().toString();
-        Position positionPositionssender = new Position();
-        positionPositionssender.setBreitengrad(55.0);
-        positionPositionssender.setLaengengrad(30.0);
-        positionssender.setLetztesSignal(letztesSignal);
-        positionssender.setPosition(positionPositionssender);
-        boolean posSenderInZone =positionPositionssender.inZone(zone);
-
-        Assert.assertTrue(posSenderInZone);
-    }
-    @Test
-    public void positionssenderIstInZoneFalschInitialisiert(){
-        boolean exception = false;
-        Position position = new Position(43.0,43.6);
-        List<Position> positionsset = new ArrayList<>();
-        positionsset.add(position);
-        Zone zone = new Zone(2f, ZonenTyp.GEWOHNT, positionsset);
-
-        Positionssender positionssender = getPositionssender();
-        String letztesSignal = getRandomDate().toString();
-        Position positionPositionssender = new Position();
-        positionPositionssender.setBreitengrad(43.6);
-        positionPositionssender.setLaengengrad(43.0);
-        positionssender.setLetztesSignal(letztesSignal);
-        positionssender.setPosition(positionPositionssender);
-
-        try {
-            positionPositionssender.inZone(zone);
-        } catch(Exception e){
-            exception = true;
-        }
-        Assert.assertTrue(exception);
-    }
 
     @Test
     public void positionssenderIstInRadius(){

@@ -31,14 +31,14 @@ public class ZonenAbweichungHandler {
     @Value("${messaging.maxAgeForRetry}")
     private long maxAgeForRetry;
 
-    private ZonenAbweichungRepository ausnahmeRepository;
+    private ZonenAbweichungRepository abweichungRepository;
 
     private RestTemplate restTemplate = new RestTemplate();
 
 
     @Autowired
-    public ZonenAbweichungHandler(ZonenAbweichungRepository ausnahmeRepository) {
-        this.ausnahmeRepository = ausnahmeRepository;
+    public ZonenAbweichungHandler(ZonenAbweichungRepository abweichungRepository) {
+        this.abweichungRepository = abweichungRepository;
     }
 
 
@@ -47,9 +47,9 @@ public class ZonenAbweichungHandler {
      * {@link ZonenAbweichung#isAbgeschlossen()} set to false.
      */
     @Scheduled(initialDelay = 30000L, fixedDelayString = "${messaging.delayBetweenRetry}")
-    private void sendZonenAusnahmen() {
+    private void sendZonenAbweichung() {
         log.info("Handling all open ZonenAbweichung...");
-        val ausnahmeSpliterator = ausnahmeRepository.findAllByAbgeschlossenFalse().spliterator();
+        val ausnahmeSpliterator = abweichungRepository.findAllByAbgeschlossenFalse().spliterator();
         val maxDate = LocalDateTime.now().plusMinutes(maxAgeForRetry);
 
         //"Remove" all entries which are older then the given threshold
@@ -57,9 +57,9 @@ public class ZonenAbweichungHandler {
         StreamSupport.stream(ausnahmeSpliterator, false).forEach(zonenAusnahme -> {
             if (zonenAusnahme.getEntstanden().isBefore(maxDate)) {
                 zonenAusnahme.setAbgeschlossen(true);
-                ausnahmeRepository.save(zonenAusnahme);
+                abweichungRepository.save(zonenAusnahme);
             } else {
-                sendZonenAusnahme(zonenAusnahme);
+                sendZonenAbweichung(zonenAusnahme);
             }
         });
     }
@@ -69,9 +69,9 @@ public class ZonenAbweichungHandler {
      * The {@link ZonenAbweichung} will get saved into the {@link ZonenAbweichungRepository}
      * regardless of if the sending was successful or not.
      *
-     * @param zonenAbweichung Ausnahme to be send.
+     * @param zonenAbweichung Abweichung to be send.
      */
-    public void sendZonenAusnahme(ZonenAbweichung zonenAbweichung) {
+    public void sendZonenAbweichung(ZonenAbweichung zonenAbweichung) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
 
@@ -83,6 +83,6 @@ public class ZonenAbweichungHandler {
 
         //If successful, change the flag in the database
         zonenAbweichung.setAbgeschlossen(response.getStatusCode().is2xxSuccessful());
-        ausnahmeRepository.save(zonenAbweichung);
+        abweichungRepository.save(zonenAbweichung);
     }
 }
