@@ -26,8 +26,8 @@ public class PositionssenderEventInformation {
     }
 
     public PositionssenderEventInformation(
-            String positionssenderEventType,
             String positionssenderEventId,
+            String positionssenderEventType,
             Date date
     ) {
         this.positionssenderEventId = positionssenderEventId;

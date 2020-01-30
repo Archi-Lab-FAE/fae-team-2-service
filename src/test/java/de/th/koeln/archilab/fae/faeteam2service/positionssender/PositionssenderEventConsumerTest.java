@@ -92,7 +92,7 @@ public class PositionssenderEventConsumerTest {
         }
         assertTrue(entityPresent);
 
-       /* eventRepository.save(new PositionssenderEventInformation(eventId, CrudEventType.UPDATED.name(), new Date()));
+        eventRepository.save(new PositionssenderEventInformation(eventId, CrudEventType.UPDATED.name(), new Date()));
 
         Optional<PositionssenderEventInformation> event = eventRepository.findById(eventId);
         boolean eventPresent = false;
@@ -101,7 +101,7 @@ public class PositionssenderEventConsumerTest {
             assertEquals(eventId, event.get().getPositionssenderEventId());
             eventPresent = true;
         }
-        assertTrue(eventPresent);*/
+        assertTrue(eventPresent);
 
     }
     @Test
