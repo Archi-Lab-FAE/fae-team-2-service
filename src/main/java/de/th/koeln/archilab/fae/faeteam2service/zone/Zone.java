@@ -1,15 +1,23 @@
 package de.th.koeln.archilab.fae.faeteam2service.zone;
 
+import org.apache.commons.lang.StringUtils;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
 import de.th.koeln.archilab.fae.faeteam2service.demenziell_erkrankter.DemenziellErkrankter;
 import de.th.koeln.archilab.fae.faeteam2service.position.Position;
 import de.th.koeln.archilab.fae.faeteam2service.zone.events.ZoneEventHandler;
 import lombok.Data;
-import org.apache.commons.lang.StringUtils;
-
-import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 
 /**
  * This class represents a zone which can be relevant for the Zonenalarmsystem.
@@ -47,10 +55,10 @@ public class Zone {
 
 
     public void update(Zone update) {
-        if (StringUtils.isNotBlank(update.zoneId)) zoneId = update.getZoneId();
-        if (update.typ != null) typ = update.getTyp();
-        if (update.positionen != null) positionen = update.getPositionen();
-        demenziellErkrankter = update.getDemenziellErkrankter();
+        if (StringUtils.isNotBlank(update.zoneId)) setZoneId(update.getZoneId());
+        if (update.typ != null) setTyp(update.getTyp());
+        if (update.positionen != null) setPositionen(update.getPositionen());
+        setDemenziellErkrankter(update.getDemenziellErkrankter());
     }
 
     public static Zone convert(ZoneDTO dto, DemenziellErkrankter demenziellErkrankter) {
