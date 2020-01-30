@@ -11,9 +11,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
 import java.util.List;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+
 import de.th.koeln.archilab.fae.faeteam2service.zone.ZoneDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -21,11 +24,11 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-01-23T20:04:16.757Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-01-30T16:33:21.467Z[GMT]")
 @Api(value = "positionssender", description = "the positionssender API")
 public interface PositionssenderApi {
 
-    @ApiOperation(value = "Einen neuen Positionssender in die Datenbank aufnehmen", nickname = "addPositionssender", notes = "", response = PositionssenderDTO.class, tags = {"Positionssender"})
+    @ApiOperation(value = "Einen neuen Positionssender in die Datenbank aufnehmen", nickname = "addPositionssender", notes = "", response = PositionssenderDTO.class, tags = {"Positionssender",})
     @ApiResponses(value = {
             @ApiResponse(code = 204, message = "Objekt wurde erstellt.", response = PositionssenderDTO.class),
             @ApiResponse(code = 405, message = "Invalide Daten.")})
@@ -37,7 +40,7 @@ public interface PositionssenderApi {
     );
 
 
-    @ApiOperation(value = "Liefert alle Positionssender.", nickname = "findAllPositionssender", notes = "", response = PositionssenderDTO.class, responseContainer = "List", tags = {"Positionssender"})
+    @ApiOperation(value = "Liefert alle Positionssender.", nickname = "findAllPositionssender", notes = "", response = PositionssenderDTO.class, responseContainer = "List", tags = {"Positionssender",})
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "successful operation", response = PositionssenderDTO.class, responseContainer = "List"),
             @ApiResponse(code = 400, message = "ID ist nicht valide."),
@@ -49,7 +52,7 @@ public interface PositionssenderApi {
     );
 
 
-    @ApiOperation(value = "Liefert den Positionssendermit der ID", nickname = "findPositionssender", notes = "", response = PositionssenderDTO.class, tags = {"Positionssender"})
+    @ApiOperation(value = "Liefert den Positionssendermit der ID", nickname = "findPositionssender", notes = "", response = PositionssenderDTO.class, tags = {"Positionssender",})
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "successful operation", response = PositionssenderDTO.class),
             @ApiResponse(code = 400, message = "ID ist nicht valide."),
@@ -61,7 +64,7 @@ public interface PositionssenderApi {
     );
 
 
-    @ApiOperation(value = "Liefert eine Liste aller Positionssendermit der ID", nickname = "findPositionssenderInRadius", notes = "", response = PositionssenderDTO.class, responseContainer = "List", tags = {"Positionssender"})
+    @ApiOperation(value = "Liefert eine Liste aller Positionssendermit der ID", nickname = "findPositionssenderInRadius", notes = "", response = PositionssenderDTO.class, responseContainer = "List", tags = {"Positionssender",})
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Liste aller Positionssender im Radius", response = PositionssenderDTO.class, responseContainer = "List"),
             @ApiResponse(code = 405, message = "Invalide Daten")})
@@ -74,7 +77,7 @@ public interface PositionssenderApi {
     );
 
 
-    @ApiOperation(value = "Liefer alle Zonen des Positionssenders", nickname = "getZonenByPositionssenderId", notes = "Liefert alle Zonene des Positionssenders", response = ZoneDTO.class, responseContainer = "List", tags = {"Positionssender"})
+    @ApiOperation(value = "Liefer alle Zonen des Positionssenders", nickname = "getZonenByPositionssenderId", notes = "Liefert alle Zonene des Positionssenders", response = ZoneDTO.class, responseContainer = "List", tags = {"Positionssender",})
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "successful operation", response = ZoneDTO.class, responseContainer = "List"),
             @ApiResponse(code = 400, message = "Invalid ID supplied"),
@@ -86,7 +89,7 @@ public interface PositionssenderApi {
     );
 
 
-    @ApiOperation(value = "Daten eines Positionssenders aktualisieren", nickname = "updatePositionssender", notes = "", response = PositionssenderDTO.class, tags = {"Positionssender"})
+    @ApiOperation(value = "Daten eines Positionssenders aktualisieren", nickname = "updatePositionssender", notes = "", response = PositionssenderDTO.class, tags = {"Positionssender",})
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Objekt wurde aktualisiert.", response = PositionssenderDTO.class),
             @ApiResponse(code = 400, message = "Die ID ist nicht valide."),

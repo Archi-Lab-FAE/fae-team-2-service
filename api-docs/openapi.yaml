@@ -5,7 +5,7 @@ info:
     Dies ist die REST-Dokumenation für das Zonenalarmsystem. Weitere Erläuterungen zum Projekt können dem [Domain Vision Statement](https://github.com/Archi-Lab-FAE/fae-team-2-documentation).
   termsOfService: 'https://fae.archi-lab.io/'
   contact:
-    email: apiteam@fase.th-koeln.de
+    email: apiteam@fae.th-koeln.de
   license:
     name: Apache 2.0
     url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
@@ -16,18 +16,18 @@ externalDocs:
   url: 'https://fae.archi-lab.io/'
 
 servers:
-  - url: 'https://fae.archi-lab.io'
+  - url: 'https://api.fae.archi-lab.io/team-2'
     description: Production server
   - url: 'http://localhost:8080'
     description: Local test server
 
 tags:
   - name: Demenziell Erkrankter
-    description: Genaue Beschreibung auf in der [Dokumentation](https://fae.archi-lab.io/)
+    description: Genaue Beschreibung auf in der [Dokumentation](https://fae.archi-lab.io/glossary/2019/11/15/Glossary-dementiell-Erkrankter.html)
   - name: Positionssender
-    description: Genaue Beschreibung auf in der [Dokumentation](https://fae.archi-lab.io/)
+    description: Genaue Beschreibung auf in der [Dokumentation](https://fae.archi-lab.io/glossary/2019/11/15/Glossary-Positionssender.html)
   - name: Zone
-    description: Genaue Beschreibung auf in der [Dokumentation](https://fae.archi-lab.io/)
+    description: Genaue Beschreibung auf in der [Dokumentation](https://fae.archi-lab.io/glossary/2019/11/15/Glossary-Zone.html)
 
 paths:
   '/demenziellerkrankter':
@@ -41,7 +41,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/DemenziellErkrankter'
+              $ref: '#/components/schemas/DemenziellErkrankterDTO'
         required: true
       responses:
         '204':
@@ -49,7 +49,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/DemenziellErkrankter'
+                $ref: '#/components/schemas/DemenziellErkrankterDTO'
         '405':
           description: Invalide Daten.}
 
@@ -71,7 +71,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/DemenziellErkrankter'
+              $ref: '#/components/schemas/DemenziellErkrankterDTO'
         required: true
       responses:
         '200':
@@ -79,7 +79,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/DemenziellErkrankter'
+                $ref: '#/components/schemas/DemenziellErkrankterDTO'
         '400':
           description: Die ID ist nicht valide.
         '404':
@@ -105,7 +105,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/DemenziellErkrankter'
+                $ref: '#/components/schemas/DemenziellErkrankterDTO'
 
 
   '/positionssender/findInRadius':
@@ -144,7 +144,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Positionssender'
+                  $ref: '#/components/schemas/PositionssenderDTO'
         '405':
           description: Invalide Daten
 
@@ -167,7 +167,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Positionssender'
+                $ref: '#/components/schemas/PositionssenderDTO'
         '400':
           description: ID ist nicht valide.
         '404':
@@ -190,7 +190,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Positionssender'
+              $ref: '#/components/schemas/PositionssenderDTO'
         required: true
       responses:
         '200':
@@ -198,7 +198,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Positionssender'
+                $ref: '#/components/schemas/PositionssenderDTO'
         '400':
           description: Die ID ist nicht valide.
         '404':
@@ -226,7 +226,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Positionssender'
+                  $ref: '#/components/schemas/PositionssenderDTO'
         '400':
           description: ID ist nicht valide.
         '404':
@@ -242,7 +242,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Positionssender'
+              $ref: '#/components/schemas/PositionssenderDTO'
         required: true
       responses:
         '204':
@@ -250,7 +250,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Positionssender'
+                $ref: '#/components/schemas/PositionssenderDTO'
         '405':
           description: Invalide Daten.
 
@@ -276,7 +276,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Zone'
+                  $ref: '#/components/schemas/ZoneDTO'
         '400':
           description: Invalid ID supplied
         '404':
@@ -293,7 +293,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Zone'
+              $ref: '#/components/schemas/ZoneDTO'
         required: true
       responses:
         '204':
@@ -301,7 +301,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Zone'
+                $ref: '#/components/schemas/ZoneDTO'
         '405':
           description: Invalide Daten.
 
@@ -324,7 +324,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Zone'
+                $ref: '#/components/schemas/ZoneDTO'
 
     put:
       tags:
@@ -343,7 +343,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Zone'
+              $ref: '#/components/schemas/ZoneDTO'
         required: true
       responses:
         '200':
@@ -351,7 +351,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Zone'
+                $ref: '#/components/schemas/ZoneDTO'
         '400':
           description: Die ID ist nicht valide.
         '404':
@@ -362,41 +362,45 @@ paths:
 
 components:
   schemas:
-    DemenziellErkrankter:
+    DemenziellErkrankterDTO:
       type: object
       properties:
-        demenziellErkrankterId:
+        id:
           type: string
           example: 'f33c6fa8-1697-11ea-8d71-362b9e155667'
+        vorname:
+          type: string
+          example: 'Kutz'
         name:
           type: string
-          example: 'K. Löhler'
-        zonen:
+          example: 'Löhler'
+        positionssender:
           type: array
           items:
-            $ref: '#/components/schemas/Zone'
+            $ref: '#/components/schemas/PositionssenderDTO'
+      required:
+        - id
+        - vorname
+        - nachname
 
-    Positionssender:
+    PositionssenderDTO:
       type: object
       properties:
-        positionssenderId:
+        id:
           type: string
           example: 'f33c6cd8-1697-11ea-8d71-362b9e155667'
         letztesSignal:
           type: string
           format: date-time
-        batterieStatus:
-          type: number
-          format: float
-          example: 0.8
-        genauigkeit:
-          type: number
-          format: float
-          example: 1.0
+        letzteWartung:
+          type: string
+          format: date-time
         position:
-          $ref: '#/components/schemas/Position'
+          $ref: '#/components/schemas/PositionDTO'
+      required:
+        - id
 
-    Position:
+    PositionDTO:
       type: object
       properties:
         laengengrad:
@@ -407,25 +411,33 @@ components:
           type: number
           format: double
           example: '7.287333'
+      required:
+        - laengengrad
+        - breitengrad
 
-    Zone:
+    ZoneDTO:
       type: object
       properties:
         zoneId:
           type: string
           example: '8f926d33-27bd-4afd-aabb-b160a6402348'
-        toleranz:
-          type: number
-          format: float
-          example: 1.5
         typ:
           $ref: '#/components/schemas/ZonenTyp'
         positionen:
           type: array
-          items:
-            $ref: '#/components/schemas/Position'
           minItems: 2
           maxItems: 2
+          items:
+            $ref: '#/components/schemas/PositionDTO'
+          example:
+            - laengengrad: 51.042755
+              breitengrad: 7.287333
+            - laengengrad: 51.042755
+              breitengrad: 7.287333
+      required:
+        - zoneId
+        - typ
+        - positionen
 
     ZonenTyp:
       type: string

@@ -59,7 +59,6 @@ public class Zone {
     public static Zone convert(ZoneDTO dto) {
         Zone entity = new Zone();
         entity.zoneId = dto.getZoneId();
-        entity.toleranz = dto.getToleranz();
         entity.typ = dto.getTyp();
 
         if (dto.getPositionen() != null) {
@@ -73,7 +72,6 @@ public class Zone {
     public static ZoneDTO convert(Zone entity) {
         ZoneDTO dto = new ZoneDTO();
         dto.setZoneId(entity.zoneId);
-        dto.setToleranz(entity.toleranz);
         dto.setTyp(entity.typ);
 
         if (entity.getPositionen() != null) {
