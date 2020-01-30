@@ -4,24 +4,6 @@ import com.grum.geocalc.BoundingArea;
 import com.grum.geocalc.Coordinate;
 import com.grum.geocalc.EarthCalc;
 import com.grum.geocalc.Point;
-
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.threeten.bp.OffsetDateTime;
-import org.threeten.bp.format.DateTimeFormatter;
-
-import java.util.Objects;
-import java.util.UUID;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.persistence.Transient;
-
 import de.th.koeln.archilab.fae.faeteam2service.BeanUtil;
 import de.th.koeln.archilab.fae.faeteam2service.demenziell_erkrankter.DemenziellErkrankter;
 import de.th.koeln.archilab.fae.faeteam2service.position.Position;
@@ -32,6 +14,15 @@ import de.th.koeln.archilab.fae.faeteam2service.zonen_abweichung.ZonenAbweichung
 import de.th.koeln.archilab.fae.faeteam2service.zonen_abweichung.ZonenAbweichungRepository;
 import lombok.Data;
 import lombok.val;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.threeten.bp.OffsetDateTime;
+import org.threeten.bp.format.DateTimeFormatter;
+
+import javax.persistence.*;
+import java.util.Objects;
+import java.util.UUID;
 
 /**
  * This class stores all data of the positionssender for the Zonenalarmsystem.
@@ -110,8 +101,8 @@ public class Positionssender {
     public static Positionssender convert(PositionssenderDTO dto) {
         Positionssender entity = new Positionssender();
         entity.positionssenderId = dto.getId();
-        entity.letztesSignal = dto.getLetztesSignal().format(DATE_FORMAT);
-        entity.letzteWartung = dto.getLetzteWartung().format(DATE_FORMAT);
+        if (dto.getLetztesSignal() != null) entity.letztesSignal = dto.getLetztesSignal().format(DATE_FORMAT);
+        if (dto.getLetzteWartung() != null) entity.letzteWartung = dto.getLetzteWartung().format(DATE_FORMAT);
 
         entity.position = Position.convert(dto.getPosition());
 
@@ -121,8 +112,8 @@ public class Positionssender {
     public static PositionssenderDTO convert(Positionssender entity) {
         PositionssenderDTO dto = new PositionssenderDTO();
         dto.setId(entity.positionssenderId);
-        dto.setLetztesSignal(OffsetDateTime.parse(entity.letztesSignal, DATE_FORMAT));
-        dto.setLetzteWartung(OffsetDateTime.parse(entity.letzteWartung, DATE_FORMAT));
+        if (entity.letztesSignal != null) dto.setLetztesSignal(OffsetDateTime.parse(entity.letztesSignal, DATE_FORMAT));
+        if (entity.letzteWartung != null) dto.setLetzteWartung(OffsetDateTime.parse(entity.letzteWartung, DATE_FORMAT));
         dto.setPosition(Position.convert(entity.position));
 
         return dto;
