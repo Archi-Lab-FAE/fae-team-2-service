@@ -50,17 +50,7 @@ public class DemenziellErkrankterApiController implements DemenziellErkrankterAp
         val demenziellErkrankter = DemenziellErkrankter.convert(body);
         DemenziellErkrankter saved = repository.save(demenziellErkrankter);
 
-        val positionssenderDTOList = body.getPositionssender();
-        val positionssenderList = new ArrayList<Positionssender>();
-        positionssenderDTOList.forEach(it -> {
-            val positionssender = Positionssender.convert(it);
-            positionssender.setDemenziellErkrankter(demenziellErkrankter);
-            positionssenderList.add(positionssender);
-        });
-        positionssenderRepository.saveAll(positionssenderList);
-
-        val demenziellErkrankterDTO = DemenziellErkrankter.convert(saved);
-        demenziellErkrankterDTO.setPositionssender(positionssenderDTOList);
+        DemenziellErkrankterDTO demenziellErkrankterDTO = getDemenziellErkrankterDTOWithPositionssender(body, demenziellErkrankter, saved);
 
         return new ResponseEntity<>(demenziellErkrankterDTO, HttpStatus.CREATED);
     }
@@ -89,22 +79,27 @@ public class DemenziellErkrankterApiController implements DemenziellErkrankterAp
             result.update(demenziellErkrankter);
             DemenziellErkrankter saved = repository.save(result);
 
-            val positionssenderDTOList = body.getPositionssender();
-            val positionssenderList = new ArrayList<Positionssender>();
-            positionssenderDTOList.forEach(it -> {
-                val positionssender = Positionssender.convert(it);
-                positionssender.setDemenziellErkrankter(demenziellErkrankter);
-                positionssenderList.add(positionssender);
-            });
-            positionssenderRepository.saveAll(positionssenderList);
-
-            val demenziellErkrankterDTO = DemenziellErkrankter.convert(saved);
-            demenziellErkrankterDTO.setPositionssender(positionssenderDTOList);
+            DemenziellErkrankterDTO demenziellErkrankterDTO = getDemenziellErkrankterDTOWithPositionssender(body, demenziellErkrankter, saved);
 
             return new ResponseEntity<>(demenziellErkrankterDTO, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    private DemenziellErkrankterDTO getDemenziellErkrankterDTOWithPositionssender(@RequestBody @ApiParam(value = "Objekt eines demenziell Erkranten, welches aktualisiert werden soll.", required = true) @Valid DemenziellErkrankterDTO body, DemenziellErkrankter demenziellErkrankter, DemenziellErkrankter saved) {
+        val positionssenderDTOList = body.getPositionssender();
+        val positionssenderList = new ArrayList<Positionssender>();
+        positionssenderDTOList.forEach(it -> {
+            val positionssender = Positionssender.convert(it);
+            positionssender.setDemenziellErkrankter(demenziellErkrankter);
+            positionssenderList.add(positionssender);
+        });
+        positionssenderRepository.saveAll(positionssenderList);
+
+        val demenziellErkrankterDTO = DemenziellErkrankter.convert(saved);
+        demenziellErkrankterDTO.setPositionssender(positionssenderDTOList);
+        return demenziellErkrankterDTO;
     }
 
 }
