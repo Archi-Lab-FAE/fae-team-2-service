@@ -55,6 +55,7 @@ public class DemenziellErkrankterEventConsumer {
                 .parse(message, DemenziellErkrankterDTO.class);
         val demenziellErkrankterEntity = DemenziellErkrankter.convert(demenziellErkrankterDTO);
         demenziellErkrankterRepository.save(demenziellErkrankterEntity);
+        // TODO positionssender auslesen und speichern
 
         demenziellErkrankterEventInformationRepository.save(
                 new DemenziellErkrankterEventInformation(crudDomainEvent.getId(), crudDomainEvent.getType(), new Date())

@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
+
 import java.io.IOException;
 import java.util.Date;
 
@@ -42,7 +43,7 @@ public class PositionssenderEventConsumer {
      * @param message json message of the event
      * @throws IOException if the message cannot be parsed into an object
      */
-    @KafkaListener(topics = "${tracker.topic}", groupId = "${spring.kafka.group-id}", autoStartup = "${spring.kafka.enabled}")
+    @KafkaListener(topics = "${spring.kafka.topic.consumer.tracker}", groupId = "${spring.kafka.group-id}", autoStartup = "${spring.kafka.enabled}")
     public void listenToTracking(String message) throws IOException {
         val trackingEventDto = objectMapper.readValue(message, TrackingEventDto.class);
         val tracker = trackingEventDto.getTrackerDto();

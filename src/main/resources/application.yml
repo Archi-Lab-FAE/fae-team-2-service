@@ -21,8 +21,15 @@ spring:
     deserialization:
       accept-empty-array-as-null-object: true
   kafka:
-    group-id: "fae-team-2-service"
+    group-id: fae-team-2-service
     enabled: true
+    topic:
+      consumer:
+        demenziellerkrankter: demenziellerkrankter
+        tracker: tracker
+      producer:
+        zone: zone
+        zonenabweichung: zonenabweichung
 
 # Server
 server:
@@ -33,13 +40,6 @@ server:
     context-path: /team-2
   tomcat:
     use-relative-redirects: true
-
-# Kafka-topic
-demenziellerkrankter.topic: demenziellerkrankter
-zone.topic: zone
-zonenabweichung.topic: zonenabweichung
-positionssender.topic: positionssender
-tracker.topic: tracker
 
 # Messaging system
 messaging:

@@ -23,7 +23,7 @@ public class ZonenAbweichungEventHandler {
 
     @Autowired
     public ZonenAbweichungEventHandler(
-            @Value("${zonenabweichung.topic}") String topic,
+            @Value("${spring.kafka.topic.producer.zonenabweichung}") String topic,
             KafkaMessageProducer kafkaMessageProducer
     ) {
         this.topic = topic;
