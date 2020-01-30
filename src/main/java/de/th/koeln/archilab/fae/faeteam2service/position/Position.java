@@ -60,6 +60,10 @@ public class Position {
         return Point.at(Coordinate.fromDegrees(breitengrad), Coordinate.fromDegrees(laengengrad));
     }
 
+    /**
+     * Check if the this position is in a given zone.
+     * @return true if the position is in the zone
+     */
     public boolean inZone(Zone zone) {
         val positionenList = new ArrayList<Position>(zone.getPositionen());
 
