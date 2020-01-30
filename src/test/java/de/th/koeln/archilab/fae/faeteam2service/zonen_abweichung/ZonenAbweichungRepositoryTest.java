@@ -34,7 +34,7 @@ public class ZonenAbweichungRepositoryTest {
     private TestEntityManager entityManager;
 
     @Autowired
-    private ZonenAbweichungRepository ausnahmeRepository;
+    private ZonenAbweichungRepository abweichungRepository;
 
     @Test
     public void findAllByAbgeschlossenFalseTest() {
@@ -62,7 +62,7 @@ public class ZonenAbweichungRepositoryTest {
         entityManager.flush();
 
         List<ZonenAbweichung> found = new ArrayList<>();
-        ausnahmeRepository.findAllByAbgeschlossenFalse().forEach(found::add);
+        abweichungRepository.findAllByAbgeschlossenFalse().forEach(found::add);
 
         Assert.assertFalse(found.contains(za1));
         Assert.assertTrue(found.contains(za2));
