@@ -48,7 +48,7 @@ public class PositionssenderTest {
     }
     @Test
     public void convertBackAndForthReturnsInitialPositionssender(){
-        Positionssender positionssender = new Positionssender(getRandomDate(),1f,1f, new Position());
+        Positionssender positionssender = getPositionssender();
 
         PositionssenderDTO positionssenderDTO = Positionssender.convert(positionssender);
         Positionssender positionssenderConverted = Positionssender.convert(positionssenderDTO);
@@ -64,6 +64,7 @@ public class PositionssenderTest {
 
         float newBatterieStatus = 5f;
         Positionssender toUpdatePositionssender = getPositionssender();
+        toUpdatePositionssender.setBatterieStatus(newBatterieStatus);
         toUpdatePositionssender.setPositionssenderId(uuid);
 
         positionssender.update(toUpdatePositionssender);
@@ -85,9 +86,9 @@ public class PositionssenderTest {
         positionssender.update(positionssenderNull);
 
         assertEquals("Hans", positionssender.getDemenziellErkrankter().getName());
-        assertEquals(1f, positionssender.getBatterieStatus(),0.0002);
+        assertEquals(4f, positionssender.getBatterieStatus(),0.0002);
         assertEquals(letztesSignal, positionssender.getLetztesSignal());
-        assertEquals(position.getBreitengrad(), positionssender.getPosition().getBreitengrad());
+        assertEquals(55.0, positionssender.getPosition().getBreitengrad(), 0);
 
     }
     @Test

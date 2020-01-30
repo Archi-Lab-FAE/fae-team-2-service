@@ -8,6 +8,7 @@ import de.th.koeln.archilab.fae.faeteam2service.position.PositionDTO;
 import de.th.koeln.archilab.fae.faeteam2service.zone.Zone;
 import de.th.koeln.archilab.fae.faeteam2service.zone.ZoneRepository;
 import de.th.koeln.archilab.fae.faeteam2service.zone.ZonenTyp;
+import lombok.val;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,6 +69,15 @@ public class PositionssenderRestControllerTest {
         );
     }
 
+    private Positionssender getPositionssender() {
+        return new Positionssender(
+                OffsetDateTime.now(Clock.systemUTC()),
+                4f,
+                4f,
+                new Position(30.0,55.0)
+        );
+    }
+
     @Test
     public void createPositionssenderReturnCreated()throws Exception{
         PositionDTO posDTO = new PositionDTO();
@@ -93,7 +103,7 @@ public class PositionssenderRestControllerTest {
     }
     @Test
     public void findeAllePositionssenderOhneZoneId() throws Exception {
-        Positionssender positionssender = new Positionssender(getRandomDate(),2f,2f, new Position());
+        Positionssender positionssender = getPositionssender();
         positionssenderRepository.save(positionssender);
 
         mvc.perform(get("/positionssender")
@@ -107,7 +117,7 @@ public class PositionssenderRestControllerTest {
     @Test
     public void findeAllePositionssenderMitZoneIdWennSieExistiert() throws Exception {
         Position northEast = new Position(40.0,60.0);
-        Position southWest =   new Position(20.0,50.0);
+        Position southWest = new Position(20.0,50.0);
         List<Position> positionsset = new ArrayList<>();
         positionsset.add(northEast);
         positionsset.add(southWest);
@@ -116,13 +126,13 @@ public class PositionssenderRestControllerTest {
         zoneRepository.save(zone);
         String zoneId = zone.getZoneId();
 
-        Positionssender positionssender = new Positionssender(
-                OffsetDateTime.now(Clock.systemUTC()),
-                4f,
-                4f,
-                new Position(30.0,55.0)
-        );
+        Positionssender positionssender = getPositionssender();
         positionssenderRepository.save(positionssender);
+
+        val all = positionssenderRepository.findAll();
+        all.forEach(it -> {
+            System.out.println(it);
+        });
 
         mvc.perform(get("/positionssender")
                 .param("zoneId", zoneId)
@@ -144,7 +154,7 @@ public class PositionssenderRestControllerTest {
 
     @Test
     public void findePositionssenderByIdWennSenderExistiert() throws Exception {
-        Positionssender positionssender = new Positionssender(getRandomDate(),2f,2f, new Position());
+        Positionssender positionssender = getPositionssender();
         positionssenderRepository.save(positionssender);
 
         String positionssenderId = positionssender.getPositionssenderId();
@@ -176,7 +186,7 @@ public class PositionssenderRestControllerTest {
         DemenziellErkrankter demenziellErkrankter = new DemenziellErkrankter("Maria B", zoneSet);
         demenziellErkrankterRepository.save(demenziellErkrankter);
 
-        Positionssender positionssender = new Positionssender(getRandomDate(),2f,2f, new Position());
+        Positionssender positionssender = getPositionssender();
         positionssender.setDemenziellErkrankter(demenziellErkrankter);
         positionssenderRepository.save(positionssender);
         String positionssenderId = positionssender.getPositionssenderId();
@@ -201,7 +211,7 @@ public class PositionssenderRestControllerTest {
 
    @Test
     public void updatePositionssenderDerExistiert() throws Exception {
-        Positionssender positionssender = new Positionssender(getRandomDate(),2f,2f, new Position());
+        Positionssender positionssender = getPositionssender();
         positionssenderRepository.save(positionssender);
 
 
@@ -209,6 +219,8 @@ public class PositionssenderRestControllerTest {
         PositionssenderDTO positionssenderDTO = new PositionssenderDTO();
         OffsetDateTime letztesSignal = getRandomDate();
         PositionDTO positionDTO = new PositionDTO();
+        positionDTO.setBreitengrad(55.0);
+        positionDTO.setLaengengrad(30.0);
         positionssenderDTO.setLetztesSignal(letztesSignal);
         positionssenderDTO.setPosition(positionDTO);
 

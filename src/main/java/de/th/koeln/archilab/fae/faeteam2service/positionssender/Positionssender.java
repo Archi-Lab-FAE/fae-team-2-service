@@ -20,6 +20,7 @@ import org.threeten.bp.OffsetDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
 
 import javax.persistence.*;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -142,5 +143,31 @@ public class Positionssender {
             val zonenAusnahme = new ZonenAbweichung(this, msg);
             zonenAbweichungRepository.save(zonenAusnahme);
         }
+    }
+
+    @Override
+    public boolean equals(java.lang.Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Positionssender p = (Positionssender) o;
+        return Objects.equals(this.demenziellErkrankter, p.demenziellErkrankter) &&
+                Objects.equals(this.batterieStatus, p.batterieStatus) &&
+                Objects.equals(this.letztesSignal, p.letztesSignal) &&
+                Objects.equals(this.genauigkeit, p.genauigkeit) &&
+                Objects.equals(this.position, p.position);
+    }
+
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(
+                positionssenderId,
+                demenziellErkrankter,
+                batterieStatus,
+                letztesSignal,
+                genauigkeit,
+                position
+        );
     }
 }
