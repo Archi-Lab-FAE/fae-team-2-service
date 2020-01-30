@@ -1,6 +1,5 @@
 package de.th.koeln.archilab.fae.faeteam2service.zonen_abweichung;
 
-import lombok.val;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +14,8 @@ import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
 import java.util.stream.StreamSupport;
+
+import lombok.val;
 
 /**
  * Component for handling synchronous calls of {@link ZonenAbweichung} to the messaging microservice
@@ -48,13 +49,14 @@ public class ZonenAbweichungHandler {
      */
     @Scheduled(initialDelay = 30000L, fixedDelayString = "${messaging.delayBetweenRetry}")
     private void sendZonenAbweichung() {
-        log.info("Handling all open ZonenAbweichung...");
         val ausnahmeSpliterator = abweichungRepository.findAllByAbgeschlossenFalse().spliterator();
         val maxDate = LocalDateTime.now().plusMinutes(maxAgeForRetry);
 
         //"Remove" all entries which are older then the given threshold
         //and try resend all others
         StreamSupport.stream(ausnahmeSpliterator, false).forEach(zonenAusnahme -> {
+            log.info("Handling open ZonenAbweichung with ID {}", zonenAusnahme.getZonenAusnahmeId());
+
             if (zonenAusnahme.getEntstanden().isBefore(maxDate)) {
                 zonenAusnahme.setAbgeschlossen(true);
                 abweichungRepository.save(zonenAusnahme);
