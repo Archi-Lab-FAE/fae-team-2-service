@@ -4,6 +4,7 @@ import com.grum.geocalc.BoundingArea;
 import com.grum.geocalc.Coordinate;
 import com.grum.geocalc.EarthCalc;
 import com.grum.geocalc.Point;
+import de.th.koeln.archilab.fae.faeteam2service.BeanUtil;
 import de.th.koeln.archilab.fae.faeteam2service.demenziell_erkrankter.DemenziellErkrankter;
 import de.th.koeln.archilab.fae.faeteam2service.position.Position;
 import de.th.koeln.archilab.fae.faeteam2service.zone.Zone;
@@ -15,9 +16,9 @@ import lombok.val;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Configurable;
 import org.threeten.bp.OffsetDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
+
 import javax.persistence.*;
 import java.util.UUID;
 
@@ -26,7 +27,6 @@ import java.util.UUID;
  * @see <a href="https://fae.archi-lab.io/glossary/2019/11/15/Glossary-Positionssender.html">Glossary Definition</a>
  */
 @Entity
-@Configurable
 @Data
 public class Positionssender {
 
@@ -65,6 +65,8 @@ public class Positionssender {
         this.batterieStatus = batterieStatus;
         this.genauigkeit = genauigkeit;
         this.position = position;
+
+        zonenAbweichungRepository = BeanUtil.getBean(ZonenAbweichungRepository.class);
     }
 
     public void update(Positionssender update) {

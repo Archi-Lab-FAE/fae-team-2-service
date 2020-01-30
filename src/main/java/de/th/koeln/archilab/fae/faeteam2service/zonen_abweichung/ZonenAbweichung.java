@@ -35,6 +35,8 @@ public class ZonenAbweichung {
 
     private String message;
 
+    private ZonenAbweichung() {}
+
     /**
      * Create a new instance with {@link #entstanden} set to the current time and
      * {@link #abgeschlossen} to false.

@@ -6,11 +6,18 @@ import de.th.koeln.archilab.fae.faeteam2service.zone.Zone;
 import de.th.koeln.archilab.fae.faeteam2service.zone.ZonenTyp;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.threeten.bp.OffsetDateTime;
 import org.threeten.bp.ZoneOffset;
+
 import java.util.*;
+
 import static org.junit.Assert.assertEquals;
 
+@RunWith(SpringRunner.class)
+@SpringBootTest
 public class PositionssenderTest {
 
     private final Random rng = new Random();
@@ -186,10 +193,10 @@ public class PositionssenderTest {
 
     }
 
-    /*@Test
+    @Test
     public void setPositionWennZoneUngewohntUndPositionInZone(){
         Position northEast = new Position(40.0,60.0);
-        Position southWest =   new Position(20.0,50.0);
+        Position southWest = new Position(20.0,50.0);
         List<Position> positionsset = new ArrayList<>();
         positionsset.add(northEast);
         positionsset.add(southWest);
@@ -210,6 +217,6 @@ public class PositionssenderTest {
 
         assertEquals(position, positionssender.getPosition());
 
-    }*/
+    }
 
 }
