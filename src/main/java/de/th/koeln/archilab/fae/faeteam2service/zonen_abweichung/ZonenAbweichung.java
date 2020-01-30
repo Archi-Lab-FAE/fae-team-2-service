@@ -13,7 +13,7 @@ import java.util.UUID;
 /**
  * This class represents data which are relevant for a zone event like going out of a zone.
  *
- * @see <a href="https://fae.archi-lab.io/glossary/2020/01/28/Glossary-Zonen-Ausnahme.html">Glossary Definition</a>
+ * @see <a href="https://fae.archi-lab.io/glossary/2020/01/28/Glossary-Zonen-Abweichung.html">Glossary Definition</a>
  */
 @Data
 @Entity

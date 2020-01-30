@@ -48,7 +48,7 @@ public class ZonenAbweichungHandler {
      */
     @Scheduled(initialDelay = 30000L, fixedDelayString = "${messaging.delayBetweenRetry}")
     private void sendZonenAusnahmen() {
-        log.info("Handling all open ZonenAusnahmen...");
+        log.info("Handling all open ZonenAbweichung...");
         val ausnahmeSpliterator = ausnahmeRepository.findAllByAbgeschlossenFalse().spliterator();
         val maxDate = LocalDateTime.now().plusMinutes(maxAgeForRetry);
 

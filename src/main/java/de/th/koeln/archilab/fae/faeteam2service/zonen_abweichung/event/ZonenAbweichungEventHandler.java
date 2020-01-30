@@ -21,6 +21,8 @@ public class ZonenAbweichungEventHandler {
     private final KafkaMessageProducer kafkaMessageProducer;
     private static final int EVENT_VERSION = 1;
 
+
+
     @Autowired
     public ZonenAbweichungEventHandler(
             @Value("${spring.kafka.topic.producer.zonenabweichung}") String topic,
@@ -31,33 +33,33 @@ public class ZonenAbweichungEventHandler {
     }
 
     @PostPersist
-    public void handleZonenAusnahmeCreate(ZonenAbweichung zonenAbweichung)
+    public void handleZonenAbweichungCreate(ZonenAbweichung zonenAbweichung)
             throws JsonProcessingException {
         this.kafkaMessageProducer.send(
                 this.topic,
-                buildZonenAusnahmeEvent(zonenAbweichung, CrudEventType.CREATED)
+                buildZonenAbweichungEvent(zonenAbweichung, CrudEventType.CREATED)
         );
     }
 
     @PostUpdate
-    public void handleZonenAusnahmeSave(ZonenAbweichung zonenAbweichung)
+    public void handleZonenAbweichungSave(ZonenAbweichung zonenAbweichung)
             throws JsonProcessingException {
         this.kafkaMessageProducer.send(
                 this.topic,
-                buildZonenAusnahmeEvent(zonenAbweichung, CrudEventType.UPDATED)
+                buildZonenAbweichungEvent(zonenAbweichung, CrudEventType.UPDATED)
         );
     }
 
     @PostRemove
-    public void handleZonenAusnahmeDelete(ZonenAbweichung zonenAbweichung)
+    public void handleZonenAbweichungDelete(ZonenAbweichung zonenAbweichung)
             throws JsonProcessingException {
         this.kafkaMessageProducer.send(
                 this.topic,
-                buildZonenAusnahmeEvent(zonenAbweichung, CrudEventType.DELETED)
+                buildZonenAbweichungEvent(zonenAbweichung, CrudEventType.DELETED)
         );
     }
 
-    private ZonenAbweichungEvent buildZonenAusnahmeEvent(
+    private ZonenAbweichungEvent buildZonenAbweichungEvent(
             ZonenAbweichung zonenAbweichung,
             CrudEventType eventType
     ) {
