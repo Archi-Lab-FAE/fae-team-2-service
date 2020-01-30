@@ -1,19 +1,15 @@
 package de.th.koeln.archilab.fae.faeteam2service.positionssender;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import org.springframework.validation.annotation.Validated;
 import org.threeten.bp.OffsetDateTime;
-
 import java.util.Objects;
-
 import javax.validation.Valid;
-
 import de.th.koeln.archilab.fae.faeteam2service.position.PositionDTO;
 import io.swagger.annotations.ApiModelProperty;
 
 /**
- * PositionssenderDTO
+ *  The dto object is used to receive the data of a Positionssender, published by team 1.
  */
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-12-19T10:48:55.616846300+01:00[Europe/Berlin]")

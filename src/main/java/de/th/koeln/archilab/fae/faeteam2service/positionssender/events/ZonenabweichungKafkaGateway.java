@@ -11,6 +11,9 @@ import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Component;
 import org.springframework.util.concurrent.ListenableFuture;
 
+/**
+ * Gateway for the publishing of the ZonenabweichungEvent.
+ */
 @Component
 public class ZonenabweichungKafkaGateway {
 

@@ -3,6 +3,9 @@ package de.th.koeln.archilab.fae.faeteam2service.positionssender.events;
 import de.th.koeln.archilab.fae.faeteam2service.position.Position;
 import lombok.Data;
 
+/**
+ * Class to create a zonenabweichungsmessage out of positionssender, position and a message.
+ */
 @Data
 public class ZonenabweichungMessage {
 

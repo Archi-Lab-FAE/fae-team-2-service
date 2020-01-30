@@ -7,7 +7,6 @@ import de.th.koeln.archilab.fae.faeteam2service.positionssender.events.Zonenabwe
 import de.th.koeln.archilab.fae.faeteam2service.positionssender.events.ZonenabweichungKafkaGateway;
 import de.th.koeln.archilab.fae.faeteam2service.positionssender.events.ZonenabweichungKafkaPublisher;
 import de.th.koeln.archilab.fae.faeteam2service.positionssender.events.ZonenabweichungMessage;
-import lombok.val;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +17,6 @@ import org.springframework.kafka.test.context.EmbeddedKafka;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import javax.validation.constraints.AssertFalse;
 import java.time.Clock;
 import java.time.OffsetDateTime;
 
@@ -46,11 +43,18 @@ public class ZonenabweichungEventPublisherTest {
     KafkaTemplate<String, String> kafkaTemplate;
 
     @Test
-    public void publishZonenabweichungTest(){
+    public void publishZonenabweichungEventTest(){
         String msg = "Achtung, Hans hat eine ungewohnte Zone betreten.";
-
+        boolean exception = false;
         Positionssender positionssender = new Positionssender();
-        publisher.publishZonenabweichung(positionssender,msg);
+
+        try {
+            publisher.publishZonenabweichung(positionssender, msg);
+        }catch (Exception e){
+            exception = true;
+        }
+
+        assertFalse(exception);
     }
 
     @Test
