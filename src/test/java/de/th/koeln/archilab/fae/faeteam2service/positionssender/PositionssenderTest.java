@@ -1,8 +1,14 @@
 package de.th.koeln.archilab.fae.faeteam2service.positionssender;
 
+import de.th.koeln.archilab.fae.faeteam2service.demenziell_erkrankter.DemenziellErkrankter;
+import de.th.koeln.archilab.fae.faeteam2service.position.Position;
+import de.th.koeln.archilab.fae.faeteam2service.zone.Zone;
+import de.th.koeln.archilab.fae.faeteam2service.zone.ZoneRepository;
+import de.th.koeln.archilab.fae.faeteam2service.zone.ZonenTyp;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.kafka.test.context.EmbeddedKafka;
 import org.springframework.test.annotation.DirtiesContext;
@@ -16,11 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import de.th.koeln.archilab.fae.faeteam2service.demenziell_erkrankter.DemenziellErkrankter;
-import de.th.koeln.archilab.fae.faeteam2service.position.Position;
-import de.th.koeln.archilab.fae.faeteam2service.zone.Zone;
-import de.th.koeln.archilab.fae.faeteam2service.zone.ZonenTyp;
-
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
@@ -29,6 +30,9 @@ import static org.junit.Assert.assertEquals;
 @EmbeddedKafka
 @TestPropertySource(properties = { "spring.kafka.bootstrap-servers=${spring.embedded.kafka.brokers}" })
 public class PositionssenderTest {
+
+    @Autowired
+    ZoneRepository zoneRepository;
 
     private final Random rng = new Random();
     private String uuid = "f95dsdfa92-1921-4c7a-9fa7-d13ecccf2669";
@@ -82,7 +86,6 @@ public class PositionssenderTest {
 
     @Test
     public void updatePositionssenderSetNotNullValues(){
-        Position position = new Position(2.0,2.1);
         String letztesSignal = getRandomDate().toString();
         String letztesWartung = getRandomDate().toString();
 
@@ -117,9 +120,7 @@ public class PositionssenderTest {
     }
     @Test
     public void positionssenderIstNichtImRadius(){
-        Position position = new Position();
-        position.setLaengengrad(180.0);
-        position.setBreitengrad(180.0);
+        Position position = new Position(180.0,180.0);
         Positionssender positionssender = getPositionssender();
         positionssender.setPosition(position);
 
@@ -127,6 +128,15 @@ public class PositionssenderTest {
         boolean result = positionssender.isInnerhalbRadius(5.0,1.0,1.0);
         Assert.assertFalse(result);
 
+    }
+    @Test
+    public void positionssenderMitNullValuesInnerhalbRadius(){
+        Position position = new Position(null,null);
+        Positionssender positionssender = getPositionssender();
+        positionssender.setPosition(position);
+
+        boolean result = positionssender.isInnerhalbRadius(5.0,1.0,1.0);
+        Assert.assertFalse(result);
     }
 
     @Test
@@ -148,13 +158,12 @@ public class PositionssenderTest {
         positionsset.add(northEast);
         positionsset.add(southWest);
 
-
         Zone gewohnteZone = new Zone();
         gewohnteZone.setTyp(ZonenTyp.GEWOHNT);
         gewohnteZone.setPositionen(positionsset);
-//        Set<Zone> zonenset = new HashSet<>();
-//        zonenset.add(gewohnteZone);
-//        demenziellErkrankter.setZonen(zonenset);
+        gewohnteZone.setDemenziellErkrankter(demenziellErkrankter);
+        zoneRepository.save(gewohnteZone);
+
 
         Position position = new Position(30.0, 55.0);
 
@@ -177,9 +186,8 @@ public class PositionssenderTest {
         Zone ungewohnteZone = new Zone();
         ungewohnteZone.setTyp(ZonenTyp.UNGEWOHNT);
         ungewohnteZone.setPositionen(positionsset);
-//        Set<Zone> zonenset = new HashSet<>();
-//        zonenset.add(ungewohnteZone);
-//        demenziellErkrankter.setZonen(zonenset);
+        ungewohnteZone.setDemenziellErkrankter(demenziellErkrankter);
+        zoneRepository.save(ungewohnteZone);
 
 
         Position position = new Position(30.0, 55.0);
