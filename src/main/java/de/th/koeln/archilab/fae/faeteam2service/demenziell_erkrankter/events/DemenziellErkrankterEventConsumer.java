@@ -6,6 +6,8 @@ import de.th.koeln.archilab.fae.faeteam2service.demenziell_erkrankter.Demenziell
 import de.th.koeln.archilab.fae.faeteam2service.demenziell_erkrankter.DemenziellErkrankterRepository;
 import de.th.koeln.archilab.fae.faeteam2service.kafka.events.CrudDomainEvent;
 import de.th.koeln.archilab.fae.faeteam2service.kafka.events.CrudDomainEventParser;
+import de.th.koeln.archilab.fae.faeteam2service.positionssender.Positionssender;
+import de.th.koeln.archilab.fae.faeteam2service.positionssender.PositionssenderRepository;
 import lombok.val;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +16,7 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -31,18 +34,26 @@ public class DemenziellErkrankterEventConsumer {
     private final DemenziellErkrankterRepository demenziellErkrankterRepository;
 
 
+    private final PositionssenderRepository positionssenderRepository;
+
+
     @Autowired
     public DemenziellErkrankterEventConsumer(
             final ObjectMapper objectMapper,
             DemenziellErkrankterEventInformationRepository demenziellErkrankterEventInformationRepository,
-            DemenziellErkrankterRepository demenziellErkrankterRepository) {
+            DemenziellErkrankterRepository demenziellErkrankterRepository,
+            PositionssenderRepository positionssenderRepository
+    ) {
         this.objectMapper = objectMapper;
         this.demenziellErkrankterEventInformationRepository = demenziellErkrankterEventInformationRepository;
         this.demenziellErkrankterRepository = demenziellErkrankterRepository;
+        this.positionssenderRepository = positionssenderRepository;
     }
 
     /**
      * Consume all events for the topic demenziellerkrankter and save them in the database.
+     * demenziellerkrankter events contain information about {@link DemenziellErkrankter} as well as
+     * {@link Positionssender}.
      * @param message json message of the event
      * @throws IOException If the message cannot be parsed into an object.
      */
@@ -55,7 +66,12 @@ public class DemenziellErkrankterEventConsumer {
                 .parse(message, DemenziellErkrankterDTO.class);
         val demenziellErkrankterEntity = DemenziellErkrankter.convert(demenziellErkrankterDTO);
         demenziellErkrankterRepository.save(demenziellErkrankterEntity);
-        // TODO positionssender auslesen und speichern
+
+        val positionssenderDTOList = demenziellErkrankterDTO.getPositionssender();
+        val positionssenderList = new ArrayList<Positionssender>();
+
+        positionssenderDTOList.forEach(it -> positionssenderList.add(Positionssender.convert(it)));
+        positionssenderRepository.saveAll(positionssenderList);
 
         demenziellErkrankterEventInformationRepository.save(
                 new DemenziellErkrankterEventInformation(crudDomainEvent.getId(), crudDomainEvent.getType(), new Date())
