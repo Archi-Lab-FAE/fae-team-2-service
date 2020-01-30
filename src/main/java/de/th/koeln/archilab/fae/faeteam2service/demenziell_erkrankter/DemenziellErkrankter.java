@@ -38,9 +38,9 @@ public class DemenziellErkrankter {
 
     public void update(DemenziellErkrankter update) {
         if (StringUtils.isNotBlank(update.demenziellErkrankterId))
-            demenziellErkrankterId = update.getDemenziellErkrankterId();
-        if (StringUtils.isNotBlank(update.name)) name = update.getName();
-        if (StringUtils.isNotBlank(update.vorname)) vorname = update.getVorname();
+            setDemenziellErkrankterId(update.getDemenziellErkrankterId());
+        if (StringUtils.isNotBlank(update.name)) setName(update.getName());
+        if (StringUtils.isNotBlank(update.vorname)) setVorname(update.getVorname());
     }
 
     public static DemenziellErkrankter convert(DemenziellErkrankterDTO dto) {

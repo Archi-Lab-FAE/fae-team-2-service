@@ -3,15 +3,18 @@ package de.th.koeln.archilab.fae.faeteam2service.position;
 import com.grum.geocalc.BoundingArea;
 import com.grum.geocalc.Coordinate;
 import com.grum.geocalc.Point;
-import de.th.koeln.archilab.fae.faeteam2service.zone.Zone;
-import lombok.Data;
-import lombok.val;
+
 import org.apache.commons.lang.StringUtils;
+
+import java.util.ArrayList;
+import java.util.UUID;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import java.util.ArrayList;
-import java.util.UUID;
+
+import de.th.koeln.archilab.fae.faeteam2service.zone.Zone;
+import lombok.Data;
+import lombok.val;
 
 @Entity
 @Data
@@ -35,9 +38,9 @@ public class Position {
     }
 
     public void update(Position update) {
-        if (StringUtils.isNotBlank(update.positionsId)) positionsId = update.getPositionsId();
-        laengengrad = update.getLaengengrad();
-        breitengrad = update.getBreitengrad();
+        if (StringUtils.isNotBlank(update.positionsId)) setPositionsId(update.getPositionsId());
+        setLaengengrad(update.getLaengengrad());
+        setBreitengrad(breitengrad = update.getBreitengrad());
     }
 
     public static Position convert(PositionDTO dto) {

@@ -1,0 +1,1254 @@
+[
+  {
+    "id": "924fe15d.afddc",
+    "type": "tab",
+    "label": "Zonendefinition (2)",
+    "disabled": false,
+    "info": ""
+  },
+  {
+    "id": "67825004.e044a",
+    "type": "ui_button",
+    "z": "924fe15d.afddc",
+    "name": "",
+    "group": "df2868c5.dfbc2",
+    "order": 10,
+    "width": 0,
+    "height": 0,
+    "passthru": false,
+    "label": "Definiere gewohnte Zone für Maria",
+    "tooltip": "",
+    "color": "",
+    "bgcolor": "",
+    "icon": "",
+    "payload": "",
+    "payloadType": "str",
+    "topic": "send",
+    "x": 920,
+    "y": 80,
+    "wires": [
+      [
+        "549d57a1.ae1cd8"
+      ]
+    ]
+  },
+  {
+    "id": "30efdd8b.133c72",
+    "type": "http request",
+    "z": "924fe15d.afddc",
+    "name": "postZone",
+    "method": "POST",
+    "ret": "txt",
+    "paytoqs": false,
+    "url": "",
+    "tls": "",
+    "persist": false,
+    "proxy": "",
+    "authType": "",
+    "x": 1340,
+    "y": 160,
+    "wires": [
+      [
+        "1f177541.a528eb",
+        "9b0b3dd6.5be09"
+      ]
+    ]
+  },
+  {
+    "id": "4f9e1ee2.23885",
+    "type": "ui_button",
+    "z": "924fe15d.afddc",
+    "name": "",
+    "group": "df2868c5.dfbc2",
+    "order": 11,
+    "width": 0,
+    "height": 0,
+    "passthru": false,
+    "label": "aktualisiere gewohnte Zone",
+    "tooltip": "",
+    "color": "",
+    "bgcolor": "",
+    "icon": "",
+    "payload": "",
+    "payloadType": "str",
+    "topic": "send",
+    "x": 900,
+    "y": 500,
+    "wires": [
+      [
+        "4b447f25.513bd"
+      ]
+    ]
+  },
+  {
+    "id": "4b447f25.513bd",
+    "type": "function",
+    "z": "924fe15d.afddc",
+    "name": "URL",
+    "func": "switch(msg.topic) {\n    case \"id\":\n        context.id = msg.payload;\n        break;\n        \n    case \"dzId\":\n        context.dzId = msg.payload;\n        break;\n        \n    case \"breitengrad1\":\n        context.breitengrad1 = msg.payload;\n        break;\n        \n    case \"breitengrad2\":\n        context.breitengrad2 = msg.payload;\n        break;\n        \n    case \"laengengrad1\":\n        context.laengengrad1 = msg.payload;\n        break;\n        \n    case \"laengengrad2\":\n        context.laengengrad2 = msg.payload;\n        break;\n        \n    case \"send\":\n        msg.url = \"https://api.fae.archi-lab.io/team-2/zone/\" + context.id;\n        \n        msg.headers={ \n            'Content-Type': 'application/json'\n        };\n        \n        msg.payload = {\n            \"positionen\": [\n                {\n                  \"breitengrad\": context.breitengrad1,\n                  \"laengengrad\": context.laengengrad1\n                },\n                {\n                  \"breitengrad\": context.breitengrad2,\n                  \"laengengrad\": context.laengengrad2\n                }\n          ],\n          \"typ\": \"GEWOHNT\",\n          \"zoneId\": context.id,\n          \"demenziellErkrankterId\": context.dzId\n        }\n        \n        return msg;\n        \n    default:\n        break;\n}\n\n",
+    "outputs": 1,
+    "noerr": 0,
+    "x": 1170,
+    "y": 300,
+    "wires": [
+      [
+        "e14a11cb.3f9ad"
+      ]
+    ]
+  },
+  {
+    "id": "e14a11cb.3f9ad",
+    "type": "http request",
+    "z": "924fe15d.afddc",
+    "name": "updateZone",
+    "method": "PUT",
+    "ret": "txt",
+    "paytoqs": false,
+    "url": "",
+    "tls": "",
+    "persist": false,
+    "proxy": "",
+    "authType": "",
+    "x": 1330,
+    "y": 400,
+    "wires": [
+      [
+        "1f177541.a528eb",
+        "9b0b3dd6.5be09"
+      ]
+    ]
+  },
+  {
+    "id": "a07f0822.b96c28",
+    "type": "ui_button",
+    "z": "924fe15d.afddc",
+    "name": "",
+    "group": "61f5c028.f25c2",
+    "order": 3,
+    "width": 0,
+    "height": 0,
+    "passthru": false,
+    "label": "Position simulieren",
+    "tooltip": "",
+    "color": "",
+    "bgcolor": "",
+    "icon": "",
+    "payload": "",
+    "payloadType": "str",
+    "topic": "send",
+    "x": 810,
+    "y": 1000,
+    "wires": [
+      [
+        "1903a576.2dfc3b"
+      ]
+    ]
+  },
+  {
+    "id": "7d3a8cf9.801f34",
+    "type": "ui_text",
+    "z": "924fe15d.afddc",
+    "group": "df2868c5.dfbc2",
+    "order": 3,
+    "width": 0,
+    "height": 0,
+    "name": "",
+    "label": "Position Nordwestlich",
+    "format": "{{msg.payload}}",
+    "layout": "col-center",
+    "x": 900,
+    "y": 220,
+    "wires": []
+  },
+  {
+    "id": "62999c3f.0885b4",
+    "type": "ui_text",
+    "z": "924fe15d.afddc",
+    "group": "df2868c5.dfbc2",
+    "order": 6,
+    "width": 0,
+    "height": 0,
+    "name": "",
+    "label": "Position Südöstlich",
+    "format": "{{msg.payload}}",
+    "layout": "col-center",
+    "x": 890,
+    "y": 340,
+    "wires": []
+  },
+  {
+    "id": "e9f54f3e.aaeb2",
+    "type": "ui_text_input",
+    "z": "924fe15d.afddc",
+    "name": "",
+    "label": "ID",
+    "tooltip": "",
+    "group": "df2868c5.dfbc2",
+    "order": 1,
+    "width": 0,
+    "height": 0,
+    "passthru": true,
+    "mode": "text",
+    "delay": 300,
+    "topic": "id",
+    "x": 850,
+    "y": 140,
+    "wires": [
+      [
+        "549d57a1.ae1cd8",
+        "4b447f25.513bd"
+      ]
+    ]
+  },
+  {
+    "id": "6ee70583.03813c",
+    "type": "Kafka Producer",
+    "z": "924fe15d.afddc",
+    "name": "Topic: \"tracker\"",
+    "broker": "608f3247.2f397c",
+    "topic": "tracker",
+    "requireAcks": 1,
+    "ackTimeoutMs": 100,
+    "partitionerType": 0,
+    "key": "",
+    "partition": 0,
+    "attributes": 0,
+    "connectionType": "Producer",
+    "x": 1240,
+    "y": 1060,
+    "wires": []
+  },
+  {
+    "id": "1f177541.a528eb",
+    "type": "debug",
+    "z": "924fe15d.afddc",
+    "name": "Zone-Response",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "x": 1560,
+    "y": 300,
+    "wires": []
+  },
+  {
+    "id": "9b0b3dd6.5be09",
+    "type": "ui_text",
+    "z": "924fe15d.afddc",
+    "group": "59e7de26.c94a7",
+    "order": 9,
+    "width": 0,
+    "height": 0,
+    "name": "",
+    "label": "Payload",
+    "format": "{{msg.payload}}",
+    "layout": "col-center",
+    "x": 1540,
+    "y": 260,
+    "wires": []
+  },
+  {
+    "id": "549d57a1.ae1cd8",
+    "type": "function",
+    "z": "924fe15d.afddc",
+    "name": "URL",
+    "func": "switch(msg.topic) {\n    case \"id\":\n        context.id = msg.payload;\n        break;\n        \n    case \"dzId\":\n        context.dzId = msg.payload;\n        break;\n        \n    case \"breitengrad1\":\n        context.breitengrad1 = msg.payload;\n        break;\n        \n    case \"breitengrad2\":\n        context.breitengrad2 = msg.payload;\n        break;\n        \n    case \"laengengrad1\":\n        context.laengengrad1 = msg.payload;\n        break;\n        \n    case \"laengengrad2\":\n        context.laengengrad2 = msg.payload;\n        break;\n        \n    case \"send\":\n        msg.url = \"https://api.fae.archi-lab.io/team-2/zone\";\n        \n        msg.headers={ \n            'Content-Type': 'application/json'\n        };\n        \n        msg.payload = {\n            \"positionen\": [\n                {\n                  \"breitengrad\": context.breitengrad1,\n                  \"laengengrad\": context.laengengrad1\n                },\n                {\n                  \"breitengrad\": context.breitengrad2,\n                  \"laengengrad\": context.laengengrad2\n                }\n          ],\n          \"typ\": \"GEWOHNT\",\n          \"zoneId\": context.id,\n          \"demenziellErkrankterId\": context.dzId\n        }\n        \n        return msg;\n        \n    default:\n        break;\n}\n\n\n\n\n\n\n\n\n",
+    "outputs": 1,
+    "noerr": 0,
+    "x": 1170,
+    "y": 260,
+    "wires": [
+      [
+        "30efdd8b.133c72"
+      ]
+    ]
+  },
+  {
+    "id": "9010b930.a15538",
+    "type": "Kafka Consumer",
+    "z": "924fe15d.afddc",
+    "name": "Consume ZonenAbweichung",
+    "broker": "608f3247.2f397c",
+    "topics": [
+      {
+        "topic": "zonenabweichung",
+        "offset": 0,
+        "partition": 0
+      }
+    ],
+    "groupId": "kafka-node-group",
+    "autoCommit": "true",
+    "autoCommitIntervalMs": 5000,
+    "fetchMaxWaitMs": 100,
+    "fetchMinBytes": 1,
+    "fetchMaxBytes": 1048576,
+    "fromOffset": 0,
+    "encoding": "utf8",
+    "keyEncoding": "utf8",
+    "connectionType": "Consumer",
+    "x": 1060,
+    "y": 1220,
+    "wires": [
+      [
+        "6855400f.5decb"
+      ]
+    ],
+    "outputLabels": [
+      "Tracker-Event"
+    ]
+  },
+  {
+    "id": "ab133d37.a85fd",
+    "type": "ui_text",
+    "z": "924fe15d.afddc",
+    "group": "61f5c028.f25c2",
+    "order": 6,
+    "width": 0,
+    "height": 0,
+    "name": "",
+    "label": "Event: Tracker",
+    "format": "{{msg.payload}}",
+    "layout": "col-center",
+    "x": 1280,
+    "y": 1140,
+    "wires": []
+  },
+  {
+    "id": "74ae3de.fcca0c4",
+    "type": "Kafka Consumer",
+    "z": "924fe15d.afddc",
+    "name": "Consume Tracker",
+    "broker": "608f3247.2f397c",
+    "topics": [
+      {
+        "topic": "tracker",
+        "offset": 0,
+        "partition": 0
+      }
+    ],
+    "groupId": "kafka-node-group",
+    "autoCommit": "true",
+    "autoCommitIntervalMs": 5000,
+    "fetchMaxWaitMs": 100,
+    "fetchMinBytes": 1,
+    "fetchMaxBytes": 1048576,
+    "fromOffset": 0,
+    "encoding": "utf8",
+    "keyEncoding": "utf8",
+    "connectionType": "Consumer",
+    "x": 1020,
+    "y": 1140,
+    "wires": [
+      [
+        "ab133d37.a85fd"
+      ]
+    ],
+    "outputLabels": [
+      "Tracker-Event"
+    ]
+  },
+  {
+    "id": "5ec2db16.27bf74",
+    "type": "ui_button",
+    "z": "924fe15d.afddc",
+    "name": "",
+    "group": "59e7de26.c94a7",
+    "order": 1,
+    "width": 0,
+    "height": 0,
+    "passthru": false,
+    "label": "Gewohnte Zone",
+    "tooltip": "",
+    "color": "",
+    "bgcolor": "",
+    "icon": "",
+    "payload": "",
+    "payloadType": "str",
+    "topic": "",
+    "x": 180,
+    "y": 280,
+    "wires": [
+      [
+        "bf3fddcd.1975a",
+        "d6424009.5e60f",
+        "b6fb92ed.78bee",
+        "fc107939.5726d8",
+        "cb4208d.b327ff8",
+        "d69aa5b8.35a468",
+        "f86c42f5.2e9a2"
+      ]
+    ]
+  },
+  {
+    "id": "bf3fddcd.1975a",
+    "type": "trigger",
+    "z": "924fe15d.afddc",
+    "op1": "8f926d33-27bd-4afd-aabb-b160a6402348",
+    "op2": "",
+    "op1type": "str",
+    "op2type": "nul",
+    "duration": "0",
+    "extend": false,
+    "units": "ms",
+    "reset": "reset",
+    "bytopic": "all",
+    "name": "",
+    "x": 610,
+    "y": 140,
+    "wires": [
+      [
+        "e9f54f3e.aaeb2"
+      ]
+    ]
+  },
+  {
+    "id": "d6424009.5e60f",
+    "type": "trigger",
+    "z": "924fe15d.afddc",
+    "op1": "54.973318",
+    "op2": "0",
+    "op1type": "num",
+    "op2type": "str",
+    "duration": "0",
+    "extend": false,
+    "units": "ms",
+    "reset": "reset",
+    "bytopic": "all",
+    "name": "",
+    "x": 610,
+    "y": 260,
+    "wires": [
+      [
+        "d21ca66f.16c108"
+      ]
+    ]
+  },
+  {
+    "id": "b6fb92ed.78bee",
+    "type": "trigger",
+    "z": "924fe15d.afddc",
+    "op1": "47.418327",
+    "op2": "0",
+    "op1type": "num",
+    "op2type": "str",
+    "duration": "0",
+    "extend": false,
+    "units": "ms",
+    "reset": "reset",
+    "bytopic": "all",
+    "name": "",
+    "x": 610,
+    "y": 380,
+    "wires": [
+      [
+        "79226c14.28a304"
+      ]
+    ]
+  },
+  {
+    "id": "fc107939.5726d8",
+    "type": "trigger",
+    "z": "924fe15d.afddc",
+    "op1": "6.230273",
+    "op2": "0",
+    "op1type": "num",
+    "op2type": "str",
+    "duration": "0",
+    "extend": false,
+    "units": "ms",
+    "reset": "reset",
+    "bytopic": "all",
+    "name": "",
+    "x": 610,
+    "y": 300,
+    "wires": [
+      [
+        "80fc47d9.860f48"
+      ]
+    ]
+  },
+  {
+    "id": "cb4208d.b327ff8",
+    "type": "trigger",
+    "z": "924fe15d.afddc",
+    "op1": "15.416302",
+    "op2": "",
+    "op1type": "num",
+    "op2type": "nul",
+    "duration": "0",
+    "extend": false,
+    "units": "ms",
+    "reset": "reset",
+    "bytopic": "all",
+    "name": "",
+    "x": 610,
+    "y": 420,
+    "wires": [
+      [
+        "24ae0395.94f2dc"
+      ]
+    ]
+  },
+  {
+    "id": "d21ca66f.16c108",
+    "type": "ui_text_input",
+    "z": "924fe15d.afddc",
+    "name": "",
+    "label": "Breitengrad NW",
+    "tooltip": "",
+    "group": "df2868c5.dfbc2",
+    "order": 4,
+    "width": 0,
+    "height": 0,
+    "passthru": true,
+    "mode": "number",
+    "delay": 300,
+    "topic": "breitengrad1",
+    "x": 880,
+    "y": 260,
+    "wires": [
+      [
+        "549d57a1.ae1cd8",
+        "4b447f25.513bd"
+      ]
+    ]
+  },
+  {
+    "id": "79226c14.28a304",
+    "type": "ui_text_input",
+    "z": "924fe15d.afddc",
+    "name": "",
+    "label": "Breitengrad SO",
+    "tooltip": "",
+    "group": "df2868c5.dfbc2",
+    "order": 7,
+    "width": 0,
+    "height": 0,
+    "passthru": true,
+    "mode": "number",
+    "delay": 300,
+    "topic": "breitengrad2",
+    "x": 880,
+    "y": 380,
+    "wires": [
+      [
+        "549d57a1.ae1cd8",
+        "4b447f25.513bd"
+      ]
+    ]
+  },
+  {
+    "id": "80fc47d9.860f48",
+    "type": "ui_text_input",
+    "z": "924fe15d.afddc",
+    "name": "",
+    "label": "Längengrad NW",
+    "tooltip": "",
+    "group": "df2868c5.dfbc2",
+    "order": 5,
+    "width": 0,
+    "height": 0,
+    "passthru": true,
+    "mode": "number",
+    "delay": 300,
+    "topic": "laengengrad1",
+    "x": 880,
+    "y": 300,
+    "wires": [
+      [
+        "549d57a1.ae1cd8",
+        "4b447f25.513bd"
+      ]
+    ]
+  },
+  {
+    "id": "24ae0395.94f2dc",
+    "type": "ui_text_input",
+    "z": "924fe15d.afddc",
+    "name": "",
+    "label": "Längengrad SO",
+    "tooltip": "",
+    "group": "df2868c5.dfbc2",
+    "order": 8,
+    "width": 0,
+    "height": 0,
+    "passthru": true,
+    "mode": "number",
+    "delay": 300,
+    "topic": "laengengrad2",
+    "x": 880,
+    "y": 420,
+    "wires": [
+      [
+        "549d57a1.ae1cd8",
+        "4b447f25.513bd"
+      ]
+    ]
+  },
+  {
+    "id": "b38e146c.d90c78",
+    "type": "ui_button",
+    "z": "924fe15d.afddc",
+    "name": "",
+    "group": "59e7de26.c94a7",
+    "order": 3,
+    "width": 0,
+    "height": 0,
+    "passthru": false,
+    "label": "Aktualisierte Zone",
+    "tooltip": "",
+    "color": "",
+    "bgcolor": "",
+    "icon": "",
+    "payload": "",
+    "payloadType": "str",
+    "topic": "",
+    "x": 190,
+    "y": 640,
+    "wires": [
+      [
+        "73103479.2fa91c",
+        "ad1686db.6476a8",
+        "1c2eb585.34a15a",
+        "cd2922f8.55695",
+        "19d10992.941ba6",
+        "e688321a.4f128",
+        "9197d4c5.cdb108"
+      ]
+    ]
+  },
+  {
+    "id": "73103479.2fa91c",
+    "type": "trigger",
+    "z": "924fe15d.afddc",
+    "op1": "8f926d33-27bd-4afd-aabb-b160a6402348",
+    "op2": "0",
+    "op1type": "str",
+    "op2type": "str",
+    "duration": "0",
+    "extend": false,
+    "units": "ms",
+    "reset": "reset",
+    "bytopic": "all",
+    "name": "",
+    "x": 610,
+    "y": 540,
+    "wires": [
+      [
+        "e9f54f3e.aaeb2"
+      ]
+    ]
+  },
+  {
+    "id": "ad1686db.6476a8",
+    "type": "trigger",
+    "z": "924fe15d.afddc",
+    "op1": "59.780732",
+    "op2": "0",
+    "op1type": "num",
+    "op2type": "str",
+    "duration": "0",
+    "extend": false,
+    "units": "ms",
+    "reset": "reset",
+    "bytopic": "all",
+    "name": "",
+    "x": 610,
+    "y": 660,
+    "wires": [
+      [
+        "d21ca66f.16c108"
+      ]
+    ]
+  },
+  {
+    "id": "1c2eb585.34a15a",
+    "type": "trigger",
+    "z": "924fe15d.afddc",
+    "op1": "47.418326",
+    "op2": "0",
+    "op1type": "num",
+    "op2type": "str",
+    "duration": "0",
+    "extend": false,
+    "units": "ms",
+    "reset": "reset",
+    "bytopic": "all",
+    "name": "",
+    "x": 610,
+    "y": 780,
+    "wires": [
+      [
+        "79226c14.28a304"
+      ]
+    ]
+  },
+  {
+    "id": "cd2922f8.55695",
+    "type": "trigger",
+    "z": "924fe15d.afddc",
+    "op1": "-13.404930",
+    "op2": "0",
+    "op1type": "num",
+    "op2type": "str",
+    "duration": "0",
+    "extend": false,
+    "units": "ms",
+    "reset": "reset",
+    "bytopic": "all",
+    "name": "",
+    "x": 610,
+    "y": 700,
+    "wires": [
+      [
+        "80fc47d9.860f48"
+      ]
+    ]
+  },
+  {
+    "id": "19d10992.941ba6",
+    "type": "trigger",
+    "z": "924fe15d.afddc",
+    "op1": "15.416301",
+    "op2": "0",
+    "op1type": "num",
+    "op2type": "str",
+    "duration": "0",
+    "extend": false,
+    "units": "ms",
+    "reset": "reset",
+    "bytopic": "all",
+    "name": "",
+    "x": 610,
+    "y": 820,
+    "wires": [
+      [
+        "24ae0395.94f2dc"
+      ]
+    ]
+  },
+  {
+    "id": "f6e8ff3e.607a5",
+    "type": "ui_text_input",
+    "z": "924fe15d.afddc",
+    "name": "",
+    "label": "Breitengrad",
+    "tooltip": "",
+    "group": "61f5c028.f25c2",
+    "order": 1,
+    "width": 0,
+    "height": 0,
+    "passthru": true,
+    "mode": "number",
+    "delay": 300,
+    "topic": "breitengrad",
+    "x": 810,
+    "y": 1040,
+    "wires": [
+      [
+        "1903a576.2dfc3b"
+      ]
+    ]
+  },
+  {
+    "id": "ee87759e.d11408",
+    "type": "ui_text_input",
+    "z": "924fe15d.afddc",
+    "name": "",
+    "label": "Längengrad",
+    "tooltip": "",
+    "group": "61f5c028.f25c2",
+    "order": 2,
+    "width": 0,
+    "height": 0,
+    "passthru": true,
+    "mode": "number",
+    "delay": 300,
+    "topic": "laengengrad",
+    "x": 810,
+    "y": 1080,
+    "wires": [
+      [
+        "1903a576.2dfc3b"
+      ]
+    ]
+  },
+  {
+    "id": "1903a576.2dfc3b",
+    "type": "function",
+    "z": "924fe15d.afddc",
+    "name": "Tracker-Event",
+    "func": "switch(msg.topic) {\n    case \"breitengrad\":\n        context.breitengrad = msg.payload;\n        break;\n        \n    case \"laengengrad\":\n        context.laengengrad = msg.payload;\n        break;\n\n    case \"send\":\n        msg = {\n            \"trackerId\": \"27eab36a-9bbd-3593-810d-b4abcf4d70a8\",\n            \"currentPosition\":{\n                \"longitude\": context.laengengrad,\n                \"latitude\": context.breitengrad,\n                \"altitude\": 0\n            }\n        }\n        \n        msg.payload = JSON.stringify(msg);\n        return msg;\n        \n    default:\n        break;\n}",
+    "outputs": 1,
+    "noerr": 0,
+    "x": 1020,
+    "y": 1060,
+    "wires": [
+      [
+        "6ee70583.03813c"
+      ]
+    ]
+  },
+  {
+    "id": "817086af.f82e68",
+    "type": "ui_button",
+    "z": "924fe15d.afddc",
+    "name": "",
+    "group": "59e7de26.c94a7",
+    "order": 2,
+    "width": 0,
+    "height": 0,
+    "passthru": false,
+    "label": "Position außerhalb Heimat-Zone",
+    "tooltip": "",
+    "color": "",
+    "bgcolor": "",
+    "icon": "",
+    "payload": "",
+    "payloadType": "str",
+    "topic": "",
+    "x": 270,
+    "y": 1040,
+    "wires": [
+      [
+        "d54dde8f.60c73",
+        "13a61bc5.e6e8f4",
+        "1bf51615.cc772a"
+      ]
+    ]
+  },
+  {
+    "id": "13a61bc5.e6e8f4",
+    "type": "trigger",
+    "z": "924fe15d.afddc",
+    "op1": "reset",
+    "op2": "0",
+    "op1type": "str",
+    "op2type": "str",
+    "duration": "-250",
+    "extend": false,
+    "units": "ms",
+    "reset": "",
+    "bytopic": "all",
+    "name": "",
+    "x": 290,
+    "y": 1080,
+    "wires": [
+      [
+        "d54dde8f.60c73",
+        "1bf51615.cc772a"
+      ]
+    ]
+  },
+  {
+    "id": "d54dde8f.60c73",
+    "type": "trigger",
+    "z": "924fe15d.afddc",
+    "op1": "50.850535",
+    "op2": "0",
+    "op1type": "num",
+    "op2type": "str",
+    "duration": "0",
+    "extend": false,
+    "units": "ms",
+    "reset": "reset",
+    "bytopic": "all",
+    "name": "",
+    "x": 610,
+    "y": 1040,
+    "wires": [
+      [
+        "f6e8ff3e.607a5"
+      ]
+    ]
+  },
+  {
+    "id": "1bf51615.cc772a",
+    "type": "trigger",
+    "z": "924fe15d.afddc",
+    "op1": "4.354112",
+    "op2": "0",
+    "op1type": "num",
+    "op2type": "str",
+    "duration": "0",
+    "extend": false,
+    "units": "ms",
+    "reset": "reset",
+    "bytopic": "all",
+    "name": "",
+    "x": 610,
+    "y": 1080,
+    "wires": [
+      [
+        "ee87759e.d11408"
+      ]
+    ]
+  },
+  {
+    "id": "25d5fa6a.5fae16",
+    "type": "Kafka Consumer",
+    "z": "924fe15d.afddc",
+    "name": "Consume Zone",
+    "broker": "608f3247.2f397c",
+    "topics": [
+      {
+        "topic": "zone",
+        "offset": 0,
+        "partition": 0
+      }
+    ],
+    "groupId": "kafka-node-group",
+    "autoCommit": "true",
+    "autoCommitIntervalMs": 5000,
+    "fetchMaxWaitMs": 100,
+    "fetchMinBytes": 1,
+    "fetchMaxBytes": 1048576,
+    "fromOffset": 0,
+    "encoding": "utf8",
+    "keyEncoding": "utf8",
+    "connectionType": "Consumer",
+    "x": 1020,
+    "y": 1300,
+    "wires": [
+      [
+        "765146a4.1a3d08"
+      ]
+    ],
+    "outputLabels": [
+      "Tracker-Event"
+    ]
+  },
+  {
+    "id": "cfea9937.224e78",
+    "type": "ui_button",
+    "z": "924fe15d.afddc",
+    "name": "",
+    "group": "59e7de26.c94a7",
+    "order": 4,
+    "width": 0,
+    "height": 0,
+    "passthru": false,
+    "label": "Außerhalb aktualisierter Zone",
+    "tooltip": "Position außerhalb aktualisierter Heimat-Zone",
+    "color": "",
+    "bgcolor": "",
+    "icon": "",
+    "payload": "",
+    "payloadType": "str",
+    "topic": "",
+    "x": 270,
+    "y": 1200,
+    "wires": [
+      [
+        "c591dc13.5cb9d",
+        "3ea06fd.4eabf9",
+        "e1b0d44f.b52a78"
+      ]
+    ]
+  },
+  {
+    "id": "3ea06fd.4eabf9",
+    "type": "trigger",
+    "z": "924fe15d.afddc",
+    "op1": "reset",
+    "op2": "0",
+    "op1type": "str",
+    "op2type": "str",
+    "duration": "-250",
+    "extend": false,
+    "units": "ms",
+    "reset": "",
+    "bytopic": "all",
+    "name": "",
+    "x": 290,
+    "y": 1240,
+    "wires": [
+      [
+        "c591dc13.5cb9d",
+        "e1b0d44f.b52a78"
+      ]
+    ]
+  },
+  {
+    "id": "c591dc13.5cb9d",
+    "type": "trigger",
+    "z": "924fe15d.afddc",
+    "op1": "36.140478",
+    "op2": "0",
+    "op1type": "num",
+    "op2type": "str",
+    "duration": "0",
+    "extend": false,
+    "units": "ms",
+    "reset": "reset",
+    "bytopic": "all",
+    "name": "",
+    "x": 610,
+    "y": 1200,
+    "wires": [
+      [
+        "f6e8ff3e.607a5"
+      ]
+    ]
+  },
+  {
+    "id": "e1b0d44f.b52a78",
+    "type": "trigger",
+    "z": "924fe15d.afddc",
+    "op1": "-5.354287",
+    "op2": "0",
+    "op1type": "num",
+    "op2type": "str",
+    "duration": "0",
+    "extend": false,
+    "units": "ms",
+    "reset": "reset",
+    "bytopic": "all",
+    "name": "",
+    "x": 610,
+    "y": 1240,
+    "wires": [
+      [
+        "ee87759e.d11408"
+      ]
+    ]
+  },
+  {
+    "id": "d69aa5b8.35a468",
+    "type": "trigger",
+    "z": "924fe15d.afddc",
+    "op1": "reset",
+    "op2": "0",
+    "op1type": "str",
+    "op2type": "str",
+    "duration": "-250",
+    "extend": false,
+    "units": "ms",
+    "reset": "",
+    "bytopic": "all",
+    "name": "",
+    "x": 190,
+    "y": 320,
+    "wires": [
+      [
+        "bf3fddcd.1975a",
+        "d6424009.5e60f",
+        "fc107939.5726d8",
+        "b6fb92ed.78bee",
+        "cb4208d.b327ff8",
+        "f86c42f5.2e9a2"
+      ]
+    ]
+  },
+  {
+    "id": "e688321a.4f128",
+    "type": "trigger",
+    "z": "924fe15d.afddc",
+    "op1": "reset",
+    "op2": "0",
+    "op1type": "str",
+    "op2type": "str",
+    "duration": "-250",
+    "extend": false,
+    "units": "ms",
+    "reset": "",
+    "bytopic": "all",
+    "name": "",
+    "x": 190,
+    "y": 680,
+    "wires": [
+      [
+        "73103479.2fa91c",
+        "ad1686db.6476a8",
+        "cd2922f8.55695",
+        "1c2eb585.34a15a",
+        "19d10992.941ba6",
+        "9197d4c5.cdb108"
+      ]
+    ]
+  },
+  {
+    "id": "6855400f.5decb",
+    "type": "ui_text",
+    "z": "924fe15d.afddc",
+    "group": "9a7ac909.be1738",
+    "order": 8,
+    "width": 0,
+    "height": 0,
+    "name": "",
+    "label": "Event: Zonen Abweichung",
+    "format": "{{msg.payload}}",
+    "layout": "col-center",
+    "x": 1310,
+    "y": 1220,
+    "wires": []
+  },
+  {
+    "id": "765146a4.1a3d08",
+    "type": "ui_text",
+    "z": "924fe15d.afddc",
+    "group": "9a7ac909.be1738",
+    "order": 4,
+    "width": 0,
+    "height": 0,
+    "name": "",
+    "label": "Event: Zone",
+    "format": "{{msg.payload}}",
+    "layout": "col-center",
+    "x": 1270,
+    "y": 1300,
+    "wires": []
+  },
+  {
+    "id": "4c9db4cc.444e1c",
+    "type": "ui_text_input",
+    "z": "924fe15d.afddc",
+    "name": "",
+    "label": "Demenziell Erkrankter ID",
+    "tooltip": "",
+    "group": "df2868c5.dfbc2",
+    "order": 2,
+    "width": 0,
+    "height": 0,
+    "passthru": true,
+    "mode": "text",
+    "delay": 300,
+    "topic": "dzId",
+    "x": 910,
+    "y": 180,
+    "wires": [
+      [
+        "549d57a1.ae1cd8",
+        "4b447f25.513bd"
+      ]
+    ]
+  },
+  {
+    "id": "f86c42f5.2e9a2",
+    "type": "trigger",
+    "z": "924fe15d.afddc",
+    "op1": "f33c6fa8-1697-11ea-8d71-362b9e155667",
+    "op2": "",
+    "op1type": "str",
+    "op2type": "nul",
+    "duration": "0",
+    "extend": false,
+    "units": "ms",
+    "reset": "reset",
+    "bytopic": "all",
+    "name": "",
+    "x": 610,
+    "y": 180,
+    "wires": [
+      [
+        "4c9db4cc.444e1c"
+      ]
+    ]
+  },
+  {
+    "id": "9197d4c5.cdb108",
+    "type": "trigger",
+    "z": "924fe15d.afddc",
+    "op1": "f33c6fa8-1697-11ea-8d71-362b9e155667",
+    "op2": "",
+    "op1type": "str",
+    "op2type": "nul",
+    "duration": "0",
+    "extend": false,
+    "units": "ms",
+    "reset": "reset",
+    "bytopic": "all",
+    "name": "",
+    "x": 610,
+    "y": 580,
+    "wires": [
+      [
+        "4c9db4cc.444e1c"
+      ]
+    ]
+  },
+  {
+    "id": "df2868c5.dfbc2",
+    "type": "ui_group",
+    "z": "",
+    "name": "Zonen anlegen/aktualisieren",
+    "tab": "ca9c9c0d.4fa1",
+    "order": 2,
+    "disp": true,
+    "width": "6",
+    "collapse": false
+  },
+  {
+    "id": "61f5c028.f25c2",
+    "type": "ui_group",
+    "z": "",
+    "name": "Außerhalb der Zone",
+    "tab": "ca9c9c0d.4fa1",
+    "order": 3,
+    "disp": true,
+    "width": "6",
+    "collapse": false
+  },
+  {
+    "id": "608f3247.2f397c",
+    "type": "Kafka Broker",
+    "z": "",
+    "name": "FAE Kafka",
+    "hosts": [
+      {
+        "host": "kafka-1",
+        "port": 9092
+      },
+      {
+        "host": "kafka-2",
+        "port": 9092
+      },
+      {
+        "host": "kafka-3",
+        "port": 9092
+      }
+    ],
+    "connectTimeout": "10000",
+    "requestTimeout": "30000",
+    "autoConnect": "true",
+    "idleConnection": "5",
+    "reconnectOnIdle": "true",
+    "maxAsyncRequests": "10",
+    "checkInterval": "10",
+    "usetls": false
+  },
+  {
+    "id": "59e7de26.c94a7",
+    "type": "ui_group",
+    "z": "",
+    "name": "Scenarien laden",
+    "tab": "ca9c9c0d.4fa1",
+    "order": 1,
+    "disp": true,
+    "width": "6",
+    "collapse": false
+  },
+  {
+    "id": "9a7ac909.be1738",
+    "type": "ui_group",
+    "z": "",
+    "name": "Events",
+    "tab": "ca9c9c0d.4fa1",
+    "order": 4,
+    "disp": true,
+    "width": "6",
+    "collapse": false
+  },
+  {
+    "id": "ca9c9c0d.4fa1",
+    "type": "ui_tab",
+    "z": "",
+    "name": "Zonendefinition",
+    "icon": "dashboard",
+    "order": 2,
+    "disabled": false,
+    "hidden": false
+  }
+]
