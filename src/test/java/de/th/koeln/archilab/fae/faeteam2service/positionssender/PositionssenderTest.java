@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.threeten.bp.Clock;
 import org.threeten.bp.OffsetDateTime;
 import org.threeten.bp.ZoneOffset;
 
@@ -23,6 +24,15 @@ public class PositionssenderTest {
     private final Random rng = new Random();
     private String uuid = "f95dsdfa92-1921-4c7a-9fa7-d13ecccf2669";
     private DemenziellErkrankter demenziellErkrankter = new DemenziellErkrankter("Hans",null);
+
+    private Positionssender getPositionssender() {
+        return new Positionssender(
+                OffsetDateTime.now(Clock.systemUTC()),
+                4f,
+                4f,
+                new Position(30.0,55.0)
+        );
+    }
 
     private OffsetDateTime getRandomDate() {
         return OffsetDateTime.of(
@@ -49,14 +59,12 @@ public class PositionssenderTest {
 
     @Test
     public void updatePositionssenderSuccessfullyWithValues(){
-        Positionssender positionssender = new Positionssender();
+        Positionssender positionssender = getPositionssender();
         positionssender.setPositionssenderId(uuid);
-        positionssender.setBatterieStatus(1f);
 
         float newBatterieStatus = 5f;
-        Positionssender toUpdatePositionssender = new Positionssender();
+        Positionssender toUpdatePositionssender = getPositionssender();
         toUpdatePositionssender.setPositionssenderId(uuid);
-        toUpdatePositionssender.setBatterieStatus(newBatterieStatus);
 
         positionssender.update(toUpdatePositionssender);
 
@@ -68,11 +76,9 @@ public class PositionssenderTest {
         Position position = new Position(2.0,2.1);
         String letztesSignal = getRandomDate().toString();
 
-        Positionssender positionssender = new Positionssender();
+        Positionssender positionssender = getPositionssender();
         positionssender.setPositionssenderId(uuid);
-        positionssender.setBatterieStatus(1f);
         positionssender.setDemenziellErkrankter(demenziellErkrankter);
-        positionssender.setPosition(position);
         positionssender.setLetztesSignal(letztesSignal);
 
         Positionssender positionssenderNull = new Positionssender(null,null,null,null);
@@ -93,7 +99,7 @@ public class PositionssenderTest {
         positionsset.add(southWest);
         Zone zone = new Zone(2f, ZonenTyp.GEWOHNT, positionsset);
 
-        Positionssender positionssender = new Positionssender();
+        Positionssender positionssender = getPositionssender();
         String letztesSignal = getRandomDate().toString();
         Position positionPositionssender = new Position();
         positionPositionssender.setBreitengrad(55.0);
@@ -112,7 +118,7 @@ public class PositionssenderTest {
         positionsset.add(position);
         Zone zone = new Zone(2f, ZonenTyp.GEWOHNT, positionsset);
 
-        Positionssender positionssender = new Positionssender();
+        Positionssender positionssender = getPositionssender();
         String letztesSignal = getRandomDate().toString();
         Position positionPositionssender = new Position();
         positionPositionssender.setBreitengrad(43.6);
@@ -122,7 +128,7 @@ public class PositionssenderTest {
 
         try {
             positionPositionssender.inZone(zone);
-        }catch(Exception e){
+        } catch(Exception e){
             exception = true;
         }
         Assert.assertTrue(exception);
@@ -133,7 +139,7 @@ public class PositionssenderTest {
         Position position = new Position();
         position.setLaengengrad(12.3);
         position.setBreitengrad(34.0);
-        Positionssender positionssender = new Positionssender();
+        Positionssender positionssender = getPositionssender();
         positionssender.setPosition(position);
 
 
@@ -145,7 +151,7 @@ public class PositionssenderTest {
         Position position = new Position();
         position.setLaengengrad(180.0);
         position.setBreitengrad(180.0);
-        Positionssender positionssender = new Positionssender();
+        Positionssender positionssender = getPositionssender();
         positionssender.setPosition(position);
 
 
@@ -160,7 +166,7 @@ public class PositionssenderTest {
 
         Position position = new Position();
 
-        Positionssender positionssender = new Positionssender();
+        Positionssender positionssender = getPositionssender();
         positionssender.setDemenziellErkrankter(demenziellErkrankter);
         positionssender.setPosition(position);
 
@@ -185,7 +191,7 @@ public class PositionssenderTest {
 
         Position position = new Position(30.0,55.0);
 
-        Positionssender positionssender = new Positionssender();
+        Positionssender positionssender = getPositionssender();
         positionssender.setDemenziellErkrankter(demenziellErkrankter);
         positionssender.setPosition(position);
 
@@ -211,7 +217,7 @@ public class PositionssenderTest {
 
         Position position = new Position(30.0,55.0);
 
-        Positionssender positionssender = new Positionssender();
+        Positionssender positionssender = getPositionssender();
         positionssender.setDemenziellErkrankter(demenziellErkrankter);
         positionssender.setPosition(position);
 

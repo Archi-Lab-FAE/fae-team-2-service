@@ -1,5 +1,6 @@
 package de.th.koeln.archilab.fae.faeteam2service.zonen_abweichung;
 
+import de.th.koeln.archilab.fae.faeteam2service.position.Position;
 import de.th.koeln.archilab.fae.faeteam2service.positionssender.Positionssender;
 import org.junit.Assert;
 import org.junit.Test;
@@ -12,6 +13,8 @@ import org.springframework.kafka.test.context.EmbeddedKafka;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.threeten.bp.Clock;
+import org.threeten.bp.OffsetDateTime;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
@@ -35,7 +38,12 @@ public class ZonenAbweichungRepositoryTest {
 
     @Test
     public void findAllByAbgeschlossenFalseTest() {
-        Positionssender positionssender = new Positionssender();
+        Positionssender positionssender = new Positionssender(
+                OffsetDateTime.now(Clock.systemUTC()),
+                4f,
+                4f,
+                new Position(30.0,55.0)
+        );
         String message = "HilfeHilfe";
 
         ZonenAbweichung za1 = new ZonenAbweichung(

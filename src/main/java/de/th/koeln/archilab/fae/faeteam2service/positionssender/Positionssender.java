@@ -52,9 +52,7 @@ public class Positionssender {
     private ZonenAbweichungRepository zonenAbweichungRepository;
 
 
-    public Positionssender() {
-        this(null, null, null, null);
-    }
+    private Positionssender() {}
 
     public Positionssender(OffsetDateTime letztesSignal, Float batterieStatus, Float genauigkeit, Position position) {
         positionssenderId = UUID.randomUUID().toString();

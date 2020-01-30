@@ -1,11 +1,11 @@
 package de.th.koeln.archilab.fae.faeteam2service.positionssender;
 
 import de.th.koeln.archilab.fae.faeteam2service.kafka.events.CrudEventType;
+import de.th.koeln.archilab.fae.faeteam2service.position.Position;
 import de.th.koeln.archilab.fae.faeteam2service.position.PositionDTO;
 import de.th.koeln.archilab.fae.faeteam2service.positionssender.events.PositionssenderEventConsumer;
 import de.th.koeln.archilab.fae.faeteam2service.positionssender.events.PositionssenderEventInformation;
 import de.th.koeln.archilab.fae.faeteam2service.positionssender.events.PositionssenderEventInformationRepository;
-import lombok.var;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +15,9 @@ import org.springframework.kafka.test.context.EmbeddedKafka;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.threeten.bp.Clock;
+import org.threeten.bp.OffsetDateTime;
+
 import java.io.IOException;
 import java.util.Date;
 import java.util.Optional;
@@ -43,7 +46,12 @@ public class PositionssenderEventConsumerTest {
         String eventId  = "5bc9f935-32f1-4d7b-a90c-ff0e6e34125c";
         String entityId = "5bc9f935-32f1-4d7b-a90c-ff0e6e34125d";
 
-        Positionssender positionssender = new Positionssender();
+        Positionssender positionssender = new Positionssender(
+                OffsetDateTime.now(Clock.systemUTC()),
+                4f,
+                4f,
+                new Position(30.0,55.0)
+        );
         positionssender.setPositionssenderId(entityId);
         entityRepository.save(positionssender);
 
@@ -109,7 +117,12 @@ public class PositionssenderEventConsumerTest {
         String eventId  = "5bc9f935-32f1-4d7b-a90c-ff0e6e34125e";
         String entityId = "5bc9f935-32f1-4d7b-a90c-ff0e6e34125f";
 
-        Positionssender positionssender = new Positionssender();
+        Positionssender positionssender = new Positionssender(
+                OffsetDateTime.now(Clock.systemUTC()),
+                4f,
+                4f,
+                new Position(30.0,55.0)
+        );
         positionssender.setPositionssenderId(entityId);
 
         PositionDTO positionDTO = new PositionDTO();

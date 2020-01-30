@@ -1,7 +1,13 @@
 package de.th.koeln.archilab.fae.faeteam2service.positionssender;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-
+import de.th.koeln.archilab.fae.faeteam2service.demenziell_erkrankter.DemenziellErkrankter;
+import de.th.koeln.archilab.fae.faeteam2service.demenziell_erkrankter.DemenziellErkrankterRepository;
+import de.th.koeln.archilab.fae.faeteam2service.position.Position;
+import de.th.koeln.archilab.fae.faeteam2service.position.PositionDTO;
+import de.th.koeln.archilab.fae.faeteam2service.zone.Zone;
+import de.th.koeln.archilab.fae.faeteam2service.zone.ZoneRepository;
+import de.th.koeln.archilab.fae.faeteam2service.zone.ZonenTyp;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,27 +19,15 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.threeten.bp.Clock;
 import org.threeten.bp.OffsetDateTime;
 import org.threeten.bp.ZoneOffset;
 
 import java.util.*;
 
-import de.th.koeln.archilab.fae.faeteam2service.demenziell_erkrankter.DemenziellErkrankter;
-import de.th.koeln.archilab.fae.faeteam2service.demenziell_erkrankter.DemenziellErkrankterRepository;
-import de.th.koeln.archilab.fae.faeteam2service.position.Position;
-import de.th.koeln.archilab.fae.faeteam2service.position.PositionDTO;
-import de.th.koeln.archilab.fae.faeteam2service.zone.Zone;
-import de.th.koeln.archilab.fae.faeteam2service.zone.ZoneRepository;
-import de.th.koeln.archilab.fae.faeteam2service.zone.ZonenTyp;
-
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
 @RunWith(SpringRunner.class)
@@ -110,8 +104,7 @@ public class PositionssenderRestControllerTest {
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$[0].positionssenderId").isNotEmpty());
     }
-    /*@Test
-    //TODO: Fehlt da noch etwas? Es müssen keine Positionssender übergeben werden, da diese Funktion speziell woanders getestet wird?
+    @Test
     public void findeAllePositionssenderMitZoneIdWennSieExistiert() throws Exception {
         Position northEast = new Position(40.0,60.0);
         Position southWest =   new Position(20.0,50.0);
@@ -123,8 +116,12 @@ public class PositionssenderRestControllerTest {
         zoneRepository.save(zone);
         String zoneId = zone.getZoneId();
 
-        Positionssender positionssender = new Positionssender();
-        positionssender.setPosition(new Position(30.0,55.0));
+        Positionssender positionssender = new Positionssender(
+                OffsetDateTime.now(Clock.systemUTC()),
+                4f,
+                4f,
+                new Position(30.0,55.0)
+        );
         positionssenderRepository.save(positionssender);
 
         mvc.perform(get("/positionssender")
@@ -134,7 +131,7 @@ public class PositionssenderRestControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(header().string("content-type", "application/json;charset=UTF-8"));
     }
-*/
+
     @Test
     public void findeAllePositionssenderMitZoneIdWennSieNichtExistiert() throws Exception {
         String zoneId = "13464337368383837575";

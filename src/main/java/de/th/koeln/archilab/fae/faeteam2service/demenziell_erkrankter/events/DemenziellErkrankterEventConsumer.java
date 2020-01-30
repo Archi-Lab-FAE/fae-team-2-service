@@ -46,7 +46,7 @@ public class DemenziellErkrankterEventConsumer {
      * @param message json message of the event
      * @throws IOException If the message cannot be parsed into an object.
      */
-    @KafkaListener(topics = "${demenziellerkrankter.topic}", groupId = "${spring.kafka.group-id}", autoStartup = "${spring.kafka.enabled}")
+    @KafkaListener(topics = "${spring.kafka.topic.consumer.demenziellerkrankter}", groupId = "${spring.kafka.group-id}", autoStartup = "${spring.kafka.enabled}")
     public void listen(String message) throws IOException {
         CrudDomainEvent crudDomainEvent = this.objectMapper
                 .readValue(message, CrudDomainEvent.class);
