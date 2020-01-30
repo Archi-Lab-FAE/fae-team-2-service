@@ -11,7 +11,7 @@ import de.th.koeln.archilab.fae.faeteam2service.zone.Zone;
 import de.th.koeln.archilab.fae.faeteam2service.zone.ZoneRepository;
 import de.th.koeln.archilab.fae.faeteam2service.zone.ZonenTyp;
 import de.th.koeln.archilab.fae.faeteam2service.zonen_abweichung.ZonenAbweichung;
-import de.th.koeln.archilab.fae.faeteam2service.zonen_abweichung.ZonenAbweichungRepository;
+import de.th.koeln.archilab.fae.faeteam2service.zonen_abweichung.ZonenAbweichungHandler;
 import lombok.Data;
 import lombok.val;
 import org.apache.commons.lang.StringUtils;
@@ -49,12 +49,6 @@ public class Positionssender {
     @ManyToOne(fetch = FetchType.EAGER)
     private DemenziellErkrankter demenziellErkrankter;
 
-    @Transient
-    private ZonenAbweichungRepository zonenAbweichungRepository;
-    @Transient
-    private ZoneRepository zoneRepository;
-
-
     private Positionssender() {
     }
 
@@ -68,18 +62,15 @@ public class Positionssender {
         else this.letzteWartung = letzteWartung.format(DATE_FORMAT);
 
         this.position = position;
-
-        zonenAbweichungRepository = BeanUtil.getBean(ZonenAbweichungRepository.class);
-        zoneRepository = BeanUtil.getBean(ZoneRepository.class);
     }
 
     public void update(Positionssender update) {
         if (StringUtils.isNotBlank(update.positionssenderId))
-            positionssenderId = update.getPositionssenderId();
-        if (update.letztesSignal != null) letztesSignal = update.getLetztesSignal();
-        if (update.letzteWartung != null) letzteWartung = update.getLetzteWartung();
-        if (update.position != null) position = update.getPosition();
-        if (update.demenziellErkrankter != null) demenziellErkrankter = update.getDemenziellErkrankter();
+            setPositionssenderId(update.getPositionssenderId());
+        if (update.letztesSignal != null) setLetztesSignal(update.getLetztesSignal());
+        if (update.letzteWartung != null) setLetzteWartung(update.getLetzteWartung());
+        if (update.position != null) setPosition(update.getPosition());
+        if (update.demenziellErkrankter != null) setDemenziellErkrankter(update.getDemenziellErkrankter());
     }
 
     public boolean isInnerhalbRadius(double radius, double laengengrad, double breitengrad) {
@@ -121,6 +112,9 @@ public class Positionssender {
 
 
     public void setPosition(Position position) {
+        val zonenAbweichungHandler = BeanUtil.getBean(ZonenAbweichungHandler.class);
+        val zoneRepository = BeanUtil.getBean(ZoneRepository.class);
+
         this.position = position;
 
         if (demenziellErkrankter == null) return;
@@ -133,14 +127,14 @@ public class Positionssender {
             } else if (position.inZone(zone)) {
                 val msg = "Achtung, " + demenziellErkrankter.getName() + " hat eine ungewohnte Zone betreten.";
                 val zonenAusnahme = new ZonenAbweichung(this, msg);
-                zonenAbweichungRepository.save(zonenAusnahme);
+                zonenAbweichungHandler.sendZonenAbweichung(zonenAusnahme);
             }
         }
 
         if (!isInGewohnteZone) {
             val msg = "Achtung, " + demenziellErkrankter.getName() + " hat die gewohnte Zone verlassen.";
             val zonenAusnahme = new ZonenAbweichung(this, msg);
-            zonenAbweichungRepository.save(zonenAusnahme);
+            zonenAbweichungHandler.sendZonenAbweichung(zonenAusnahme);
         }
     }
 

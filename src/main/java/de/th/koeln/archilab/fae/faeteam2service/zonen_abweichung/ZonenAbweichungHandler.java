@@ -1,5 +1,6 @@
 package de.th.koeln.archilab.fae.faeteam2service.zonen_abweichung;
 
+import lombok.val;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,12 +11,11 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
 import java.util.stream.StreamSupport;
-
-import lombok.val;
 
 /**
  * Component for handling synchronous calls of {@link ZonenAbweichung} to the messaging microservice
@@ -55,7 +55,7 @@ public class ZonenAbweichungHandler {
         //"Remove" all entries which are older then the given threshold
         //and try resend all others
         StreamSupport.stream(ausnahmeSpliterator, false).forEach(zonenAusnahme -> {
-            log.info("Handling open ZonenAbweichung with ID {}", zonenAusnahme.getZonenAusnahmeId());
+            log.info("Handling open ZonenAbweichung with ID {}", zonenAusnahme.getZonenAbweichungId());
 
             if (zonenAusnahme.getEntstanden().isBefore(maxDate)) {
                 zonenAusnahme.setAbgeschlossen(true);
@@ -79,12 +79,19 @@ public class ZonenAbweichungHandler {
 
         ZonenAbweichungDTO body = ZonenAbweichung.convert(zonenAbweichung);
 
+        log.info("ZonenAbweichung senden." );
+
         //Send the request
-        HttpEntity<ZonenAbweichungDTO> request = new HttpEntity<>(body, headers);
-        ResponseEntity<String> response = restTemplate.postForEntity(messagingServiceUrl, request, String.class);
+        ResponseEntity<String> response = null;
+        try {
+            HttpEntity<ZonenAbweichungDTO> request = new HttpEntity<>(body, headers);
+            response = restTemplate.postForEntity(messagingServiceUrl, request, String.class);
+        } catch (RestClientException e) {
+            log.warn("ZonenAbweichung konnte nicht gesendet werden!");
+        }
+        if (response != null) zonenAbweichung.setAbgeschlossen(response.getStatusCode().is2xxSuccessful());
 
         //If successful, change the flag in the database
-        zonenAbweichung.setAbgeschlossen(response.getStatusCode().is2xxSuccessful());
         abweichungRepository.save(zonenAbweichung);
     }
 }

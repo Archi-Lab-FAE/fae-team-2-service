@@ -74,7 +74,7 @@ public class ZonenAbweichungEventHandler {
             CrudEventType eventType
     ) {
         val event = new ZonenAbweichungEvent(
-                zonenAbweichung.getZonenAusnahmeId(),
+                zonenAbweichung.getZonenAbweichungId(),
                 EVENT_VERSION,
                 OffsetDateTime.now(ZoneOffset.UTC).toString(),
                 eventType,
@@ -82,7 +82,7 @@ public class ZonenAbweichungEventHandler {
         );
 
         val eventInformation = new ZonenAbweichungEventInformation(
-                zonenAbweichung.getZonenAusnahmeId(),
+                zonenAbweichung.getZonenAbweichungId(),
                 eventType.name(),
                 event.getTimestamp()
         );

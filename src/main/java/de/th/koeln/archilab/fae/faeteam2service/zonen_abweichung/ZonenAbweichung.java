@@ -21,7 +21,7 @@ import java.util.UUID;
 public class ZonenAbweichung {
 
     @Id
-    private String zonenAusnahmeId;
+    private String zonenAbweichungId;
 
     @NotNull
     private LocalDateTime entstanden;
@@ -32,6 +32,7 @@ public class ZonenAbweichung {
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Position position;
+
 
     private String message;
 
@@ -61,11 +62,11 @@ public class ZonenAbweichung {
             Position position,
             String message
     ) {
-        this.zonenAusnahmeId = UUID.randomUUID().toString();
+        this.zonenAbweichungId = UUID.randomUUID().toString();
         this.entstanden = entstanden;
         this.abgeschlossen = abgeschlossen;
         this.positionssenderId = positionssenderId;
-        this.position = position;
+        this.position = new Position(position.getLaengengrad(), position.getBreitengrad());
         this.message = message;
     }
 
