@@ -1,9 +1,5 @@
 package de.th.koeln.archilab.fae.faeteam2service.demenziell_erkrankter;
 
-import de.th.koeln.archilab.fae.faeteam2service.demenziell_erkrankter.events.DemenziellErkrankterEventConsumer;
-import de.th.koeln.archilab.fae.faeteam2service.demenziell_erkrankter.events.DemenziellErkrankterEventInformationRepository;
-import lombok.val;
-import lombok.var;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +12,14 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.IOException;
 
-import static org.junit.Assert.*;
+import de.th.koeln.archilab.fae.faeteam2service.demenziell_erkrankter.events.DemenziellErkrankterEventConsumer;
+import de.th.koeln.archilab.fae.faeteam2service.demenziell_erkrankter.events.DemenziellErkrankterEventInformationRepository;
+import lombok.val;
+import lombok.var;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -41,15 +44,15 @@ public class DemenziellErkrankterEventConsumerTest {
         val entityId = "5bc9f935-32f1-4d7b-a90c-ff0e6e34125b";
 
         val msg = "{\n" +
-                "    \"id\": \""+eventId+"\",\n" +
-                "    \"key\": \""+entityId+"\",\n" +
+                "    \"id\": \"" + eventId + "\",\n" +
+                "    \"key\": \"" + entityId + "\",\n" +
                 "    \"version\": \"1\",\n" +
                 "    \"timestamp\": \"2020-01-10T12:00:00Z\",\n" +
                 "    \"type\":\"CREATED\",\n" +
                 "    \"payload\": {\n" +
-                "        \"demenziellErkrankterId\": \""+entityId+"\",\n" +
+                "        \"id\": \"" + entityId + "\",\n" +
                 "        \"name\": \"Hans Peter\",\n" +
-                "        \"zonen\": []\n" +
+                "        \"positionssender\": []\n" +
                 "    }\n" +
                 "}";
 

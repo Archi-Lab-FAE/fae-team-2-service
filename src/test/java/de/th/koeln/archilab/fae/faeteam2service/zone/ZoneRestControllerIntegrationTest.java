@@ -1,7 +1,7 @@
 package de.th.koeln.archilab.fae.faeteam2service.zone;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import de.th.koeln.archilab.fae.faeteam2service.position.PositionDTO;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +16,17 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import de.th.koeln.archilab.fae.faeteam2service.position.Position;
+import de.th.koeln.archilab.fae.faeteam2service.position.PositionDTO;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -39,13 +45,20 @@ public class ZoneRestControllerIntegrationTest {
     @Autowired
     private ZoneRepository zoneRepository;
 
+    private PositionDTO getPositionDTO() {
+        PositionDTO dto = new PositionDTO();
+        dto.setBreitengrad(42d);
+        dto.setLaengengrad(815d);
+
+        return dto;
+    }
+
     @Test
     public void createZoneReturnSavedZone() throws Exception {
         ZoneDTO body = new ZoneDTO();
         body.setZoneId("42");
-        body.setToleranz(1f);
         body.setTyp(ZonenTyp.UNGEWOHNT);
-        body.setPositionen(Arrays.asList(new PositionDTO(), new PositionDTO()));
+        body.setPositionen(Arrays.asList(getPositionDTO(), getPositionDTO()));
 
         mvc.perform(post("/zone")
                 .accept(MediaType.APPLICATION_JSON)
@@ -62,7 +75,7 @@ public class ZoneRestControllerIntegrationTest {
 
     @Test
     public void getZoneShouldWorkWhenZoneExists() throws Exception {
-        Zone zone = new Zone(1f, ZonenTyp.GEWOHNT, new ArrayList<>());
+        Zone zone = new Zone(ZonenTyp.GEWOHNT, new ArrayList<>());
         zoneRepository.save(zone);
 
         String zoneId = zone.getZoneId();
@@ -89,10 +102,17 @@ public class ZoneRestControllerIntegrationTest {
 
     @Test
     public void updateZoneReturnUpdatedZone() throws Exception {
-        Zone zone = new Zone(1f, ZonenTyp.GEWOHNT, new ArrayList<>());
+        Zone zone = new Zone(
+                ZonenTyp.GEWOHNT,
+                Arrays.asList(
+                        new Position(42d, 52d),
+                        new Position(75d, 34d)
+                )
+        );
         zoneRepository.save(zone);
 
-        ZoneDTO zonenUpdate = new ZoneDTO();
+        ZoneDTO zonenUpdate = Zone.convert(zone);
+        zonenUpdate.setZoneId(zone.getZoneId());
         zonenUpdate.setTyp(ZonenTyp.UNGEWOHNT);
 
         zone.setTyp(ZonenTyp.UNGEWOHNT);
@@ -112,8 +132,12 @@ public class ZoneRestControllerIntegrationTest {
 
     @Test
     public void updateZoneReturnNotFoundWhenZoneNotExists() throws Exception {
-        ZoneDTO zonenUpdate = new ZoneDTO();
         String zoneId = "DieseIdGibtsNicht";
+
+        ZoneDTO zonenUpdate = new ZoneDTO();
+        zonenUpdate.setPositionen(Arrays.asList(getPositionDTO(), getPositionDTO()));
+        zonenUpdate.setTyp(ZonenTyp.GEWOHNT);
+        zonenUpdate.setZoneId(zoneId);
 
         mvc.perform(put("/zone/" + zoneId)
                 .accept(MediaType.APPLICATION_JSON)

@@ -1,9 +1,5 @@
 package de.th.koeln.archilab.fae.faeteam2service.positionssender;
 
-import de.th.koeln.archilab.fae.faeteam2service.demenziell_erkrankter.DemenziellErkrankter;
-import de.th.koeln.archilab.fae.faeteam2service.position.Position;
-import de.th.koeln.archilab.fae.faeteam2service.zone.Zone;
-import de.th.koeln.archilab.fae.faeteam2service.zone.ZonenTyp;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,7 +12,16 @@ import org.threeten.bp.Clock;
 import org.threeten.bp.OffsetDateTime;
 import org.threeten.bp.ZoneOffset;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
+
+import de.th.koeln.archilab.fae.faeteam2service.demenziell_erkrankter.DemenziellErkrankter;
+import de.th.koeln.archilab.fae.faeteam2service.position.Position;
+import de.th.koeln.archilab.fae.faeteam2service.zone.Zone;
+import de.th.koeln.archilab.fae.faeteam2service.zone.ZonenTyp;
 
 import static org.junit.Assert.assertEquals;
 
@@ -29,14 +34,13 @@ public class PositionssenderTest {
 
     private final Random rng = new Random();
     private String uuid = "f95dsdfa92-1921-4c7a-9fa7-d13ecccf2669";
-    private DemenziellErkrankter demenziellErkrankter = new DemenziellErkrankter("Hans",null);
+    private DemenziellErkrankter demenziellErkrankter = new DemenziellErkrankter("Hans", "Peter", null);
 
     private Positionssender getPositionssender() {
         return new Positionssender(
                 OffsetDateTime.now(Clock.systemUTC()),
-                4f,
-                4f,
-                new Position(30.0,55.0)
+                OffsetDateTime.now(Clock.systemUTC()),
+                new Position(30.0, 55.0)
         );
     }
 
@@ -68,31 +72,34 @@ public class PositionssenderTest {
         Positionssender positionssender = getPositionssender();
         positionssender.setPositionssenderId(uuid);
 
-        float newBatterieStatus = 5f;
+        String letztesWartung = getRandomDate().toString();
         Positionssender toUpdatePositionssender = getPositionssender();
-        toUpdatePositionssender.setBatterieStatus(newBatterieStatus);
+        toUpdatePositionssender.setLetzteWartung(letztesWartung);
         toUpdatePositionssender.setPositionssenderId(uuid);
 
         positionssender.update(toUpdatePositionssender);
 
-        assertEquals(positionssender.getBatterieStatus().doubleValue(),newBatterieStatus,0.0002);
+        assertEquals(letztesWartung, toUpdatePositionssender.getLetzteWartung());
     }
 
     @Test
     public void updatePositionssenderSetNotNullValues(){
         Position position = new Position(2.0,2.1);
         String letztesSignal = getRandomDate().toString();
+        String letztesWartung = getRandomDate().toString();
 
         Positionssender positionssender = getPositionssender();
         positionssender.setPositionssenderId(uuid);
         positionssender.setDemenziellErkrankter(demenziellErkrankter);
         positionssender.setLetztesSignal(letztesSignal);
+        positionssender.setLetzteWartung(letztesWartung);
 
-        Positionssender positionssenderNull = new Positionssender(null,null,null,null);
+        Positionssender positionssenderNull = new Positionssender(null, null, null);
         positionssender.update(positionssenderNull);
 
-        assertEquals("Hans", positionssender.getDemenziellErkrankter().getName());
-        assertEquals(4f, positionssender.getBatterieStatus(),0.0002);
+        assertEquals("Hans", positionssender.getDemenziellErkrankter().getVorname());
+        assertEquals("Peter", positionssender.getDemenziellErkrankter().getName());
+        assertEquals(letztesWartung, positionssender.getLetzteWartung());
         assertEquals(letztesSignal, positionssender.getLetztesSignal());
         assertEquals(55.0, positionssender.getPosition().getBreitengrad(), 0);
 

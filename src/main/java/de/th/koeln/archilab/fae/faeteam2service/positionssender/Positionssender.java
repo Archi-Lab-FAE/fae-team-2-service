@@ -107,7 +107,7 @@ public class Positionssender {
         entity.positionssenderId = dto.getId();
         entity.letztesSignal = dto.getLetztesSignal().format(DATE_FORMAT);
         entity.letzteWartung = dto.getLetzteWartung().format(DATE_FORMAT);
-        ;
+
         entity.position = Position.convert(dto.getPosition());
 
         return entity;

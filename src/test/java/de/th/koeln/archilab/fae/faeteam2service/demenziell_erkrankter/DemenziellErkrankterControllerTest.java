@@ -34,12 +34,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @DirtiesContext
 @EmbeddedKafka
-@TestPropertySource(properties = { "spring.kafka.bootstrap-servers=${spring.embedded.kafka.brokers}" })
+@TestPropertySource(properties = {"spring.kafka.bootstrap-servers=${spring.embedded.kafka.brokers}"})
 public class DemenziellErkrankterControllerTest {
 
     private static final String PATH = "/demenziellerkrankter";
 
-    private final String name = "K. Löhler";
+    private final String vorname = "Bennis";
+    private final String name = "Duderus";
     private final String uuid = "f95dde92-1921-4c7a-9fa7-d13ecccf2669";
 
     private final ObjectMapper objectMapper = new ObjectMapper();
@@ -65,10 +66,10 @@ public class DemenziellErkrankterControllerTest {
         positionen2.add(new Position(9.5649, 49.02322));
 
         val zonen = new HashSet<Zone>();
-        zonen.add(new Zone(3.5f, ZonenTyp.GEWOHNT, positionen1));
-        zonen.add(new Zone(5.5f, ZonenTyp.UNGEWOHNT, positionen2));
+        zonen.add(new Zone(ZonenTyp.GEWOHNT, positionen1));
+        zonen.add(new Zone(ZonenTyp.UNGEWOHNT, positionen2));
 
-        demenziellErkrankter = new DemenziellErkrankter(name, zonen);
+        demenziellErkrankter = new DemenziellErkrankter(vorname, name, zonen);
         demenziellErkrankter.setDemenziellErkrankterId(uuid);
 
         demenziellErkrankterDTO = DemenziellErkrankter.convert(demenziellErkrankter);
@@ -82,7 +83,7 @@ public class DemenziellErkrankterControllerTest {
                 .content(payload)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("demenziellErkrankterId").value(uuid))
+                .andExpect(jsonPath("id").value(uuid))
                 .andExpect(jsonPath("name").value(name));
     }
 
@@ -105,7 +106,7 @@ public class DemenziellErkrankterControllerTest {
 
         mockMvc.perform(get(PATH + "/" + demenziellErkrankter.getDemenziellErkrankterId()))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("demenziellErkrankterId")
+                .andExpect(jsonPath("id")
                         .value(uuid));
     }
 
@@ -120,17 +121,22 @@ public class DemenziellErkrankterControllerTest {
     @Test
     public void testUpdateDemenziellerkrankter() throws Exception {
         repository.save(demenziellErkrankter);
-        String newName = "Hans";
+
         DemenziellErkrankterDTO dto = DemenziellErkrankter.convert(demenziellErkrankter);
+        String newVorName = "Kleiner";
+        String newName = "Hocke";
         dto.setName(newName);
+        dto.setVorname(newVorName);
+
         String payload = objectMapper.writeValueAsString(dto);
 
         mockMvc.perform(put(PATH + "/{id}", uuid)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(payload))
                 .andExpect(status().is2xxSuccessful())
-                .andExpect(jsonPath("demenziellErkrankterId").value(uuid))
-                .andExpect(jsonPath("name").value(newName));
+                .andExpect(jsonPath("id").value(uuid))
+                .andExpect(jsonPath("name").value(newName))
+                .andExpect(jsonPath("vorname").value(newVorName));
     }
 
     @Test
@@ -152,10 +158,12 @@ public class DemenziellErkrankterControllerTest {
     @Test
     public void testUpdateDemenziellerkrankterWithIdNotInDatabase() throws Exception {
         String newName = "Hans";
+        String newVorName = "Peter";
         String newUuid = "not-an-id";
         DemenziellErkrankterDTO dto = DemenziellErkrankter.convert(demenziellErkrankter);
         dto.setName(newName);
-        dto.setDemenziellErkrankterId(newUuid);
+        dto.setVorname(newVorName);
+        dto.setId(newUuid);
 
         String payload = objectMapper.writeValueAsString(dto);
 

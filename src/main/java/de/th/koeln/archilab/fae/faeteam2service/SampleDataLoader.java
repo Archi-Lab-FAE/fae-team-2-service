@@ -51,24 +51,24 @@ public class SampleDataLoader implements ApplicationListener<ContextRefreshedEve
 
         //Demenziell Erkrankte
         zonen = new HashSet<>();
-        zonen.add(new Zone(.8f, ZonenTyp.GEWOHNT, generateAndSaveRandomPositions(4)));
-        zonen.add(new Zone(.5f, ZonenTyp.GEWOHNT, generateAndSaveRandomPositions(6)));
-        zonen.add(new Zone(.7f, ZonenTyp.UNGEWOHNT, generateAndSaveRandomPositions(5)));
+        zonen.add(new Zone(ZonenTyp.GEWOHNT, generateAndSaveRandomPositions(4)));
+        zonen.add(new Zone(ZonenTyp.GEWOHNT, generateAndSaveRandomPositions(6)));
+        zonen.add(new Zone(ZonenTyp.UNGEWOHNT, generateAndSaveRandomPositions(5)));
         zoneRepository.saveAll(zonen);
         val lohler = new DemenziellErkrankter("Kutz", "Löhler", zonen);
         erkrankterRepository.save(lohler);
 
 
         zonen = new HashSet<>();
-        zonen.add(new Zone(.2f, ZonenTyp.UNGEWOHNT, generateAndSaveRandomPositions(3)));
-        zonen.add(new Zone(.25f, ZonenTyp.UNGEWOHNT, generateAndSaveRandomPositions(4)));
+        zonen.add(new Zone(ZonenTyp.UNGEWOHNT, generateAndSaveRandomPositions(3)));
+        zonen.add(new Zone(ZonenTyp.UNGEWOHNT, generateAndSaveRandomPositions(4)));
         zoneRepository.saveAll(zonen);
         val duderus = new DemenziellErkrankter("Bennis", "Duderus", zonen);
         erkrankterRepository.save(duderus);
 
 
         zonen = new HashSet<>();
-        zonen.add(new Zone(.123f, ZonenTyp.UNGEWOHNT, generateAndSaveRandomPositions(4)));
+        zonen.add(new Zone(ZonenTyp.UNGEWOHNT, generateAndSaveRandomPositions(4)));
         zoneRepository.saveAll(zonen);
         val hocke = new DemenziellErkrankter("Kleiner", "Hocke", zonen);
         erkrankterRepository.save(hocke);

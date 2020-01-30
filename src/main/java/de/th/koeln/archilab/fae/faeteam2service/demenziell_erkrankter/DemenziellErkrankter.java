@@ -49,7 +49,7 @@ public class DemenziellErkrankter {
         if (StringUtils.isNotBlank(update.demenziellErkrankterId))
             demenziellErkrankterId = update.getDemenziellErkrankterId();
         if (StringUtils.isNotBlank(update.name)) name = update.getName();
-        if (StringUtils.isNotBlank(update.vorname)) name = update.getVorname();
+        if (StringUtils.isNotBlank(update.vorname)) vorname = update.getVorname();
         if (update.zonen != null) zonen = update.getZonen();
     }
 
