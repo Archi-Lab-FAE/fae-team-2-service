@@ -302,6 +302,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ZoneDTO'
+        '404':
+          description: Demenziell Erkrankter nicht gefunden.
         '405':
           description: Invalide Daten.
 
@@ -421,6 +423,9 @@ components:
         zoneId:
           type: string
           example: '8f926d33-27bd-4afd-aabb-b160a6402348'
+        demenziellErkrankterId:
+          type: string
+          example: 'f33c6fa8-1697-11ea-8d71-362b9e155667'
         typ:
           $ref: '#/components/schemas/ZonenTyp'
         positionen:
@@ -438,6 +443,7 @@ components:
         - zoneId
         - typ
         - positionen
+        - demenziellErkrankterId
 
     ZonenTyp:
       type: string

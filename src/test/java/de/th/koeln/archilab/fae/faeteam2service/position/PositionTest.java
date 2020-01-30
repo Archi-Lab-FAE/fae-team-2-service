@@ -20,7 +20,7 @@ public class PositionTest {
         List<Position> positionsset = new ArrayList<>();
         positionsset.add(northEast);
         positionsset.add(southWest);
-        Zone zone = new Zone(ZonenTyp.GEWOHNT, positionsset);
+        Zone zone = new Zone(ZonenTyp.GEWOHNT, null, positionsset);
         Position position = new Position(30.0, 55.0);
 
         Assert.assertTrue(position.inZone(zone));
@@ -32,7 +32,7 @@ public class PositionTest {
         Position position = new Position(43.0,43.6);
         List<Position> positionsset = new ArrayList<>();
         positionsset.add(position);
-        Zone zone = new Zone(ZonenTyp.GEWOHNT, positionsset);
+        Zone zone = new Zone(ZonenTyp.GEWOHNT, null, positionsset);
         Position positionToTest = new Position(43.6, 43.0);
 
         try {
@@ -50,7 +50,7 @@ public class PositionTest {
         List<Position> positionsset = new ArrayList<>();
         positionsset.add(northEast);
         positionsset.add(southWest);
-        Zone zone = new Zone(ZonenTyp.GEWOHNT, positionsset);
+        Zone zone = new Zone(ZonenTyp.GEWOHNT, null, positionsset);
         Position position = new Position(20.0, 50.0);
 
         Assert.assertTrue(position.inZone(zone));

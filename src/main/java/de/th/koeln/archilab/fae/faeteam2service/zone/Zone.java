@@ -11,8 +11,10 @@ import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import de.th.koeln.archilab.fae.faeteam2service.demenziell_erkrankter.DemenziellErkrankter;
 import de.th.koeln.archilab.fae.faeteam2service.position.Position;
 import de.th.koeln.archilab.fae.faeteam2service.zone.events.ZoneEventHandler;
 import lombok.Data;
@@ -35,27 +37,35 @@ public class Zone {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Position> positionen;
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    private DemenziellErkrankter demenziellErkrankter;
+
+
     public Zone() {
-        this(null, null);
+        this(null, null, null);
     }
 
-    public Zone(ZonenTyp typ, List<Position> positionen) {
+    public Zone(ZonenTyp typ, DemenziellErkrankter demenziellErkrankter, List<Position> positionen) {
         this.zoneId = UUID.randomUUID().toString();
         this.typ = typ;
         this.positionen = positionen;
+        this.demenziellErkrankter = demenziellErkrankter;
     }
+
 
 
     public void update(Zone update) {
         if (StringUtils.isNotBlank(update.zoneId)) zoneId = update.getZoneId();
         if (update.typ != null) typ = update.getTyp();
         if (update.positionen != null) positionen = update.getPositionen();
+        demenziellErkrankter = update.getDemenziellErkrankter();
     }
 
-    public static Zone convert(ZoneDTO dto) {
+    public static Zone convert(ZoneDTO dto, DemenziellErkrankter demenziellErkrankter) {
         Zone entity = new Zone();
         entity.zoneId = dto.getZoneId();
         entity.typ = dto.getTyp();
+        entity.demenziellErkrankter = demenziellErkrankter;
 
         if (dto.getPositionen() != null) {
             entity.positionen = new ArrayList<>();
@@ -69,6 +79,7 @@ public class Zone {
         ZoneDTO dto = new ZoneDTO();
         dto.setZoneId(entity.zoneId);
         dto.setTyp(entity.typ);
+        dto.setDemenziellErkrankterId(entity.demenziellErkrankter.getDemenziellErkrankterId());
 
         if (entity.getPositionen() != null) {
             dto.setPositionen(new ArrayList<>());

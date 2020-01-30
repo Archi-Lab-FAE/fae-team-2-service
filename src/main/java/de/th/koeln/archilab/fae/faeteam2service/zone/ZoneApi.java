@@ -18,13 +18,14 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-01-30T16:33:21.467Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-01-30T18:11:16.334Z[GMT]")
 @Api(value = "zone", description = "the zone API")
 public interface ZoneApi {
 
     @ApiOperation(value = "Eine neue Zone in die Datenbank aufnehmen", nickname = "addZone", notes = "", response = ZoneDTO.class, tags = {"Zone",})
     @ApiResponses(value = {
             @ApiResponse(code = 204, message = "Objekt wurde erstellt.", response = ZoneDTO.class),
+            @ApiResponse(code = 404, message = "Demenziell Erkrankter nicht gefunden."),
             @ApiResponse(code = 405, message = "Invalide Daten.")})
     @RequestMapping(value = "/zone",
             produces = {"application/json"},

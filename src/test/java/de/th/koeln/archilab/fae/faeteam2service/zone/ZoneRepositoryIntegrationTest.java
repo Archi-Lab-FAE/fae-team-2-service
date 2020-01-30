@@ -12,7 +12,11 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.ArrayList;
+
 import javax.transaction.Transactional;
+
+import de.th.koeln.archilab.fae.faeteam2service.demenziell_erkrankter.DemenziellErkrankter;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -31,7 +35,7 @@ public class ZoneRepositoryIntegrationTest {
 
     @Test
     public void findByIdReturnsSavedZone() {
-        Zone zone = new Zone();
+        Zone zone = new Zone(ZonenTyp.GEWOHNT, new DemenziellErkrankter(), new ArrayList<>());
         entityManager.persist(zone);
         entityManager.flush();
 

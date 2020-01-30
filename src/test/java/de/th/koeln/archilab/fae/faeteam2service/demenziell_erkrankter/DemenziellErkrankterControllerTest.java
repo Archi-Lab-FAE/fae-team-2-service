@@ -66,10 +66,10 @@ public class DemenziellErkrankterControllerTest {
         positionen2.add(new Position(9.5649, 49.02322));
 
         val zonen = new HashSet<Zone>();
-        zonen.add(new Zone(ZonenTyp.GEWOHNT, positionen1));
-        zonen.add(new Zone(ZonenTyp.UNGEWOHNT, positionen2));
+        zonen.add(new Zone(ZonenTyp.GEWOHNT, null, positionen1));
+        zonen.add(new Zone(ZonenTyp.UNGEWOHNT, null, positionen2));
 
-        demenziellErkrankter = new DemenziellErkrankter(vorname, name, zonen);
+        demenziellErkrankter = new DemenziellErkrankter(vorname, name);
         demenziellErkrankter.setDemenziellErkrankterId(uuid);
 
         demenziellErkrankterDTO = DemenziellErkrankter.convert(demenziellErkrankter);

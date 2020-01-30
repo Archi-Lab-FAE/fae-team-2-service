@@ -2,16 +2,11 @@ package de.th.koeln.archilab.fae.faeteam2service.demenziell_erkrankter;
 
 import org.apache.commons.lang.StringUtils;
 
-import java.util.Set;
 import java.util.UUID;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 
-import de.th.koeln.archilab.fae.faeteam2service.zone.Zone;
 import lombok.Data;
 
 /**
@@ -30,19 +25,15 @@ public class DemenziellErkrankter {
 
     private String name;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<Zone> zonen;
-
 
     public DemenziellErkrankter() {
-        this(null, null, null);
+        this(null, null);
     }
 
-    public DemenziellErkrankter(String vorname, String name, Set<Zone> zonen) {
+    public DemenziellErkrankter(String vorname, String name) {
         demenziellErkrankterId = UUID.randomUUID().toString();
         this.vorname = vorname;
         this.name = name;
-        this.zonen = zonen;
     }
 
     public void update(DemenziellErkrankter update) {
@@ -50,7 +41,6 @@ public class DemenziellErkrankter {
             demenziellErkrankterId = update.getDemenziellErkrankterId();
         if (StringUtils.isNotBlank(update.name)) name = update.getName();
         if (StringUtils.isNotBlank(update.vorname)) vorname = update.getVorname();
-        if (update.zonen != null) zonen = update.getZonen();
     }
 
     public static DemenziellErkrankter convert(DemenziellErkrankterDTO dto) {

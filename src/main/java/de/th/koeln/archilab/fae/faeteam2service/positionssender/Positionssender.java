@@ -26,6 +26,7 @@ import de.th.koeln.archilab.fae.faeteam2service.BeanUtil;
 import de.th.koeln.archilab.fae.faeteam2service.demenziell_erkrankter.DemenziellErkrankter;
 import de.th.koeln.archilab.fae.faeteam2service.position.Position;
 import de.th.koeln.archilab.fae.faeteam2service.zone.Zone;
+import de.th.koeln.archilab.fae.faeteam2service.zone.ZoneRepository;
 import de.th.koeln.archilab.fae.faeteam2service.zone.ZonenTyp;
 import de.th.koeln.archilab.fae.faeteam2service.zonen_abweichung.ZonenAbweichung;
 import de.th.koeln.archilab.fae.faeteam2service.zonen_abweichung.ZonenAbweichungRepository;
@@ -59,9 +60,12 @@ public class Positionssender {
 
     @Transient
     private ZonenAbweichungRepository zonenAbweichungRepository;
+    @Transient
+    private ZoneRepository zoneRepository;
 
 
-    private Positionssender() {}
+    private Positionssender() {
+    }
 
     public Positionssender(OffsetDateTime letztesSignal, OffsetDateTime letzteWartung, Position position) {
         positionssenderId = UUID.randomUUID().toString();
@@ -75,6 +79,7 @@ public class Positionssender {
         this.position = position;
 
         zonenAbweichungRepository = BeanUtil.getBean(ZonenAbweichungRepository.class);
+        zoneRepository = BeanUtil.getBean(ZoneRepository.class);
     }
 
     public void update(Positionssender update) {
@@ -127,12 +132,8 @@ public class Positionssender {
     public void setPosition(Position position) {
         this.position = position;
 
-        if (demenziellErkrankter == null
-                || demenziellErkrankter.getZonen() == null
-                || demenziellErkrankter.getZonen().isEmpty()
-        ) return;
-
-        val zonen = demenziellErkrankter.getZonen();
+        if (demenziellErkrankter == null) return;
+        Iterable<Zone> zonen = zoneRepository.findAllByDemenziellErkrankter(demenziellErkrankter);
         boolean isInGewohnteZone = false;
 
         for (Zone zone : zonen) {

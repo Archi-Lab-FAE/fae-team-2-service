@@ -15,6 +15,8 @@ import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import de.th.koeln.archilab.fae.faeteam2service.demenziell_erkrankter.DemenziellErkrankter;
+import de.th.koeln.archilab.fae.faeteam2service.demenziell_erkrankter.DemenziellErkrankterRepository;
 import io.swagger.annotations.ApiParam;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-12-19T10:48:55.616846300+01:00[Europe/Berlin]")
@@ -28,16 +30,21 @@ public class ZoneApiController implements ZoneApi {
     private final HttpServletRequest request;
 
     private ZoneRepository repository;
+    private DemenziellErkrankterRepository erkrankterRepository;
 
     @org.springframework.beans.factory.annotation.Autowired
-    public ZoneApiController(ObjectMapper objectMapper, HttpServletRequest request, ZoneRepository repository) {
+    public ZoneApiController(ObjectMapper objectMapper, HttpServletRequest request, ZoneRepository repository, DemenziellErkrankterRepository erkrankterRepository) {
         this.objectMapper = objectMapper;
         this.request = request;
         this.repository = repository;
+        this.erkrankterRepository = erkrankterRepository;
     }
 
     public ResponseEntity<ZoneDTO> addZone(@ApiParam(value = "Objekt, welches angelegt werden soll.", required = true) @Valid @RequestBody ZoneDTO body) {
-        Zone saved = repository.save(Zone.convert(body));
+        DemenziellErkrankter erkrankterResult = erkrankterRepository.findById(body.getDemenziellErkrankterId()).orElse(null);
+        if (erkrankterResult == null) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        Zone saved = repository.save(Zone.convert(body, erkrankterResult));
         return new ResponseEntity<>(Zone.convert(saved), HttpStatus.CREATED);
     }
 
@@ -52,8 +59,10 @@ public class ZoneApiController implements ZoneApi {
 
     public ResponseEntity<ZoneDTO> updateZone(@ApiParam(value = "Objekt einer Zone, welches aktualisiert werden soll.", required = true) @Valid @RequestBody ZoneDTO body, @ApiParam(value = "ID der Zone die aktualisiert werden soll.", required = true) @PathVariable("id") String id) {
         Zone result = repository.findById(id).orElse(null);
-        if (result != null) {
-            result.update(Zone.convert(body));
+        DemenziellErkrankter erkrankterResult = erkrankterRepository.findById(body.getDemenziellErkrankterId()).orElse(null);
+
+        if (result != null && erkrankterResult != null) {
+            result.update(Zone.convert(body, erkrankterResult));
             Zone saved = repository.save(result);
             return new ResponseEntity<>(Zone.convert(saved), HttpStatus.OK);
         } else {

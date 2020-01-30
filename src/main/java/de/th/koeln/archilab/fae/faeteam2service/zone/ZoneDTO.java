@@ -19,128 +19,154 @@ import io.swagger.annotations.ApiModelProperty;
  * ZoneDTO
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-01-30T16:33:21.467Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-01-30T18:11:16.334Z[GMT]")
 public class ZoneDTO {
-    @JsonProperty("zoneId")
-    private String zoneId = null;
+  @JsonProperty("zoneId")
+  private String zoneId = null;
 
-    @JsonProperty("typ")
-    private ZonenTyp typ = null;
+  @JsonProperty("demenziellErkrankterId")
+  private String demenziellErkrankterId = null;
 
-    @JsonProperty("positionen")
-    @Valid
-    private List<PositionDTO> positionen = new ArrayList<PositionDTO>();
+  @JsonProperty("typ")
+  private ZonenTyp typ = null;
 
-    public ZoneDTO zoneId(String zoneId) {
-        this.zoneId = zoneId;
-        return this;
+  @JsonProperty("positionen")
+  @Valid
+  private List<PositionDTO> positionen = new ArrayList<PositionDTO>();
+
+  public ZoneDTO zoneId(String zoneId) {
+    this.zoneId = zoneId;
+    return this;
+  }
+
+  /**
+   * Get zoneId
+   *
+   * @return zoneId
+   **/
+  @ApiModelProperty(example = "8f926d33-27bd-4afd-aabb-b160a6402348", required = true, value = "")
+  @NotNull
+
+  public String getZoneId() {
+    return zoneId;
+  }
+
+  public void setZoneId(String zoneId) {
+    this.zoneId = zoneId;
+  }
+
+  public ZoneDTO demenziellErkrankterId(String demenziellErkrankterId) {
+    this.demenziellErkrankterId = demenziellErkrankterId;
+    return this;
+  }
+
+  /**
+   * Get demenziellErkrankterId
+   *
+   * @return demenziellErkrankterId
+   **/
+  @ApiModelProperty(example = "f33c6fa8-1697-11ea-8d71-362b9e155667", required = true, value = "")
+  @NotNull
+
+  public String getDemenziellErkrankterId() {
+    return demenziellErkrankterId;
+  }
+
+  public void setDemenziellErkrankterId(String demenziellErkrankterId) {
+    this.demenziellErkrankterId = demenziellErkrankterId;
+  }
+
+  public ZoneDTO typ(ZonenTyp typ) {
+    this.typ = typ;
+    return this;
+  }
+
+  /**
+   * Get typ
+   *
+   * @return typ
+   **/
+  @ApiModelProperty(required = true, value = "")
+  @NotNull
+
+  @Valid
+  public ZonenTyp getTyp() {
+    return typ;
+  }
+
+  public void setTyp(ZonenTyp typ) {
+    this.typ = typ;
+  }
+
+  public ZoneDTO positionen(List<PositionDTO> positionen) {
+    this.positionen = positionen;
+    return this;
+  }
+
+  public ZoneDTO addPositionenItem(PositionDTO positionenItem) {
+    this.positionen.add(positionenItem);
+    return this;
+  }
+
+  /**
+   * Get positionen
+   *
+   * @return positionen
+   **/
+  @ApiModelProperty(example = "[{\"laengengrad\":51.042755,\"breitengrad\":7.287333},{\"laengengrad\":51.042755,\"breitengrad\":7.287333}]", required = true, value = "")
+  @NotNull
+  @Valid
+  @Size(min = 2, max = 2)
+  public List<PositionDTO> getPositionen() {
+    return positionen;
+  }
+
+  public void setPositionen(List<PositionDTO> positionen) {
+    this.positionen = positionen;
+  }
+
+
+  @Override
+  public boolean equals(java.lang.Object o) {
+    if (this == o) {
+      return true;
     }
-
-    /**
-     * Get zoneId
-     *
-     * @return zoneId
-     **/
-    @ApiModelProperty(example = "8f926d33-27bd-4afd-aabb-b160a6402348", required = true, value = "")
-    @NotNull
-
-    public String getZoneId() {
-        return zoneId;
+    if (o == null || getClass() != o.getClass()) {
+      return false;
     }
+    ZoneDTO zoneDTO = (ZoneDTO) o;
+    return Objects.equals(this.zoneId, zoneDTO.zoneId) &&
+            Objects.equals(this.demenziellErkrankterId, zoneDTO.demenziellErkrankterId) &&
+            Objects.equals(this.typ, zoneDTO.typ) &&
+            Objects.equals(this.positionen, zoneDTO.positionen);
+  }
 
-    public void setZoneId(String zoneId) {
-        this.zoneId = zoneId;
+  @Override
+  public int hashCode() {
+    return Objects.hash(zoneId, demenziellErkrankterId, typ, positionen);
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("class ZoneDTO {\n");
+
+    sb.append("    zoneId: ").append(toIndentedString(zoneId)).append("\n");
+    sb.append("    demenziellErkrankterId: ").append(toIndentedString(demenziellErkrankterId)).append("\n");
+    sb.append("    typ: ").append(toIndentedString(typ)).append("\n");
+    sb.append("    positionen: ").append(toIndentedString(positionen)).append("\n");
+    sb.append("}");
+    return sb.toString();
+  }
+
+  /**
+   * Convert the given object to string with each line indented by 4 spaces
+   * (except the first line).
+   */
+  private String toIndentedString(java.lang.Object o) {
+    if (o == null) {
+      return "null";
     }
-
-    public ZoneDTO typ(ZonenTyp typ) {
-        this.typ = typ;
-        return this;
-    }
-
-    /**
-     * Get typ
-     *
-     * @return typ
-     **/
-    @ApiModelProperty(required = true, value = "")
-    @NotNull
-
-    @Valid
-    public ZonenTyp getTyp() {
-        return typ;
-    }
-
-    public void setTyp(ZonenTyp typ) {
-        this.typ = typ;
-    }
-
-    public ZoneDTO positionen(List<PositionDTO> positionen) {
-        this.positionen = positionen;
-        return this;
-    }
-
-    public ZoneDTO addPositionenItem(PositionDTO positionenItem) {
-        this.positionen.add(positionenItem);
-        return this;
-    }
-
-    /**
-     * Get positionen
-     *
-     * @return positionen
-     **/
-    @ApiModelProperty(example = "[{\"laengengrad\":51.042755,\"breitengrad\":7.287333},{\"laengengrad\":51.042755,\"breitengrad\":7.287333}]", required = true, value = "")
-    @NotNull
-    @Valid
-    @Size(min = 2, max = 2)
-    public List<PositionDTO> getPositionen() {
-        return positionen;
-    }
-
-    public void setPositionen(List<PositionDTO> positionen) {
-        this.positionen = positionen;
-    }
-
-
-    @Override
-    public boolean equals(java.lang.Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        ZoneDTO zoneDTO = (ZoneDTO) o;
-        return Objects.equals(this.zoneId, zoneDTO.zoneId) &&
-                Objects.equals(this.typ, zoneDTO.typ) &&
-                Objects.equals(this.positionen, zoneDTO.positionen);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(zoneId, typ, positionen);
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("class ZoneDTO {\n");
-
-        sb.append("    zoneId: ").append(toIndentedString(zoneId)).append("\n");
-        sb.append("    typ: ").append(toIndentedString(typ)).append("\n");
-        sb.append("    positionen: ").append(toIndentedString(positionen)).append("\n");
-        sb.append("}");
-        return sb.toString();
-    }
-
-    /**
-     * Convert the given object to string with each line indented by 4 spaces
-     * (except the first line).
-     */
-    private String toIndentedString(java.lang.Object o) {
-        if (o == null) {
-            return "null";
-        }
-        return o.toString().replace("\n", "\n    ");
-    }
+    return o.toString().replace("\n", "\n    ");
+  }
 }

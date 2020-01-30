@@ -51,27 +51,27 @@ public class SampleDataLoader implements ApplicationListener<ContextRefreshedEve
 
         //Demenziell Erkrankte
         zonen = new HashSet<>();
-        zonen.add(new Zone(ZonenTyp.GEWOHNT, generateAndSaveRandomPositions(4)));
-        zonen.add(new Zone(ZonenTyp.GEWOHNT, generateAndSaveRandomPositions(6)));
-        zonen.add(new Zone(ZonenTyp.UNGEWOHNT, generateAndSaveRandomPositions(5)));
-        zoneRepository.saveAll(zonen);
-        val lohler = new DemenziellErkrankter("Kutz", "Löhler", zonen);
+        val lohler = new DemenziellErkrankter("Kutz", "Löhler");
+        zonen.add(new Zone(ZonenTyp.GEWOHNT, lohler, generateAndSaveRandomPositions(4)));
+        zonen.add(new Zone(ZonenTyp.GEWOHNT, lohler, generateAndSaveRandomPositions(6)));
+        zonen.add(new Zone(ZonenTyp.UNGEWOHNT, lohler, generateAndSaveRandomPositions(5)));
         erkrankterRepository.save(lohler);
+        zoneRepository.saveAll(zonen);
 
 
         zonen = new HashSet<>();
-        zonen.add(new Zone(ZonenTyp.UNGEWOHNT, generateAndSaveRandomPositions(3)));
-        zonen.add(new Zone(ZonenTyp.UNGEWOHNT, generateAndSaveRandomPositions(4)));
-        zoneRepository.saveAll(zonen);
-        val duderus = new DemenziellErkrankter("Bennis", "Duderus", zonen);
+        val duderus = new DemenziellErkrankter("Bennis", "Duderus");
+        zonen.add(new Zone(ZonenTyp.UNGEWOHNT, duderus, generateAndSaveRandomPositions(3)));
+        zonen.add(new Zone(ZonenTyp.UNGEWOHNT, duderus, generateAndSaveRandomPositions(4)));
         erkrankterRepository.save(duderus);
+        zoneRepository.saveAll(zonen);
 
 
         zonen = new HashSet<>();
-        zonen.add(new Zone(ZonenTyp.UNGEWOHNT, generateAndSaveRandomPositions(4)));
-        zoneRepository.saveAll(zonen);
-        val hocke = new DemenziellErkrankter("Kleiner", "Hocke", zonen);
+        val hocke = new DemenziellErkrankter("Kleiner", "Hocke");
+        zonen.add(new Zone(ZonenTyp.UNGEWOHNT, hocke, generateAndSaveRandomPositions(4)));
         erkrankterRepository.save(hocke);
+        zoneRepository.saveAll(zonen);
 
 
         //Positionssender

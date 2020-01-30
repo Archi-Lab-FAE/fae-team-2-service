@@ -17,6 +17,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import de.th.koeln.archilab.fae.faeteam2service.demenziell_erkrankter.DemenziellErkrankter;
+import de.th.koeln.archilab.fae.faeteam2service.demenziell_erkrankter.DemenziellErkrankterRepository;
 import de.th.koeln.archilab.fae.faeteam2service.position.Position;
 import de.th.koeln.archilab.fae.faeteam2service.position.PositionDTO;
 
@@ -45,6 +47,9 @@ public class ZoneRestControllerIntegrationTest {
     @Autowired
     private ZoneRepository zoneRepository;
 
+    @Autowired
+    private DemenziellErkrankterRepository erkrankterRepository;
+
     private PositionDTO getPositionDTO() {
         PositionDTO dto = new PositionDTO();
         dto.setBreitengrad(42d);
@@ -55,10 +60,15 @@ public class ZoneRestControllerIntegrationTest {
 
     @Test
     public void createZoneReturnSavedZone() throws Exception {
+        DemenziellErkrankter erkrankter = new DemenziellErkrankter();
+        erkrankter.setDemenziellErkrankterId("42");
+        erkrankterRepository.save(erkrankter);
+
         ZoneDTO body = new ZoneDTO();
         body.setZoneId("42");
         body.setTyp(ZonenTyp.UNGEWOHNT);
         body.setPositionen(Arrays.asList(getPositionDTO(), getPositionDTO()));
+        body.setDemenziellErkrankterId(erkrankter.getDemenziellErkrankterId());
 
         mvc.perform(post("/zone")
                 .accept(MediaType.APPLICATION_JSON)
@@ -75,7 +85,7 @@ public class ZoneRestControllerIntegrationTest {
 
     @Test
     public void getZoneShouldWorkWhenZoneExists() throws Exception {
-        Zone zone = new Zone(ZonenTyp.GEWOHNT, new ArrayList<>());
+        Zone zone = new Zone(ZonenTyp.GEWOHNT, new DemenziellErkrankter(), new ArrayList<>());
         zoneRepository.save(zone);
 
         String zoneId = zone.getZoneId();
@@ -104,6 +114,7 @@ public class ZoneRestControllerIntegrationTest {
     public void updateZoneReturnUpdatedZone() throws Exception {
         Zone zone = new Zone(
                 ZonenTyp.GEWOHNT,
+                new DemenziellErkrankter(),
                 Arrays.asList(
                         new Position(42d, 52d),
                         new Position(75d, 34d)
@@ -138,6 +149,7 @@ public class ZoneRestControllerIntegrationTest {
         zonenUpdate.setPositionen(Arrays.asList(getPositionDTO(), getPositionDTO()));
         zonenUpdate.setTyp(ZonenTyp.GEWOHNT);
         zonenUpdate.setZoneId(zoneId);
+        zonenUpdate.setDemenziellErkrankterId("42");
 
         mvc.perform(put("/zone/" + zoneId)
                 .accept(MediaType.APPLICATION_JSON)

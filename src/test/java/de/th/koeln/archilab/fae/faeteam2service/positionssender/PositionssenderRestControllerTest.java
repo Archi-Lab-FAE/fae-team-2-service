@@ -130,7 +130,7 @@ public class PositionssenderRestControllerTest {
         List<Position> positionsset = new ArrayList<>();
         positionsset.add(northEast);
         positionsset.add(southWest);
-        Zone zone = new Zone(ZonenTyp.GEWOHNT, positionsset);
+        Zone zone = new Zone(ZonenTyp.GEWOHNT, new DemenziellErkrankter(), positionsset);
 
         zoneRepository.save(zone);
         String zoneId = zone.getZoneId();
@@ -187,20 +187,20 @@ public class PositionssenderRestControllerTest {
 
     @Test
     public void findeZoneByPositionssenderIdWennSenderExistiert() throws Exception {
+        DemenziellErkrankter demenziellErkrankter = new DemenziellErkrankter("Maria", "B");
+        demenziellErkrankterRepository.save(demenziellErkrankter);
+
         Set<Zone> zoneSet = new HashSet<>();
-        Zone zone = new Zone(ZonenTyp.GEWOHNT, new ArrayList<>());
+        Zone zone = new Zone(ZonenTyp.GEWOHNT, demenziellErkrankter, new ArrayList<>());
         zoneSet.add(zone);
         zoneRepository.save(zone);
-
-        DemenziellErkrankter demenziellErkrankter = new DemenziellErkrankter("Maria", "B", zoneSet);
-        demenziellErkrankterRepository.save(demenziellErkrankter);
 
         Positionssender positionssender = getPositionssender();
         positionssender.setDemenziellErkrankter(demenziellErkrankter);
         positionssenderRepository.save(positionssender);
         String positionssenderId = positionssender.getPositionssenderId();
 
-        mvc.perform(get("/positionssender/"+positionssenderId+"/zone")
+        mvc.perform(get("/positionssender/" + positionssenderId + "/zone")
                 .accept(MediaType.APPLICATION_JSON))
 
                 .andExpect(status().isOk())

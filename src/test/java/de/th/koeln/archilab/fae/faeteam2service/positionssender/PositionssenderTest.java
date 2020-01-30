@@ -13,10 +13,8 @@ import org.threeten.bp.OffsetDateTime;
 import org.threeten.bp.ZoneOffset;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
-import java.util.Set;
 
 import de.th.koeln.archilab.fae.faeteam2service.demenziell_erkrankter.DemenziellErkrankter;
 import de.th.koeln.archilab.fae.faeteam2service.position.Position;
@@ -34,7 +32,7 @@ public class PositionssenderTest {
 
     private final Random rng = new Random();
     private String uuid = "f95dsdfa92-1921-4c7a-9fa7-d13ecccf2669";
-    private DemenziellErkrankter demenziellErkrankter = new DemenziellErkrankter("Hans", "Peter", null);
+    private DemenziellErkrankter demenziellErkrankter = new DemenziellErkrankter("Hans", "Peter");
 
     private Positionssender getPositionssender() {
         return new Positionssender(
@@ -133,8 +131,6 @@ public class PositionssenderTest {
 
     @Test
     public void setPositionWennZoneLeerIst (){
-        demenziellErkrankter.setZonen(new HashSet<>());
-
         Position position = new Position();
 
         Positionssender positionssender = getPositionssender();
@@ -146,8 +142,8 @@ public class PositionssenderTest {
 
     @Test
     public void setPositionWennZoneGewohntUndPositionInZone(){
-        Position northEast = new Position(40.0,60.0);
-        Position southWest =   new Position(20.0,50.0);
+        Position northEast = new Position(40.0, 60.0);
+        Position southWest = new Position(20.0, 50.0);
         List<Position> positionsset = new ArrayList<>();
         positionsset.add(northEast);
         positionsset.add(southWest);
@@ -156,11 +152,11 @@ public class PositionssenderTest {
         Zone gewohnteZone = new Zone();
         gewohnteZone.setTyp(ZonenTyp.GEWOHNT);
         gewohnteZone.setPositionen(positionsset);
-        Set<Zone> zonenset = new HashSet<>();
-        zonenset.add(gewohnteZone);
-        demenziellErkrankter.setZonen(zonenset);
+//        Set<Zone> zonenset = new HashSet<>();
+//        zonenset.add(gewohnteZone);
+//        demenziellErkrankter.setZonen(zonenset);
 
-        Position position = new Position(30.0,55.0);
+        Position position = new Position(30.0, 55.0);
 
         Positionssender positionssender = getPositionssender();
         positionssender.setDemenziellErkrankter(demenziellErkrankter);
@@ -171,9 +167,9 @@ public class PositionssenderTest {
     }
 
     @Test
-    public void setPositionWennZoneUngewohntUndPositionInZone(){
-        Position northEast = new Position(40.0,60.0);
-        Position southWest = new Position(20.0,50.0);
+    public void setPositionWennZoneUngewohntUndPositionInZone() {
+        Position northEast = new Position(40.0, 60.0);
+        Position southWest = new Position(20.0, 50.0);
         List<Position> positionsset = new ArrayList<>();
         positionsset.add(northEast);
         positionsset.add(southWest);
@@ -181,12 +177,12 @@ public class PositionssenderTest {
         Zone ungewohnteZone = new Zone();
         ungewohnteZone.setTyp(ZonenTyp.UNGEWOHNT);
         ungewohnteZone.setPositionen(positionsset);
-        Set<Zone> zonenset = new HashSet<>();
-        zonenset.add(ungewohnteZone);
-        demenziellErkrankter.setZonen(zonenset);
+//        Set<Zone> zonenset = new HashSet<>();
+//        zonenset.add(ungewohnteZone);
+//        demenziellErkrankter.setZonen(zonenset);
 
 
-        Position position = new Position(30.0,55.0);
+        Position position = new Position(30.0, 55.0);
 
         Positionssender positionssender = getPositionssender();
         positionssender.setDemenziellErkrankter(demenziellErkrankter);
