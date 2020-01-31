@@ -25,7 +25,7 @@ spring:
     enabled: true
     topic:
       consumer:
-        demenziellerkrankter: demenziellerkrankter
+        demenziellerkrankter: demenziellErkrankte
         tracker: tracker
       producer:
         zone: zone
